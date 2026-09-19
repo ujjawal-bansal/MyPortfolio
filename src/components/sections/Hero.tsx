@@ -1,5 +1,6 @@
 import { Fragments } from "@/components/three/Fragments";
 import { site } from "@/content/site";
+import { isPending } from "@/content/types";
 import { sectionById } from "@/content/sections";
 
 /**
@@ -43,7 +44,20 @@ export function Hero() {
           {site.hero.disciplines.join("  ·  ")}
         </p>
 
-        <p lang="sa" className="mt-14 text-2xl text-accent-dim md:text-3xl" title={undefined}>
+        {/* The conventional version, one click away, for whoever wants it first. */}
+        {isPending(site.resume.href) ? null : (
+          <a
+            href={site.resume.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-5 py-2.5 font-mono text-xs tracking-[0.15em] text-fg-muted uppercase transition-colors hover:border-accent/60 hover:text-accent"
+          >
+            <span aria-hidden className="size-1.5 rounded-full bg-accent-dim" />
+            Résumé
+          </a>
+        )}
+
+        <p lang="sa" className="mt-14 text-2xl text-accent-dim md:text-3xl">
           {site.hero.whisper.devanagari}
         </p>
       </div>

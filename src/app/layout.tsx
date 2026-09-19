@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { EnhancementsLazy } from "@/components/easter-eggs/EnhancementsLazy";
-import { DotSceneLazy } from "@/components/three/DotSceneLazy";
 import { DotNav } from "@/components/ui/DotNav";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
@@ -46,7 +45,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-bg text-fg">
         <SkipLink />
-        <DotSceneLazy />
         <SmoothScroll>
           <DotNav />
           {children}

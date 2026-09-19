@@ -150,19 +150,21 @@ export function ArchitectureDiagram({
         { strokeDasharray: length, strokeDashoffset: length },
         {
           strokeDashoffset: 0,
-          duration: 0.8,
-          ease: "power2.inOut",
+          // Kept deliberately brief. Away from the home page the motion should read as
+          // the diagram settling, not as a performance — you came here to read it.
+          duration: 0.5,
+          ease: "power2.out",
           // Drawing a line means overwriting strokeDasharray with its length — which
           // destroys the "5 5" pattern that marks an edge as being on a timer. Clear
           // the inline values afterwards so the attribute takes over again.
           onComplete: () => gsap.set(path, { clearProps: "strokeDasharray,strokeDashoffset" }),
         },
-        "<0.08",
+        "<0.05",
       );
     }
     timeline
-      .from(nodeEls, { opacity: 0, y: 10, duration: 0.5, stagger: 0.06, ease: "power2.out" }, 0)
-      .from(labels, { opacity: 0, duration: 0.4, stagger: 0.04 }, "-=0.3");
+      .from(nodeEls, { opacity: 0, y: 6, duration: 0.35, stagger: 0.04, ease: "power2.out" }, 0)
+      .from(labels, { opacity: 0, duration: 0.3, stagger: 0.025 }, "-=0.25");
   });
 
   const description = edges

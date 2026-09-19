@@ -88,8 +88,10 @@ function Resume() {
             View résumé
           </a>
           <a
-            href={href}
-            download
+            // Drive's viewer URL will not download; its export URL will.
+            href={isPending(site.resume.downloadHref) ? href : site.resume.downloadHref}
+            target="_blank"
+            rel="noreferrer noopener"
             className="rounded-full border border-line px-5 py-2 font-mono text-xs tracking-[0.15em] text-fg-muted uppercase transition-colors hover:border-accent/60 hover:text-accent"
           >
             Download

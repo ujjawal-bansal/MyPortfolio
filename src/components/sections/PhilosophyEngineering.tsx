@@ -100,38 +100,10 @@ export function PhilosophyEngineering() {
               {pairing.pivot}
             </p>
 
-            {/* Prose and code mirror the same arrangement one level down. */}
-            <div className="mt-10 grid gap-6 md:grid-cols-[1fr_auto_1fr] md:gap-10">
-              <p data-side="philosophy" className="text-sm leading-relaxed text-fg-muted md:text-right">
-                {pairing.body}
-              </p>
-
-              <span aria-hidden className="hidden md:block md:w-px" />
-
-              <pre
-                data-side="engineering"
-                className="overflow-x-auto rounded-md border border-line/60 bg-bg-raised/40 p-4 font-mono text-xs leading-relaxed"
-              >
-                <code>
-                  {pairing.code.lines.map((line) => (
-                    <span
-                      key={line}
-                      className={
-                        // Comments carry the philosophical half of the snippet, so they
-                        // are the part worth reading, not the part to grey out.
-                        line.trimStart().startsWith("//") ||
-                        line.trimStart().startsWith("--") ||
-                        line.trimStart().startsWith("#")
-                          ? "block text-fg-faint"
-                          : "block text-forest-bright"
-                      }
-                    >
-                      {line}
-                    </span>
-                  ))}
-                </code>
-              </pre>
-            </div>
+            {/* The body sits on the axis, under both halves. */}
+            <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-balance text-fg-muted">
+              {pairing.body}
+            </p>
           </article>
         ))}
       </div>

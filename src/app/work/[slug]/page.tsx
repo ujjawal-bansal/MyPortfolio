@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArchitectureDiagram } from "@/components/ui/ArchitectureDiagram";
-import { CodeBlock } from "@/components/ui/CodeBlock";
 import { architectures, diagramLegend } from "@/content/architecture";
 import { projectBySlug, projects, type CaseStudy } from "@/content/projects";
 import { site } from "@/content/site";
@@ -164,8 +163,6 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                     </figcaption>
                   </figure>
                 ) : null}
-
-                {step.key === "engineeringProblem" ? <CodeBlock snippet={project.snippet} /> : null}
 
                 {step.key === "result" && project.notes.length > 0 ? (
                   <dl className="mt-10 space-y-6">
