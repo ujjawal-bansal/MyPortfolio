@@ -68,9 +68,23 @@ export const site: Site = {
       display: "ujjawal-bansal",
       external: true,
     },
-    email: { label: "Email", href: PENDING, display: PENDING },
-    linkedin: { label: "LinkedIn", href: PENDING, display: PENDING, external: true },
-    x: { label: "X", href: PENDING, display: PENDING, external: true },
+    email: {
+      label: "Email",
+      href: "mailto:ujjawalbansal.tech@gmail.com",
+      display: "ujjawalbansal.tech@gmail.com",
+    },
+    linkedin: {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/ujjawalbansal",
+      display: "in/ujjawalbansal",
+      external: true,
+    },
+    x: {
+      label: "X",
+      href: "https://x.com/ujjawal__bansal",
+      display: "@ujjawal__bansal",
+      external: true,
+    },
   },
 
   resume: {
