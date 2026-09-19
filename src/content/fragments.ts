@@ -1,45 +1,88 @@
 /**
- * Floating fragments drifting behind the hero — thought before it is organised.
+ * The hero's background: four words, each written in two languages.
  *
- * Sparse on purpose. The temptation is a snowstorm of symbols; the brief asks for
- * something closer to dust. Twelve is enough to read as "there is thinking happening"
- * without becoming a screensaver.
+ * These replace a scatter of tokens (`const`, `=>`, `async`, half-words like ब्र) that
+ * looked technical and said nothing. Every pair here is a programming keyword and the
+ * Sanskrit word that **means the same thing** — a translation, not a pun — so each one
+ * explains itself by turning from one form into the other and back.
  *
- * The Devanagari entries are single letterforms and syllables, not quotations. They are
- * drawn from the verses verified in docs/SOURCES.md, so nothing here asserts a meaning
- * or needs a citation — they are shapes, the way `=>` is a shape.
+ * Read in order they trace the path the whole site is built on: begin from the self,
+ * stand back as its witness, subtract what you are not, arrive at the whole. That is
+ * neti neti as a sequence, and the turns are staggered so the sequence plays in order.
+ *
+ * Every Sanskrit form is verified in docs/SOURCES.md ("The hero's background"). The
+ * pairings are lexical on purpose: a drifting word has no room for a "one reading is…"
+ * caveat, so nothing interpretively contested belongs here.
  */
 
-export type FragmentKind = "code" | "math" | "devanagari";
-
-export interface Fragment {
-  text: string;
-  kind: FragmentKind;
-  /** Position as a percentage of the hero box. Hand-placed to stay clear of the copy. */
+export interface WordPair {
+  /** The keyword, as it appears in real code. */
+  code: string;
+  devanagari: string;
+  iast: string;
+  /** What both forms mean. Documentation — the turning itself carries it on screen. */
+  meaning: string;
+  /** Desktop position as a percentage of the hero, placed in the empty space around the dot. */
   x: number;
   y: number;
-  /** Relative size. 1 is the base. */
-  scale: number;
-  /** Seconds. Varied so they never fall into step with each other. */
-  duration: number;
+  /** Phone position. The hero is text-dense on a phone, so these hold the top and bottom bands. */
+  mx: number;
+  my: number;
+  /** Seconds into the 12s cycle at which this pair turns. Staggered 3s apart, in reading order. */
   delay: number;
+  /** Seconds for one slow drift. Deliberately uneven so the pairs never fall into step. */
+  drift: number;
 }
 
-export const fragments: readonly Fragment[] = [
-  { text: "const", kind: "code", x: 8, y: 16, scale: 0.9, duration: 23, delay: 0 },
-  { text: "=>", kind: "code", x: 84, y: 24, scale: 1.1, duration: 19, delay: -6 },
-  { text: "return", kind: "code", x: 76, y: 88, scale: 0.85, duration: 27, delay: -11 },
-  { text: "null", kind: "code", x: 12, y: 90, scale: 0.95, duration: 21, delay: -3 },
-  { text: "async", kind: "code", x: 91, y: 58, scale: 0.8, duration: 25, delay: -17 },
-
-  { text: "∴", kind: "math", x: 27, y: 30, scale: 1.3, duration: 29, delay: -8 },
-  { text: "∀", kind: "math", x: 63, y: 13, scale: 1.2, duration: 22, delay: -14 },
-  { text: "¬", kind: "math", x: 45, y: 85, scale: 1.25, duration: 26, delay: -2 },
-  { text: "≡", kind: "math", x: 88, y: 41, scale: 1.1, duration: 24, delay: -19 },
-
-  { text: "अ", kind: "devanagari", x: 20, y: 46, scale: 1.4, duration: 31, delay: -5 },
-  { text: "ब्र", kind: "devanagari", x: 93, y: 78, scale: 1.3, duration: 28, delay: -22 },
-  { text: "न", kind: "devanagari", x: 57, y: 92, scale: 1.2, duration: 33, delay: -9 },
+export const wordPairs: readonly WordPair[] = [
+  {
+    code: "self",
+    devanagari: "आत्मा",
+    iast: "ātmā",
+    meaning: "the self",
+    x: 40,
+    y: 15,
+    mx: 10,
+    my: 9,
+    delay: 0,
+    drift: 26,
+  },
+  {
+    code: "observer",
+    devanagari: "साक्षी",
+    iast: "sākṣī",
+    meaning: "the witness",
+    x: 78,
+    y: 28,
+    mx: 52,
+    my: 15,
+    delay: 3,
+    drift: 31,
+  },
+  {
+    code: "not",
+    devanagari: "नेति",
+    iast: "neti",
+    meaning: "not (thus)",
+    x: 84,
+    y: 62,
+    mx: 12,
+    my: 84,
+    delay: 6,
+    drift: 23,
+  },
+  {
+    code: "all",
+    devanagari: "सर्वम्",
+    iast: "sarvam",
+    meaning: "all, the whole",
+    x: 58,
+    y: 82,
+    mx: 58,
+    my: 90,
+    delay: 9,
+    drift: 29,
+  },
 ];
 
 /** The word the particles assemble into at the "idea" stage. */

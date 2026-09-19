@@ -142,6 +142,8 @@
   --container-wide: var(--width-wide);
 
   --animate-drift: drift 24s ease-in-out infinite;
+  --animate-turn-out: turn-out 12s var(--ease-in-out-soft) infinite;
+  --animate-turn-in: turn-in 12s var(--ease-in-out-soft) infinite;
 
   --ease-expo: var(--ease-out-expo);
   --ease-quart: var(--ease-out-quart);
@@ -167,6 +169,62 @@
   75% {
     transform: translate3d(-13px, -9px, 0);
     opacity: 0.5;
+  }
+}
+
+/* One word, two languages. The pair holds each form for ~40% of the cycle and turns
+   between them in the gaps — always upward, like a wheel rolling forward rather than
+   a card flipping back and forth. The instant jumps (46.01%, 96.01%) happen while the
+   word is fully transparent, so the reset is never seen. */
+@keyframes turn-out {
+  0%,
+  36% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  46% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-0.45em);
+  }
+  46.01%,
+  86% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(0.45em);
+  }
+  96%,
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes turn-in {
+  0%,
+  36% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(0.45em);
+  }
+  46%,
+  86% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  96% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-0.45em);
+  }
+  96.01%,
+  100% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(0.45em);
   }
 }
 
