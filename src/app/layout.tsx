@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { DotSceneLazy } from "@/components/three/DotSceneLazy";
 import { DotNav } from "@/components/ui/DotNav";
 import { Observer } from "@/components/ui/Observer";
 import { SkipLink } from "@/components/ui/SkipLink";
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-bg text-fg">
         <SkipLink />
+        <DotSceneLazy />
         <SmoothScroll>
           <DotNav />
           <Observer />

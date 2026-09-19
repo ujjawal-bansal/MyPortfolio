@@ -1,3 +1,4 @@
+import { Fragments } from "@/components/three/Fragments";
 import { site } from "@/content/site";
 import { sectionById } from "@/content/sections";
 
@@ -15,10 +16,9 @@ export function Hero() {
     <section
       id={meta.id}
       aria-labelledby="hero-heading"
-      className="relative flex min-h-svh flex-col justify-center"
+      className="relative z-10 flex min-h-svh flex-col justify-center"
     >
-      {/* Phase 3 mounts The Dot here, behind the type. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0" data-slot="hero-canvas" />
+      <Fragments />
 
       <div className="relative mx-auto w-full max-w-wide gutter">
         <div className="space-y-2 measure">
