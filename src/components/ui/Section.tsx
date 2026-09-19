@@ -22,7 +22,10 @@ export function Section({
     <section
       id={meta.id}
       aria-labelledby={headingId}
-      className={cn("relative scroll-mt-20 py-24 md:py-32", className)}
+      // overflow-x-clip, not hidden: GSAP parks elements at an x-offset until their
+      // ScrollTrigger fires, which would otherwise widen the page. `clip` contains that
+      // without creating a scroll container, so `position: sticky` still works inside.
+      className={cn("relative scroll-mt-20 overflow-x-clip py-24 md:py-32", className)}
     >
       <div className={cn("mx-auto w-full max-w-wide gutter", contentClassName)}>
         {meta.kicker ? (

@@ -124,6 +124,7 @@
   --color-fg-strong: var(--fg-strong);
   --color-fg-muted: var(--fg-muted);
   --color-fg-faint: var(--fg-faint);
+  --color-fg-ghost: var(--parchment-ghost);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-dim: var(--accent-dim);

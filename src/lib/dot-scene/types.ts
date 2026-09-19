@@ -97,9 +97,9 @@ export function stageForProgress(progress: number): Stage {
  * the middle so body text stays readable, loud again as everything returns to a point.
  */
 export function opacityForProgress(progress: number): number {
-  if (progress < 0.12) return 1;
-  if (progress < 0.22) return 1 - ((progress - 0.12) / 0.1) * 0.7;
-  if (progress < 0.82) return 0.3;
-  if (progress < 0.9) return 0.3 + ((progress - 0.82) / 0.08) * 0.6;
+  if (progress < 0.05) return 1;
+  if (progress < 0.14) return 1 - ((progress - 0.05) / 0.09) * 0.78;
+  if (progress < 0.82) return 0.22;
+  if (progress < 0.9) return 0.22 + ((progress - 0.82) / 0.08) * 0.68;
   return 0.9;
 }

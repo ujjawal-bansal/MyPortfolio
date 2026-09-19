@@ -26,9 +26,9 @@ export const sections: readonly SectionMeta[] = [
   },
   {
     id: "self",
-    title: "Self",
+    title: "Who is Ujjawal?",
     navLabel: "Self",
-    kicker: "Who is asking",
+    kicker: "About, more or less",
   },
   {
     id: "how-i-think",
