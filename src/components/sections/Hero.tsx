@@ -33,11 +33,34 @@ export function Hero() {
           ))}
         </div>
 
-        <h1
-          id="hero-heading"
-          className="mt-10 font-serif text-5xl font-light tracking-tight text-fg-strong md:text-7xl"
-        >
-          {site.hero.name}
+        <h1 id="hero-heading" className="group/name mt-10 grid place-items-start">
+          {/*
+            One name, two scripts. Both are always in the DOM and share a single grid
+            cell, so the swap happens exactly in place and the box never resizes.
+
+            The Latin is the accessible name: the Devanagari is aria-hidden and a
+            screen-reader-only copy carries the text, so assistive tech hears
+            "Ujjawal Bansal" once rather than a heading that changes under it.
+
+            Both carry an explicit leading, because the base stylesheet gives Devanagari
+            1.9 line-height for verses — correct there, far too airy for a 72px heading.
+          */}
+          <span className="sr-only">{site.hero.name}</span>
+
+          <span
+            aria-hidden
+            className="font-serif text-5xl leading-[1.15] font-light tracking-tight text-balance text-fg-strong transition-all duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:-translate-y-[0.06em] group-hover/name:opacity-0 group-hover/name:blur-[3px] md:text-7xl"
+          >
+            {site.hero.name}
+          </span>
+
+          <span
+            aria-hidden
+            lang="hi"
+            className="translate-y-[0.06em] text-5xl leading-[1.15] text-fg-strong opacity-0 blur-[3px] transition-all duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:translate-y-0 group-hover/name:opacity-100 group-hover/name:blur-[0px] md:text-7xl"
+          >
+            {site.hero.devanagariName}
+          </span>
         </h1>
 
         <p className="mt-5 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase">

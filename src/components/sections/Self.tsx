@@ -59,7 +59,11 @@ export function Self() {
   if (!meta) return null;
 
   return (
-    <Section meta={meta}>
+    // The hero is full-height with its content centred, so it already ends in a large,
+    // deliberate space. Adding this section's usual top padding on top of that stacked
+    // two gaps into one 417px void — far larger than the 256px between every other
+    // section. The hero's space is the gap.
+    <Section meta={meta} className="pt-0 md:pt-0">
       <div ref={scope}>
         <ol className="mt-10 md:mt-14">
           {identities.map((identity) => (

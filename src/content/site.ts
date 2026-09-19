@@ -36,6 +36,8 @@ export interface Site {
     /** Three beats, read one after another. Not a job title. */
     lines: readonly string[];
     name: string;
+    /** The same name in Devanagari — see docs/SOURCES.md. Revealed on hover. */
+    devanagariName: string;
     disciplines: readonly string[];
     /**
      * A Sanskrit line, unexplained. It resolves in the philosophy section;
@@ -94,6 +96,8 @@ export const site: Site = {
   hero: {
     lines: ["I build things.", "I question things.", "So far nobody has made me choose."],
     name: "Ujjawal Bansal",
+    // ujjvala: bright, radiant — from ud- ("upward") + √jval ("to shine").
+    devanagariName: "उज्ज्वल बंसल",
     disciplines: ["Computer Science", "Software Engineering", "Philosophy"],
     whisper: { verseId: "aham-brahmasmi", devanagari: "अहं ब्रह्मास्मि" },
   },
