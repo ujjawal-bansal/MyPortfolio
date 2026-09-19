@@ -32,7 +32,7 @@ export function ResumeLink({ className }: { className?: string }) {
       rel="noreferrer noopener"
       aria-label={label}
       className={cn(
-        "group relative inline-flex rounded-lg border border-line px-5 py-3 transition-colors duration-300 hover:border-accent/50 focus-visible:border-accent/50",
+        "group relative inline-flex rounded-lg border border-line bg-bg/70 px-5 py-3 backdrop-blur-sm transition-colors duration-300 hover:border-accent/50 focus-visible:border-accent/50",
         className,
       )}
     >
@@ -67,7 +67,7 @@ export function ResumeLink({ className }: { className?: string }) {
       */}
       <span
         aria-hidden
-        className="pointer-events-none absolute top-full left-5 mt-2 translate-y-1 font-mono text-[0.625rem] whitespace-nowrap text-fg-ghost opacity-0 transition-all duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute top-full right-auto left-5 mt-2 w-max max-w-[min(20rem,70vw)] translate-y-1 font-mono text-[0.625rem] text-fg-ghost opacity-0 transition-all duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:right-5 sm:left-auto sm:text-right"
       >
         {gloss}
       </span>

@@ -29,7 +29,7 @@ export const fragments: readonly Fragment[] = [
   { text: "const", kind: "code", x: 8, y: 16, scale: 0.9, duration: 23, delay: 0 },
   { text: "=>", kind: "code", x: 84, y: 24, scale: 1.1, duration: 19, delay: -6 },
   { text: "return", kind: "code", x: 72, y: 78, scale: 0.85, duration: 27, delay: -11 },
-  { text: "null", kind: "code", x: 16, y: 72, scale: 0.95, duration: 21, delay: -3 },
+  { text: "null", kind: "code", x: 12, y: 90, scale: 0.95, duration: 21, delay: -3 },
   { text: "async", kind: "code", x: 91, y: 58, scale: 0.8, duration: 25, delay: -17 },
 
   { text: "∴", kind: "math", x: 27, y: 30, scale: 1.3, duration: 29, delay: -8 },
@@ -38,7 +38,7 @@ export const fragments: readonly Fragment[] = [
   { text: "≡", kind: "math", x: 88, y: 41, scale: 1.1, duration: 24, delay: -19 },
 
   { text: "अ", kind: "devanagari", x: 20, y: 46, scale: 1.4, duration: 31, delay: -5 },
-  { text: "ब्र", kind: "devanagari", x: 79, y: 68, scale: 1.3, duration: 28, delay: -22 },
+  { text: "ब्र", kind: "devanagari", x: 93, y: 78, scale: 1.3, duration: 28, delay: -22 },
   { text: "न", kind: "devanagari", x: 57, y: 92, scale: 1.2, duration: 33, delay: -9 },
 ];
 

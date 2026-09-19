@@ -25,12 +25,6 @@ export function Hero() {
       <Fragments />
 
       <div className="relative mx-auto w-full max-w-wide gutter">
-        {/*
-          Offered first, and quietly, so the conventional answer is out of the way and
-          the rest of the page is free to be itself.
-        */}
-        <ResumeLink className="mb-12 self-start" />
-
         <div className="space-y-2 measure">
           {site.hero.lines.map((line) => (
             <p key={line} className="font-serif text-xl font-light text-balance text-fg-muted md:text-2xl">
@@ -50,9 +44,18 @@ export function Hero() {
           {site.hero.disciplines.join("  ·  ")}
         </p>
 
-        <p lang="sa" className="mt-14 text-2xl text-accent-dim md:text-3xl">
-          {site.hero.whisper.devanagari}
-        </p>
+        {/*
+          The Sanskrit and the résumé share a line: the unexplained thing on the left,
+          the entirely explicable one out to the right. They stack on narrow screens,
+          where there is no room to hold both.
+        */}
+        <div className="mt-14 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+          <p lang="sa" className="text-2xl text-accent-dim md:text-3xl">
+            {site.hero.whisper.devanagari}
+          </p>
+
+          <ResumeLink className="self-start sm:self-auto" />
+        </div>
       </div>
     </section>
   );
