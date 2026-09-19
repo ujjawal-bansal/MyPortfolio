@@ -1,11 +1,11 @@
-import { ResumeLink } from "@/components/ui/ResumeLink";
 import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { site } from "@/content/site";
 import { isPending } from "@/content/types";
 
 /**
- * Contact, and the résumé beside it (BRIEF §27, §28).
+ * Contact (BRIEF §27). The résumé is not here — it is offered once, at the top of the
+ * hero, rather than twice.
  *
  * Anything facts.md has not supplied stays visibly marked rather than quietly omitted —
  * an absent link should read as "not yet" and never as "does not exist".
@@ -57,34 +57,6 @@ export function Contact() {
           );
         })}
       </ul>
-
-      <Resume />
     </Section>
-  );
-}
-
-/**
- * The joke only lands if the buttons work, so when there is no PDF the section says so
- * plainly instead of offering a link to a 404.
- */
-function Resume() {
-  const href = site.resume.href;
-  const available = !isPending(href);
-
-  return (
-    <div className="mt-20 border-t border-line/60 pt-10">
-      <p className="font-serif text-xl text-balance text-fg-strong measure md:text-2xl">
-        {site.resumeCopy.headline}
-      </p>
-      <p className="mt-3 font-mono text-xs text-fg-faint">{site.resumeCopy.note}</p>
-
-      {available ? (
-        <ResumeLink className="mt-7" />
-      ) : (
-        <p className="mt-7 inline-block rounded border border-line px-3 py-1.5 font-mono text-[0.625rem] tracking-[0.15em] text-fg-ghost uppercase">
-          PDF not uploaded yet
-        </p>
-      )}
-    </div>
   );
 }

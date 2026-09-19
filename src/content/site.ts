@@ -20,8 +20,6 @@ export interface Site {
     body: string;
   };
   resumeCopy: {
-    headline: string;
-    note: string;
     /** The button. Verified in docs/SOURCES.md — do not add Sanskrit without that. */
     label: string;
     devanagari: string;
@@ -53,8 +51,6 @@ export interface Site {
   };
   resume: {
     href: Maybe<string>;
-    /** Same file, as a direct download rather than the Drive viewer. */
-    downloadHref: Maybe<string>;
     /** ISO date of the file currently linked. */
     updated: Maybe<string>;
   };
@@ -82,8 +78,6 @@ export const site: Site = {
   },
 
   resumeCopy: {
-    headline: "For those who prefer the conventional version of me.",
-    note: "Reverse chronological. No particles.",
     label: "Résumé",
     devanagari: "जीवनवृत्तम्",
     iast: "jīvanavṛttam",
@@ -133,8 +127,6 @@ export const site: Site = {
   resume: {
     // Hosted on Drive rather than in public/, so it can be swapped without a redeploy.
     href: "https://drive.google.com/file/d/1aq11ZFnlV0jAZEMWIKHjyE8bobIsuvVW/view",
-    // Drive's direct-download form of the same file.
-    downloadHref: "https://drive.google.com/uc?export=download&id=1aq11ZFnlV0jAZEMWIKHjyE8bobIsuvVW",
     updated: PENDING,
   },
 };
