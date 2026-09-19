@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ProjectConstellation } from "@/components/three/ProjectConstellation";
 import { ArchitectureDiagram } from "@/components/ui/ArchitectureDiagram";
 import { architectures, diagramLegend } from "@/content/architecture";
-import { arcSteps } from "@/content/caseStudyArc";
+import { caseStudySections } from "@/content/caseStudySections";
 import { projectBySlug, projects, type CaseStudy } from "@/content/projects";
 import { site } from "@/content/site";
 import { isPending } from "@/content/types";
@@ -87,12 +87,12 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             <ProjectLinks project={project} />
           </header>
 
-          {/* ---- The arc ---- */}
+          {/* ---- Four sections: problem, solution, architecture, technical depth ---- */}
           <div className="mx-auto w-full max-w-wide gutter pb-24">
-            {arcSteps.map((step, index) => (
+            {caseStudySections.map((section, index) => (
               <section
-                key={step.key}
-                id={step.id}
+                key={section.id}
+                id={section.id}
                 className="grid scroll-mt-16 grid-cols-1 gap-x-12 border-t border-line/60 py-12 md:grid-cols-[14rem_minmax(0,1fr)] md:py-16"
               >
                 <h2 className="mb-5 md:mb-0">
@@ -100,34 +100,37 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
-                    {step.label}
+                    {section.label}
                   </span>
                 </h2>
 
                 <div>
-                  <p
-                    className={cn(
-                      "text-balance measure",
-                      // The question is the pivot of the whole page; it gets to be loud.
-                      step.key === "question"
-                        ? "font-serif text-2xl text-fg-strong italic md:text-3xl"
-                        : "text-lg leading-relaxed text-fg",
-                    )}
-                  >
-                    {project.arc[step.key]}
-                  </p>
+                  <div className="space-y-6">
+                    {section.body.map((key) => (
+                      <p key={key} className="text-lg leading-relaxed text-balance text-fg measure">
+                        {project.arc[key]}
+                      </p>
+                    ))}
+                  </div>
 
-                  {step.key === "system" && architecture ? (
+                  {/* The problem, at its sharpest. It gets to be loud. */}
+                  {section.question ? (
+                    <p className="mt-10 font-serif text-2xl text-balance text-fg-strong italic measure md:text-3xl">
+                      {project.arc[section.question]}
+                    </p>
+                  ) : null}
+
+                  {section.diagram && architecture ? (
                     <figure className="mt-10">
                       <div className="relative">
                         <div className="overflow-x-auto rounded-lg border border-line/60 bg-bg-raised p-5 md:p-8">
                           <ArchitectureDiagram architecture={architecture} className="min-w-[36rem]" />
                         </div>
                         {/*
-                        The diagram is wider than a phone, so the panel scrolls. Without an
-                        edge fade nothing suggests that, and the right-hand third of the
-                        architecture simply goes unseen.
-                      */}
+                          The diagram is wider than a phone, so the panel scrolls. Without an
+                          edge fade nothing suggests that, and the right-hand third of the
+                          architecture simply goes unseen.
+                        */}
                         <div
                           aria-hidden
                           className="pointer-events-none absolute inset-y-px right-px w-12 rounded-r-lg bg-gradient-to-l from-bg-raised to-transparent md:hidden"
@@ -160,7 +163,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                     </figure>
                   ) : null}
 
-                  {step.key === "result" && project.notes.length > 0 ? (
+                  {section.notes && project.notes.length > 0 ? (
                     <dl className="mt-10 space-y-6">
                       {project.notes.map((note) => (
                         <div key={note.label} className="border-l-2 border-line/50 pl-5">
@@ -169,6 +172,20 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                         </div>
                       ))}
                     </dl>
+                  ) : null}
+
+                  {/*
+                    The lesson the whole page arrives at. No heading of its own — it closes
+                    the last section as a pull-quote, and the constellation behind the page
+                    gathers back into a single point as it comes into view.
+                  */}
+                  {section.takeaway ? (
+                    <blockquote
+                      id="takeaway"
+                      className="mt-14 border-l-2 border-accent-dim/60 pl-6 font-serif text-xl text-balance text-fg-strong italic measure md:text-2xl"
+                    >
+                      {project.arc[section.takeaway]}
+                    </blockquote>
                   ) : null}
                 </div>
               </section>

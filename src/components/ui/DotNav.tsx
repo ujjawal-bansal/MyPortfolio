@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
-import { arcSteps } from "@/content/caseStudyArc";
 import { navSections, sections } from "@/content/sections";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -19,10 +18,10 @@ import { cn } from "@/lib/utils";
  * - below `md` the rail is replaced by a labelled disclosure menu, because a column of
  *   6px targets fails every touch-target guideline there is
  *
- * The rail follows the page. On the home page its dots are the home sections; on a case
- * study they are that page's own eight steps, Problem to What I learned — the same motif
- * applied to the page you are actually reading. Anywhere else (a 404), the home sections
- * do not exist in the document, so the links point back to them instead.
+ * It is the same navigation on every page: the home sections. On the home page the dots
+ * are in-page anchors with a scroll spy; everywhere else — a case study, a 404 — those
+ * sections live on the home page, so the links point back to them. On a case study the
+ * Projects dot stays lit, because that is where you are.
  */
 interface RailItem {
   id: string;
@@ -34,9 +33,6 @@ function railFor(pathname: string): {
   href: (id: string) => string;
   spy: readonly string[];
 } {
-  if (pathname.startsWith("/work/")) {
-    return { items: arcSteps, href: (id) => `#${id}`, spy: arcSteps.map((s) => s.id) };
-  }
   if (pathname === "/") {
     return { items: navSections, href: (id) => `#${id}`, spy: sections.map((s) => s.id) };
   }
@@ -48,6 +44,9 @@ export function DotNav() {
   const rail = railFor(pathname);
   const activeSection = useAppStore((s) => s.activeSection);
   const setActiveSection = useAppStore((s) => s.setActiveSection);
+  // A case study belongs to Projects; keep that dot lit rather than whatever was
+  // last active on the home page.
+  const current = pathname.startsWith("/work/") ? "projects" : activeSection;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuId = useId();
 
@@ -94,7 +93,7 @@ export function DotNav() {
       >
         <ul className="flex flex-col items-end gap-5">
           {rail.items.map((section) => {
-            const active = activeSection === section.id;
+            const active = current === section.id;
             return (
               <li key={section.id}>
                 <a
@@ -161,11 +160,11 @@ export function DotNav() {
                 <a
                   href={rail.href(section.id)}
                   onClick={() => setMenuOpen(false)}
-                  aria-current={activeSection === section.id ? "true" : undefined}
+                  aria-current={current === section.id ? "true" : undefined}
                   className={cn(
                     // py-3.5 puts the tap target at 44px; anything less is fiddly on a phone.
                     "block rounded px-3 py-3.5 font-mono text-xs tracking-wide uppercase",
-                    activeSection === section.id ? "text-accent" : "text-fg-muted",
+                    current === section.id ? "text-accent" : "text-fg-muted",
                   )}
                 >
                   {section.navLabel}

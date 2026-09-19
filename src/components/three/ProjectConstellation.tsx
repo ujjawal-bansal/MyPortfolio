@@ -11,11 +11,11 @@ import type { Architecture } from "@/content/architecture";
  * it gets instead is the same shape at the scale of one project, drawn from that
  * project's real architecture:
  *
- * - Through the problem, the question and the idea: one faint glowing point. A problem
- *   begins as a single thing.
- * - At "The system": the point blooms into this project's actual constellation — its
- *   own nodes, its own connections — as the section of that name arrives.
- * - At "What I learned": the whole system gathers back into one point. The lesson is
+ * - Through the problem and the solution: one faint glowing point. A problem begins as
+ *   a single thing.
+ * - At "Architecture": the point blooms into this project's actual constellation — its
+ *   own nodes, its own connections — as the section that describes them arrives.
+ * - At the closing lesson: the whole system gathers back into one point. The lesson is
  *   the system, distilled.
  *
  * One → many → one, again, but specific to this page and far quieter than the home
@@ -78,13 +78,14 @@ export function ProjectConstellation({ architecture }: { architecture: Architect
     };
 
     /**
-     * Bloom as "The system" rises into view; gather back as "What I learned" arrives,
-     * completing at the bottom of the page. Tied to the sections themselves rather than
-     * to raw scroll %, because a long problem statement should not steal the bloom.
+     * Bloom as "Architecture" reaches the reading line; gather back as the closing lesson
+     * arrives, completing at the bottom of the page. Tied to the sections themselves
+     * rather than to raw scroll %, because a long problem statement should not steal the
+     * bloom — and the technical depth in between keeps the whole system in view.
      */
     const fromScroll = () => {
-      const system = document.getElementById("system");
-      const learned = document.getElementById("learned");
+      const system = document.getElementById("architecture");
+      const learned = document.getElementById("takeaway");
       const viewportBottom = window.scrollY + window.innerHeight;
       const docBottom = document.documentElement.scrollHeight;
 
