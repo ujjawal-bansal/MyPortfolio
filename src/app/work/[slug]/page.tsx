@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectConstellation } from "@/components/three/ProjectConstellation";
 import { ArchitectureDiagram } from "@/components/ui/ArchitectureDiagram";
-import { architectures, diagramLegend } from "@/content/architecture";
+import { architectures, diagramLegend, type Architecture } from "@/content/architecture";
 import { caseStudySections } from "@/content/caseStudySections";
 import { projectBySlug, projects, type CaseStudy } from "@/content/projects";
 import { site } from "@/content/site";
@@ -39,6 +39,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   if (!project) notFound();
 
   const architecture = architectures[project.slug];
+  const { story } = project;
 
   return (
     <>
@@ -69,10 +70,6 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
             <p className="mt-4 font-mono text-sm tracking-wide text-fg-muted">{project.tagline}</p>
 
-            {!isPending(project.deployment) ? (
-              <p className="mt-6 text-lg text-fg">{project.deployment}</p>
-            ) : null}
-
             <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
               {project.stack.map((group) => (
                 <div key={group.group}>
@@ -87,7 +84,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             <ProjectLinks project={project} />
           </header>
 
-          {/* ---- Four sections: problem, solution, architecture, technical depth ---- */}
+          {/* ---- Four sections, each short on purpose ---- */}
           <div className="mx-auto w-full max-w-wide gutter pb-24">
             {caseStudySections.map((section, index) => (
               <section
@@ -105,87 +102,66 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                 </h2>
 
                 <div>
-                  <div className="space-y-6">
-                    {section.body.map((key) => (
-                      <p key={key} className="text-lg leading-relaxed text-balance text-fg measure">
-                        {project.arc[key]}
+                  {section.id === "problem" ? (
+                    <>
+                      <p className={prose}>{story.problem}</p>
+                      {/* The problem at its sharpest. It gets to be loud. */}
+                      <p className="mt-8 font-serif text-2xl text-balance text-fg-strong italic measure md:text-3xl">
+                        {story.question}
                       </p>
-                    ))}
-                  </div>
-
-                  {/* The problem, at its sharpest. It gets to be loud. */}
-                  {section.question ? (
-                    <p className="mt-10 font-serif text-2xl text-balance text-fg-strong italic measure md:text-3xl">
-                      {project.arc[section.question]}
-                    </p>
+                    </>
                   ) : null}
 
-                  {section.diagram && architecture ? (
-                    <figure className="mt-10">
-                      <div className="relative">
-                        <div className="overflow-x-auto rounded-lg border border-line/60 bg-bg-raised p-5 md:p-8">
-                          <ArchitectureDiagram architecture={architecture} className="min-w-[36rem]" />
-                        </div>
-                        {/*
-                          The diagram is wider than a phone, so the panel scrolls. Without an
-                          edge fade nothing suggests that, and the right-hand third of the
-                          architecture simply goes unseen.
-                        */}
-                        <div
+                  {section.id === "solution" ? (
+                    <>
+                      <p className={prose}>{story.solution}</p>
+                      {/* The outcome, marked with the dot — one line, scannable. */}
+                      <p className="mt-6 flex items-baseline gap-3 text-fg-strong measure">
+                        <span
                           aria-hidden
-                          className="pointer-events-none absolute inset-y-px right-px w-12 rounded-r-lg bg-gradient-to-l from-bg-raised to-transparent md:hidden"
+                          className="size-1.5 shrink-0 translate-y-[-0.15em] rounded-full bg-accent"
                         />
-                      </div>
-                      <p className="mt-2 font-mono text-[0.625rem] tracking-wide text-fg-ghost md:hidden">
-                        scroll the diagram sideways →
+                        {story.result}
                       </p>
-                      <figcaption className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-                        {diagramLegend.map((entry) => (
-                          <span
-                            key={entry.kind}
-                            className="flex items-center gap-2 font-mono text-[0.625rem] tracking-wide text-fg-faint uppercase"
+                    </>
+                  ) : null}
+
+                  {section.id === "architecture" ? (
+                    <>
+                      <p className={prose}>{story.architecture}</p>
+                      {architecture ? <SystemDiagram architecture={architecture} /> : null}
+                    </>
+                  ) : null}
+
+                  {section.id === "technical-depth" ? (
+                    <>
+                      {/* Three or four one-liners. Each is a fact or a decision, never both. */}
+                      <ul className="space-y-4">
+                        {story.depth.map((line) => (
+                          <li
+                            key={line}
+                            className="flex items-baseline gap-4 text-lg leading-relaxed text-fg measure"
                           >
                             <span
                               aria-hidden
-                              className={cn("size-2 rounded-sm border", {
-                                "border-parchment-dim": entry.kind === "client",
-                                "border-amber": entry.kind === "service",
-                                "border-blue-bright": entry.kind === "gate",
-                                "border-forest-bright": entry.kind === "data",
-                                "border-brown": entry.kind === "external",
-                              })}
+                              className="size-1.5 shrink-0 translate-y-[-0.2em] rounded-full bg-accent-dim"
                             />
-                            {entry.label}
-                          </span>
+                            {line}
+                          </li>
                         ))}
-                        <span className="font-mono text-[0.625rem] text-fg-ghost">dashed = on a timer</span>
-                      </figcaption>
-                    </figure>
-                  ) : null}
+                      </ul>
 
-                  {section.notes && project.notes.length > 0 ? (
-                    <dl className="mt-10 space-y-6">
-                      {project.notes.map((note) => (
-                        <div key={note.label} className="border-l-2 border-line/50 pl-5">
-                          <dt className="font-mono text-xs tracking-wide text-fg-strong">{note.label}</dt>
-                          <dd className="mt-2 text-sm leading-relaxed text-fg-muted measure">{note.body}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : null}
-
-                  {/*
-                    The lesson the whole page arrives at. No heading of its own — it closes
-                    the last section as a pull-quote, and the constellation behind the page
-                    gathers back into a single point as it comes into view.
-                  */}
-                  {section.takeaway ? (
-                    <blockquote
-                      id="takeaway"
-                      className="mt-14 border-l-2 border-accent-dim/60 pl-6 font-serif text-xl text-balance text-fg-strong italic measure md:text-2xl"
-                    >
-                      {project.arc[section.takeaway]}
-                    </blockquote>
+                      {/*
+                        The lesson the page closes on. The constellation behind the page
+                        gathers back into a single point as it comes into view.
+                      */}
+                      <blockquote
+                        id="takeaway"
+                        className="mt-14 border-l-2 border-accent-dim/60 pl-6 font-serif text-xl text-balance text-fg-strong italic measure md:text-2xl"
+                      >
+                        {story.takeaway}
+                      </blockquote>
+                    </>
                   ) : null}
                 </div>
               </section>
@@ -196,6 +172,53 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </article>
       </main>
     </>
+  );
+}
+
+/** Body copy for a case study. One place, so every section reads at the same size. */
+const prose = "text-lg leading-relaxed text-balance text-fg measure";
+
+function SystemDiagram({ architecture }: { architecture: Architecture }) {
+  return (
+    <figure className="mt-10">
+      <div className="relative">
+        <div className="overflow-x-auto rounded-lg border border-line/60 bg-bg-raised p-5 md:p-8">
+          <ArchitectureDiagram architecture={architecture} className="min-w-[36rem]" />
+        </div>
+        {/*
+          The diagram is wider than a phone, so the panel scrolls. Without an edge fade
+          nothing suggests that, and the right-hand third of the architecture goes unseen.
+        */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-px right-px w-12 rounded-r-lg bg-gradient-to-l from-bg-raised to-transparent md:hidden"
+        />
+      </div>
+      <p className="mt-2 font-mono text-[0.625rem] tracking-wide text-fg-ghost md:hidden">
+        scroll the diagram sideways →
+      </p>
+      <figcaption className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+        {diagramLegend.map((entry) => (
+          <span
+            key={entry.kind}
+            className="flex items-center gap-2 font-mono text-[0.625rem] tracking-wide text-fg-faint uppercase"
+          >
+            <span
+              aria-hidden
+              className={cn("size-2 rounded-sm border", {
+                "border-parchment-dim": entry.kind === "client",
+                "border-amber": entry.kind === "service",
+                "border-blue-bright": entry.kind === "gate",
+                "border-forest-bright": entry.kind === "data",
+                "border-brown": entry.kind === "external",
+              })}
+            />
+            {entry.label}
+          </span>
+        ))}
+        <span className="font-mono text-[0.625rem] text-fg-ghost">dashed = on a timer</span>
+      </figcaption>
+    </figure>
   );
 }
 

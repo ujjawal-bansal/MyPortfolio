@@ -1,6 +1,6 @@
 export * from "./types";
 export { site, type Site } from "./site";
-export { projects, projectBySlug, type CaseStudy, type CaseStudyArc, type TechNote } from "./projects";
+export { projects, projectBySlug, type CaseStudy, type CaseStudyStory } from "./projects";
 export {
   verses,
   concepts,
