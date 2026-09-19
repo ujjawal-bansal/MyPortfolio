@@ -1,4 +1,10 @@
-import { Instrument_Sans, JetBrains_Mono, Newsreader, Tiro_Devanagari_Sanskrit } from "next/font/google";
+import {
+  Caveat,
+  Instrument_Sans,
+  JetBrains_Mono,
+  Newsreader,
+  Tiro_Devanagari_Sanskrit,
+} from "next/font/google";
 
 /**
  * Serif — philosophy, quotes, major conceptual statements.
@@ -28,6 +34,18 @@ export const mono = JetBrains_Mono({
 });
 
 /**
+ * Hand — the note fragments in "When I'm not writing code", nothing else.
+ * Latin only, not preloaded: it serves a handful of words far below the fold, and a
+ * script face anywhere near the UI would undo five phases of restraint.
+ */
+export const hand = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+
+/**
  * Devanagari — Sanskrit verses only. Cut for Sanskrit typesetting, so conjuncts
  * and vowel marks render correctly rather than approximately.
  * Static 400 only, and not preloaded: it serves a handful of lines, far below the fold.
@@ -42,4 +60,10 @@ export const devanagari = Tiro_Devanagari_Sanskrit({
 
 // Raw next/font variables are named after the typeface; globals.css maps them
 // onto the semantic --font-serif / --font-sans / --font-mono / --font-devanagari.
-export const fontVariables = [serif.variable, sans.variable, mono.variable, devanagari.variable].join(" ");
+export const fontVariables = [
+  serif.variable,
+  sans.variable,
+  mono.variable,
+  devanagari.variable,
+  hand.variable,
+].join(" ");

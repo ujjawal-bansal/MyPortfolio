@@ -50,9 +50,9 @@ export const sections: readonly SectionMeta[] = [
   },
   {
     id: "shlokas",
-    title: "Thoughts worth sitting with",
+    title: "Words that refuse to be scrolled past",
     navLabel: "Thoughts",
-    kicker: "Slow down for these",
+    kicker: "Four sentences, one from each Veda",
   },
   {
     id: "beyond-code",
@@ -68,7 +68,7 @@ export const sections: readonly SectionMeta[] = [
   },
   {
     id: "stack",
-    title: "The instruments",
+    title: "The instruments I use to turn thought into systems",
     navLabel: "Stack",
     kicker: "Tools, not trophies",
   },

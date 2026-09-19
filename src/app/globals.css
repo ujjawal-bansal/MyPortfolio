@@ -136,6 +136,7 @@
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-devanagari: var(--font-tiro-devanagari), "Noto Serif Devanagari", serif;
+  --font-hand: var(--font-caveat), ui-rounded, cursive;
 
   --container-content: var(--width-content);
   --container-wide: var(--width-wide);

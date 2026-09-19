@@ -358,6 +358,22 @@ export const stoic = {
   } satisfies Citation,
 } as const;
 
+/**
+ * The four mahāvākyas, in canonical order — one from each Veda. `neti neti` is not one
+ * of them (it is a method, not a "great saying"), so it stays out and keeps its own
+ * moment elsewhere.
+ */
+export const mahavakyaIds = [
+  "prajnanam-brahma",
+  "aham-brahmasmi",
+  "tat-tvam-asi",
+  "ayam-atma-brahma",
+] as const;
+
+export const mahavakyas: readonly Verse[] = mahavakyaIds
+  .map((id) => verses.find((verse) => verse.id === id))
+  .filter((verse): verse is Verse => verse !== undefined);
+
 export function verseById(id: string): Verse | undefined {
   return verses.find((v) => v.id === id);
 }
