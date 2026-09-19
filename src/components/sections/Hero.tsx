@@ -20,7 +20,7 @@ export function Hero() {
       // The hero sits outside <main>, so it needs its own Neti Neti marker — without
       // one it survives the removal and "everything else" is a lie.
       data-neti-layer="words"
-      className="relative z-10 flex min-h-svh flex-col justify-center"
+      className="relative z-10 flex min-h-svh flex-col justify-center overflow-x-clip"
     >
       <Fragments />
 
@@ -45,16 +45,22 @@ export function Hero() {
         </p>
 
         {/*
-          The Sanskrit and the résumé share a line: the unexplained thing on the left,
-          the entirely explicable one out to the right. They stack on narrow screens,
-          where there is no room to hold both.
+          The résumé sits right beside the Sanskrit, not at the far edge. Proximity
+          groups the two words as a pair; staying on the hero's single left axis keeps it
+          on the reading path, where a flush-right button would float, unanchored, across
+          empty space.
+
+          Below `sm` the Sanskrit takes the full row and the button drops beneath it.
+          flex-wrap alone cannot decide this: the hover gloss is absolutely positioned,
+          so flex never sees its width, and inline on a phone the gloss ran past the
+          screen edge and widened the page even while invisible.
         */}
-        <div className="mt-14 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <p lang="sa" className="text-2xl text-accent-dim md:text-3xl">
+        <div className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6">
+          <p lang="sa" className="w-full text-2xl text-accent-dim sm:w-auto md:text-3xl">
             {site.hero.whisper.devanagari}
           </p>
 
-          <ResumeLink className="self-start sm:self-auto" />
+          <ResumeLink />
         </div>
       </div>
     </section>

@@ -63,11 +63,12 @@ export function ResumeLink({ className }: { className?: string }) {
       {/*
         The payoff, which only arrives if you stop. Absolutely positioned so its length
         does not set the button's width — otherwise a compact chip sits at the width of a
-        sentence nobody has asked to read yet.
+        sentence nobody has asked to read yet. Frosted like the button, so the drifting
+        fragments behind the hero are covered rather than read through, at any width.
       */}
       <span
         aria-hidden
-        className="pointer-events-none absolute top-full right-auto left-5 mt-2 w-max max-w-[min(20rem,70vw)] translate-y-1 font-mono text-[0.625rem] text-fg-ghost opacity-0 transition-all duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:right-5 sm:left-auto sm:text-right"
+        className="pointer-events-none absolute top-full left-[0.875rem] mt-2 w-max max-w-[min(20rem,70vw)] translate-y-1 rounded bg-bg/85 px-1.5 py-0.5 font-mono text-[0.625rem] text-fg-ghost opacity-0 backdrop-blur-sm transition-all duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
       >
         {gloss}
       </span>

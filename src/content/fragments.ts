@@ -28,7 +28,7 @@ export interface Fragment {
 export const fragments: readonly Fragment[] = [
   { text: "const", kind: "code", x: 8, y: 16, scale: 0.9, duration: 23, delay: 0 },
   { text: "=>", kind: "code", x: 84, y: 24, scale: 1.1, duration: 19, delay: -6 },
-  { text: "return", kind: "code", x: 72, y: 78, scale: 0.85, duration: 27, delay: -11 },
+  { text: "return", kind: "code", x: 76, y: 88, scale: 0.85, duration: 27, delay: -11 },
   { text: "null", kind: "code", x: 12, y: 90, scale: 0.95, duration: 21, delay: -3 },
   { text: "async", kind: "code", x: 91, y: 58, scale: 0.8, duration: 25, delay: -17 },
 
