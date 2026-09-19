@@ -32,6 +32,22 @@ export interface TechNote {
   body: string;
 }
 
+/**
+ * The one snippet that shows the engineering problem being solved.
+ *
+ * Always labelled "simplified" where it renders: these are trimmed to the shape of the
+ * decision, with names tidied and error paths collapsed. They are accurate about what
+ * the system does and deliberately not a copy of the repository.
+ */
+export interface Snippet {
+  language: "ts" | "sql";
+  /** File-ish name for the tab strip. */
+  title: string;
+  /** One line under the block: what to notice. */
+  caption: string;
+  code: string;
+}
+
 export interface CaseStudy {
   slug: string;
   name: string;
@@ -46,6 +62,8 @@ export interface CaseStudy {
   arc: CaseStudyArc;
   /** The details an engineer would actually want. Rendered as a disclosure list. */
   notes: readonly TechNote[];
+  /** Shown under THE ENGINEERING PROBLEM. */
+  snippet: Snippet;
   links: readonly Link[];
   /** Things Ujjawal still needs to supply for this project. */
   pending: readonly string[];
@@ -104,6 +122,30 @@ export const projects: readonly CaseStudy[] = [
         body: "Render spins the backend down when idle, which for a clinic opening at 9am means the first patient of the day waits for a boot. A GitHub Actions cron keeps it warm.",
       },
     ],
+    snippet: {
+      language: "ts",
+      title: "issueToken.ts",
+      caption:
+        "The retry is only safe because the index exists. Without it, two requests both read 33, both write 34, and nobody finds out until a patient is called twice.",
+      code: `// The database refuses duplicates, so the application does not have to be clever:
+//   CREATE UNIQUE INDEX ON tokens (clinic_id, token_day, token_number);
+
+async function issueToken(clinicId: string, tokenDay: string) {
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const tokenNumber = await nextFreeNumber(clinicId, tokenDay);
+
+    try {
+      return await tokens.insert({ clinicId, tokenDay, tokenNumber });
+    } catch (error) {
+      // 23505 = unique_violation. Someone claimed it first — take the next one.
+      if (error.code === "23505") continue;
+      throw error;
+    }
+  }
+
+  throw new Error("token allocation exhausted");
+}`,
+    },
     links: [
       { label: "Repository", href: PENDING, external: true },
       { label: "Live site", href: PENDING, external: true },
@@ -161,6 +203,26 @@ export const projects: readonly CaseStudy[] = [
         body: "Worth stating plainly, because finance dashboards invite the assumption: this is request/response. Numbers update when you ask for them.",
       },
     ],
+    snippet: {
+      language: "ts",
+      title: "rotateRefreshToken.ts",
+      caption:
+        "Presenting a token twice is the signal. The legitimate client has already rotated it, so a second use means someone else has a copy — and both sessions die together.",
+      code: `async function rotateRefreshToken(presented: RefreshToken) {
+  const stored = await refreshTokens.findById(presented.id);
+  if (!stored) throw new Unauthorized();
+
+  // Already used once. The real client rotated it; whoever is holding this
+  // copy should not have it. Revoke the whole family, not just this token.
+  if (stored.usedAt !== null) {
+    await refreshTokens.revokeFamily(stored.familyId);
+    throw new ReuseDetected();
+  }
+
+  await refreshTokens.markUsed(stored.id);
+  return issuePair({ userId: stored.userId, familyId: stored.familyId });
+}`,
+    },
     links: [
       { label: "Repository", href: PENDING, external: true },
       { label: "Live site", href: PENDING, external: true },
@@ -216,6 +278,27 @@ export const projects: readonly CaseStudy[] = [
         body: "Hallucinated quotations are the most persuasive failure an essay grader can produce. Every flagged quote is matched against the source text before it reaches the student.",
       },
     ],
+    snippet: {
+      language: "ts",
+      title: "gradeEssay.ts",
+      caption:
+        "Two gates, and neither is the model's decision. The category has to be one of eight the database will accept, and the quote has to actually appear in the essay.",
+      code: `const Mistake = z.object({
+  // Eight categories, also a CHECK constraint in Postgres. A ninth fails here.
+  category: z.enum(MISTAKE_CATEGORIES),
+  quote: z.string().min(1),
+  explanation: z.string(),
+});
+
+const result = Mistake.array().safeParse(await groq(GRADE_PROMPT, essay));
+if (!result.success) return markFailed(submissionId);
+
+// The model does not get to invent its own evidence.
+const grounded = result.data.every((mistake) => essay.includes(mistake.quote));
+if (!grounded) return markFailed(submissionId);
+
+return persist(submissionId, result.data);`,
+    },
     links: [
       { label: "Repository", href: PENDING, external: true },
       { label: "Live site", href: PENDING, external: true },
