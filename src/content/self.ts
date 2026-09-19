@@ -12,8 +12,6 @@ export interface Identity {
   aside?: string;
 }
 
-export const question = "Who is Ujjawal?";
-
 /**
  * Each is true, and none of them survives being pressed on. The order runs outward:
  * label, matter, past, present, role, role, and finally the one doing the looking.

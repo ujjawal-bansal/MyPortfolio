@@ -8,7 +8,7 @@ import { coda, identities, intro, turn } from "@/content/self";
 import { useMotionEffect } from "@/hooks";
 
 /**
- * Who is Ujjawal? — a list of true answers, each struck through, then the real one.
+ * Who am I? — a list of true answers, each struck through, then the real one.
  *
  * A neti-neti in structure rather than in words: nothing on screen says "not this, not
  * this", it just does it. The restraint matters more than the effect; each line is
