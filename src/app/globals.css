@@ -21,8 +21,8 @@
   --ivory: #f5f1e6;
   --parchment: #e6dfcd;
   --parchment-dim: #b4ac9a;
-  --parchment-faint: #7d7668;
-  --parchment-ghost: #4b463e;
+  --parchment-faint: #9a9183;
+  --parchment-ghost: #847d6e;
 
   /* --- Accent: muted amber --------------------------------------------- */
   --amber: #c98f43;
@@ -35,7 +35,7 @@
   --forest-bright: #7ba488;
   --blue: #4a6b8a;
   --blue-bright: #85a8c6;
-  --brown: #6b5340;
+  --brown: #7a6049;
 
   /* --- Semantic surfaces ------------------------------------------------ */
   --bg: var(--ink);

@@ -1,4 +1,5 @@
 import { createHighlighter, type Highlighter, type ThemeRegistration } from "shiki";
+import { palette } from "./palette";
 
 /**
  * Build-time syntax highlighting.
@@ -18,30 +19,36 @@ const theme: ThemeRegistration = {
   colors: {
     // Transparent: the surrounding figure owns the background and border.
     "editor.background": "#00000000",
-    "editor.foreground": "#e6dfcd",
+    "editor.foreground": palette.parchment,
   },
   settings: [
     {
       scope: ["comment", "punctuation.definition.comment"],
-      settings: { foreground: "#7d7668", fontStyle: "italic" },
+      settings: { foreground: palette.parchmentFaint, fontStyle: "italic" },
     },
     {
       scope: ["keyword", "storage.type", "storage.modifier", "keyword.control"],
-      settings: { foreground: "#c98f43" },
+      settings: { foreground: palette.amber },
     },
-    { scope: ["string", "string.quoted", "constant.other.symbol"], settings: { foreground: "#7ba488" } },
-    { scope: ["constant.numeric", "constant.language"], settings: { foreground: "#85a8c6" } },
+    {
+      scope: ["string", "string.quoted", "constant.other.symbol"],
+      settings: { foreground: palette.forestBright },
+    },
+    { scope: ["constant.numeric", "constant.language"], settings: { foreground: palette.blueBright } },
     {
       scope: ["entity.name.function", "support.function", "meta.function-call"],
-      settings: { foreground: "#f5f1e6" },
+      settings: { foreground: palette.ivory },
     },
     {
       scope: ["entity.name.type", "support.type", "support.class", "entity.name.class"],
-      settings: { foreground: "#85a8c6" },
+      settings: { foreground: palette.blueBright },
     },
-    { scope: ["variable", "meta.definition.variable"], settings: { foreground: "#e6dfcd" } },
-    { scope: ["variable.parameter", "variable.other.property"], settings: { foreground: "#b4ac9a" } },
-    { scope: ["punctuation", "meta.brace"], settings: { foreground: "#7d7668" } },
+    { scope: ["variable", "meta.definition.variable"], settings: { foreground: palette.parchment } },
+    {
+      scope: ["variable.parameter", "variable.other.property"],
+      settings: { foreground: palette.parchmentDim },
+    },
+    { scope: ["punctuation", "meta.brace"], settings: { foreground: palette.parchmentFaint } },
   ],
 };
 

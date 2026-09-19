@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { palette } from "@/lib/palette";
 import { site } from "@/content/site";
 
 export const alt = `${site.name} — ${site.hero.disciplines.join(" × ")}`;
@@ -21,7 +22,7 @@ export default function OpengraphImage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: "#0b0b0e",
+        backgroundColor: palette.ink,
         padding: "80px 96px",
       }}
     >
@@ -30,16 +31,16 @@ export default function OpengraphImage() {
           width: 16,
           height: 16,
           borderRadius: 999,
-          backgroundColor: "#e3ac63",
+          backgroundColor: palette.amberBright,
           marginBottom: 48,
         }}
       />
-      <div style={{ fontSize: 88, color: "#f5f1e6", letterSpacing: "-0.02em" }}>{site.name}</div>
+      <div style={{ fontSize: 88, color: palette.ivory, letterSpacing: "-0.02em" }}>{site.name}</div>
       <div
         style={{
           marginTop: 28,
           fontSize: 26,
-          color: "#7d7668",
+          color: palette.parchmentFaint,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
         }}

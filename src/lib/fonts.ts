@@ -16,14 +16,23 @@ export const serif = Newsreader({
   subsets: ["latin"],
   display: "swap",
   style: ["normal", "italic"],
-  axes: ["opsz"],
+  // No `opsz` axis. A two-axis variable font is a much larger file, and on a throttled
+  // mobile connection the preloaded serif was measurably delaying first paint. The
+  // optical-size refinement is not worth ~100kb on the critical path.
 });
 
-/** Sans — navigation, UI, body copy. Variable weight, one file. */
+/**
+ * Sans — navigation, UI, body copy. Variable weight, one file.
+ *
+ * Not preloaded: above the fold the hero is serif and mono, so the sans is not on the
+ * critical path. next/font's metric-matched fallback means the swap costs no layout
+ * shift (verified: CLS 0).
+ */
 export const sans = Instrument_Sans({
   variable: "--font-instrument-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
 });
 
 /** Mono — code, terminal, technical metadata. Variable weight, one file. */

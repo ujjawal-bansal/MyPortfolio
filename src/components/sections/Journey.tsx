@@ -64,10 +64,7 @@ export function Journey() {
             <li
               key={milestone.id}
               data-milestone
-              className={cn(
-                "relative grid grid-cols-1 gap-x-8 pl-8 md:grid-cols-[9rem_1fr] md:pl-0",
-                milestone.future && "opacity-55",
-              )}
+              className={cn("relative grid grid-cols-1 gap-x-8 pl-8 md:grid-cols-[9rem_1fr] md:pl-0")}
             >
               <p className="font-mono text-xs tracking-[0.15em] text-fg-faint uppercase md:text-right">
                 {/* A date facts.md does not give is left visibly blank, never guessed. */}
@@ -85,7 +82,16 @@ export function Journey() {
               />
 
               <div data-body className="mt-2 md:mt-0 md:pl-8">
-                <h3 className="font-serif text-lg text-fg-strong md:text-xl">{milestone.title}</h3>
+                <h3
+                  className={cn(
+                    "font-serif text-lg md:text-xl",
+                    // Demote a future entry with colour, not opacity. Fading the whole
+                    // row took its text to 2.66:1 — comfortably below WCAG AA.
+                    milestone.future ? "text-fg-muted italic" : "text-fg-strong",
+                  )}
+                >
+                  {milestone.title}
+                </h3>
                 {milestone.where ? <p className="mt-1 text-sm text-fg-muted">{milestone.where}</p> : null}
                 {milestone.body ? (
                   <p className="mt-2 text-sm text-balance text-fg-faint measure">{milestone.body}</p>
