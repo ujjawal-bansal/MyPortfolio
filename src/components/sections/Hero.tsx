@@ -1,4 +1,5 @@
 import { Fragments } from "@/components/three/Fragments";
+import { Availability } from "@/components/ui/Availability";
 import { ResumeLink } from "@/components/ui/ResumeLink";
 import { site } from "@/content/site";
 import { sectionById } from "@/content/sections";
@@ -25,6 +26,8 @@ export function Hero() {
       <Fragments />
 
       <div className="relative mx-auto w-full max-w-wide gutter">
+        <Availability className="mb-10" />
+
         <div className="space-y-2 measure">
           {site.hero.lines.map((line) => (
             <p key={line} className="font-serif text-xl font-light text-balance text-fg-muted md:text-2xl">

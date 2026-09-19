@@ -32,6 +32,16 @@ export interface Site {
     loop: readonly string[];
     line: string;
   };
+  availability: {
+    /**
+     * Flip to false the day this stops being true and the whole line disappears —
+     * a stale "available" is worse than none.
+     */
+    open: boolean;
+    label: string;
+    /** The quieter half. Availability as a disposition, not only a job status. */
+    aside: string;
+  };
   hero: {
     /** Three beats, read one after another. Not a job title. */
     lines: readonly string[];
@@ -72,6 +82,14 @@ export const site: Site = {
     title: "Ujjawal Bansal",
     description:
       "Software developer and CS student. I build systems that run in the real world, and I read philosophy for the same reason I debug — to find the assumption underneath.",
+  },
+
+  availability: {
+    open: true,
+    label: "Available for engineering roles",
+    // Echoes the hero's own claim — "I build things. I question things." — so the line
+    // covers both halves rather than reading as a job board post.
+    aside: "and the questions underneath them",
   },
 
   contact: {

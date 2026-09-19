@@ -143,6 +143,7 @@
 
   --animate-drift: drift 24s ease-in-out infinite;
   --animate-breathe: breathe 9s var(--ease-in-out-soft) infinite;
+  --animate-signal: signal 3.2s var(--ease-out-quart) infinite;
   --animate-turn-out: turn-out 12s var(--ease-in-out-soft) infinite;
   --animate-turn-in: turn-in 12s var(--ease-in-out-soft) infinite;
 
@@ -170,6 +171,19 @@
   75% {
     transform: translate3d(-13px, -9px, 0);
     opacity: 0.5;
+  }
+}
+
+/* Availability: one point sending a ring outward, slowly. */
+@keyframes signal {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
   }
 }
 
