@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { usePathname } from "next/navigation";
+import { arcSteps } from "@/content/caseStudyArc";
 import { navSections, sections } from "@/content/sections";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -16,8 +18,34 @@ import { cn } from "@/lib/utils";
  * - aria-current marks the active section
  * - below `md` the rail is replaced by a labelled disclosure menu, because a column of
  *   6px targets fails every touch-target guideline there is
+ *
+ * The rail follows the page. On the home page its dots are the home sections; on a case
+ * study they are that page's own eight steps, Problem to What I learned — the same motif
+ * applied to the page you are actually reading. Anywhere else (a 404), the home sections
+ * do not exist in the document, so the links point back to them instead.
  */
+interface RailItem {
+  id: string;
+  navLabel: string;
+}
+
+function railFor(pathname: string): {
+  items: readonly RailItem[];
+  href: (id: string) => string;
+  spy: readonly string[];
+} {
+  if (pathname.startsWith("/work/")) {
+    return { items: arcSteps, href: (id) => `#${id}`, spy: arcSteps.map((s) => s.id) };
+  }
+  if (pathname === "/") {
+    return { items: navSections, href: (id) => `#${id}`, spy: sections.map((s) => s.id) };
+  }
+  return { items: navSections, href: (id) => `/#${id}`, spy: [] };
+}
+
 export function DotNav() {
+  const pathname = usePathname();
+  const rail = railFor(pathname);
   const activeSection = useAppStore((s) => s.activeSection);
   const setActiveSection = useAppStore((s) => s.setActiveSection);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,8 +54,8 @@ export function DotNav() {
   // Scroll spy. IntersectionObserver rather than ScrollTrigger so it works identically
   // with Lenis running or not, and under reduced motion where Lenis never starts.
   useEffect(() => {
-    const elements = sections
-      .map((s) => document.getElementById(s.id))
+    const elements = railFor(pathname)
+      .spy.map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
     if (elements.length === 0) return;
 
@@ -44,7 +72,7 @@ export function DotNav() {
 
     for (const el of elements) observer.observe(el);
     return () => observer.disconnect();
-  }, [setActiveSection]);
+  }, [pathname, setActiveSection]);
 
   // Close the mobile menu on Escape, and return focus sensibly.
   useEffect(() => {
@@ -65,12 +93,12 @@ export function DotNav() {
         className="fixed top-1/2 right-6 z-50 hidden -translate-y-1/2 md:block"
       >
         <ul className="flex flex-col items-end gap-5">
-          {navSections.map((section) => {
+          {rail.items.map((section) => {
             const active = activeSection === section.id;
             return (
               <li key={section.id}>
                 <a
-                  href={`#${section.id}`}
+                  href={rail.href(section.id)}
                   aria-current={active ? "true" : undefined}
                   className="group flex items-center justify-end gap-3 py-1 outline-offset-4"
                 >
@@ -128,10 +156,10 @@ export function DotNav() {
           className="absolute top-13 right-0 min-w-44 rounded-lg border border-line bg-bg-raised/95 p-2 shadow-2xl backdrop-blur-sm"
         >
           <ul>
-            {navSections.map((section) => (
+            {rail.items.map((section) => (
               <li key={section.id}>
                 <a
-                  href={`#${section.id}`}
+                  href={rail.href(section.id)}
                   onClick={() => setMenuOpen(false)}
                   aria-current={activeSection === section.id ? "true" : undefined}
                   className={cn(

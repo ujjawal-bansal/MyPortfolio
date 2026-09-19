@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProjectConstellation } from "@/components/three/ProjectConstellation";
 import { ArchitectureDiagram } from "@/components/ui/ArchitectureDiagram";
 import { architectures, diagramLegend } from "@/content/architecture";
+import { arcSteps } from "@/content/caseStudyArc";
 import { projectBySlug, projects, type CaseStudy } from "@/content/projects";
 import { site } from "@/content/site";
 import { isPending } from "@/content/types";
@@ -31,18 +33,6 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   };
 }
 
-/** The arc, in order. Labels live here because they are structure, not project content. */
-const ARC = [
-  { key: "problem", label: "The problem" },
-  { key: "question", label: "The question" },
-  { key: "idea", label: "The idea" },
-  { key: "system", label: "The system" },
-  { key: "engineeringProblem", label: "The engineering problem" },
-  { key: "solution", label: "The solution" },
-  { key: "result", label: "The result" },
-  { key: "learned", label: "What I learned" },
-] as const satisfies readonly { key: keyof CaseStudy["arc"]; label: string }[];
-
 export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
   const { slug } = await params;
   const project = projectBySlug(slug);
@@ -51,137 +41,144 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
   const architecture = architectures[project.slug];
 
   return (
-    <main id="main-content" className="relative z-10 flex-1">
-      <article>
-        {/* ---- Masthead ---- */}
-        <header className="mx-auto w-full max-w-wide gutter pt-28 pb-14 md:pt-36 md:pb-20">
-          <Link
-            href="/#projects"
-            className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
-          >
-            ← All work
-          </Link>
-
-          <div className="mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-3">
-            <h1 className="font-serif text-5xl font-light tracking-tight text-fg-strong md:text-6xl">
-              {project.name}
-            </h1>
-            {project.status === "live" ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/50 px-2.5 py-0.5 font-mono text-[0.625rem] tracking-[0.15em] text-forest-bright uppercase">
-                <span aria-hidden className="size-1.5 rounded-full bg-forest-bright" />
-                Live in production
-              </span>
-            ) : null}
-          </div>
-
-          <p className="mt-4 font-mono text-sm tracking-wide text-fg-muted">{project.tagline}</p>
-
-          {!isPending(project.deployment) ? (
-            <p className="mt-6 text-lg text-fg">{project.deployment}</p>
-          ) : null}
-
-          <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
-            {project.stack.map((group) => (
-              <div key={group.group}>
-                <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
-                  {group.group}
-                </p>
-                <p className="mt-1.5 text-sm text-fg-muted">{group.items.join(" · ")}</p>
-              </div>
-            ))}
-          </div>
-
-          <ProjectLinks project={project} />
-        </header>
-
-        {/* ---- The arc ---- */}
-        <div className="mx-auto w-full max-w-wide gutter pb-24">
-          {ARC.map((step, index) => (
-            <section
-              key={step.key}
-              className="grid grid-cols-1 gap-x-12 border-t border-line/60 py-12 md:grid-cols-[14rem_1fr] md:py-16"
+    <>
+      {/* This project's own system, faint, behind its story. Not the home page's scene. */}
+      {architecture ? <ProjectConstellation architecture={architecture} /> : null}
+      <main id="main-content" className="relative z-10 flex-1">
+        <article>
+          {/* ---- Masthead ---- */}
+          <header className="mx-auto w-full max-w-wide gutter pt-28 pb-14 md:pt-36 md:pb-20">
+            <Link
+              href="/#projects"
+              className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
             >
-              <h2 className="mb-5 md:mb-0">
-                <span className="mr-3 font-mono text-xs text-fg-ghost tabular-nums">
-                  {String(index + 1).padStart(2, "0")}
+              ← All work
+            </Link>
+
+            <div className="mt-8 flex flex-wrap items-baseline gap-x-5 gap-y-3">
+              <h1 className="font-serif text-5xl font-light tracking-tight text-fg-strong md:text-6xl">
+                {project.name}
+              </h1>
+              {project.status === "live" ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/50 px-2.5 py-0.5 font-mono text-[0.625rem] tracking-[0.15em] text-forest-bright uppercase">
+                  <span aria-hidden className="size-1.5 rounded-full bg-forest-bright" />
+                  Live in production
                 </span>
-                <span className="font-mono text-xs tracking-[0.2em] text-accent uppercase">{step.label}</span>
-              </h2>
+              ) : null}
+            </div>
 
-              <div>
-                <p
-                  className={cn(
-                    "text-balance measure",
-                    // The question is the pivot of the whole page; it gets to be loud.
-                    step.key === "question"
-                      ? "font-serif text-2xl text-fg-strong italic md:text-3xl"
-                      : "text-lg leading-relaxed text-fg",
-                  )}
-                >
-                  {project.arc[step.key]}
-                </p>
+            <p className="mt-4 font-mono text-sm tracking-wide text-fg-muted">{project.tagline}</p>
 
-                {step.key === "system" && architecture ? (
-                  <figure className="mt-10">
-                    <div className="relative">
-                      <div className="overflow-x-auto rounded-lg border border-line/60 bg-bg-raised p-5 md:p-8">
-                        <ArchitectureDiagram architecture={architecture} className="min-w-[36rem]" />
-                      </div>
-                      {/*
+            {!isPending(project.deployment) ? (
+              <p className="mt-6 text-lg text-fg">{project.deployment}</p>
+            ) : null}
+
+            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
+              {project.stack.map((group) => (
+                <div key={group.group}>
+                  <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
+                    {group.group}
+                  </p>
+                  <p className="mt-1.5 text-sm text-fg-muted">{group.items.join(" · ")}</p>
+                </div>
+              ))}
+            </div>
+
+            <ProjectLinks project={project} />
+          </header>
+
+          {/* ---- The arc ---- */}
+          <div className="mx-auto w-full max-w-wide gutter pb-24">
+            {arcSteps.map((step, index) => (
+              <section
+                key={step.key}
+                id={step.id}
+                className="grid scroll-mt-16 grid-cols-1 gap-x-12 border-t border-line/60 py-12 md:grid-cols-[14rem_minmax(0,1fr)] md:py-16"
+              >
+                <h2 className="mb-5 md:mb-0">
+                  <span className="mr-3 font-mono text-xs text-fg-ghost tabular-nums">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono text-xs tracking-[0.2em] text-accent uppercase">
+                    {step.label}
+                  </span>
+                </h2>
+
+                <div>
+                  <p
+                    className={cn(
+                      "text-balance measure",
+                      // The question is the pivot of the whole page; it gets to be loud.
+                      step.key === "question"
+                        ? "font-serif text-2xl text-fg-strong italic md:text-3xl"
+                        : "text-lg leading-relaxed text-fg",
+                    )}
+                  >
+                    {project.arc[step.key]}
+                  </p>
+
+                  {step.key === "system" && architecture ? (
+                    <figure className="mt-10">
+                      <div className="relative">
+                        <div className="overflow-x-auto rounded-lg border border-line/60 bg-bg-raised p-5 md:p-8">
+                          <ArchitectureDiagram architecture={architecture} className="min-w-[36rem]" />
+                        </div>
+                        {/*
                         The diagram is wider than a phone, so the panel scrolls. Without an
                         edge fade nothing suggests that, and the right-hand third of the
                         architecture simply goes unseen.
                       */}
-                      <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-y-px right-px w-12 rounded-r-lg bg-gradient-to-l from-bg-raised to-transparent md:hidden"
-                      />
-                    </div>
-                    <p className="mt-2 font-mono text-[0.625rem] tracking-wide text-fg-ghost md:hidden">
-                      scroll the diagram sideways →
-                    </p>
-                    <figcaption className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-                      {diagramLegend.map((entry) => (
-                        <span
-                          key={entry.kind}
-                          className="flex items-center gap-2 font-mono text-[0.625rem] tracking-wide text-fg-faint uppercase"
-                        >
-                          <span
-                            aria-hidden
-                            className={cn("size-2 rounded-sm border", {
-                              "border-parchment-dim": entry.kind === "client",
-                              "border-amber": entry.kind === "service",
-                              "border-blue-bright": entry.kind === "gate",
-                              "border-forest-bright": entry.kind === "data",
-                              "border-brown": entry.kind === "external",
-                            })}
-                          />
-                          {entry.label}
-                        </span>
-                      ))}
-                      <span className="font-mono text-[0.625rem] text-fg-ghost">dashed = on a timer</span>
-                    </figcaption>
-                  </figure>
-                ) : null}
-
-                {step.key === "result" && project.notes.length > 0 ? (
-                  <dl className="mt-10 space-y-6">
-                    {project.notes.map((note) => (
-                      <div key={note.label} className="border-l-2 border-line/50 pl-5">
-                        <dt className="font-mono text-xs tracking-wide text-fg-strong">{note.label}</dt>
-                        <dd className="mt-2 text-sm leading-relaxed text-fg-muted measure">{note.body}</dd>
+                        <div
+                          aria-hidden
+                          className="pointer-events-none absolute inset-y-px right-px w-12 rounded-r-lg bg-gradient-to-l from-bg-raised to-transparent md:hidden"
+                        />
                       </div>
-                    ))}
-                  </dl>
-                ) : null}
-              </div>
-            </section>
-          ))}
-        </div>
+                      <p className="mt-2 font-mono text-[0.625rem] tracking-wide text-fg-ghost md:hidden">
+                        scroll the diagram sideways →
+                      </p>
+                      <figcaption className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+                        {diagramLegend.map((entry) => (
+                          <span
+                            key={entry.kind}
+                            className="flex items-center gap-2 font-mono text-[0.625rem] tracking-wide text-fg-faint uppercase"
+                          >
+                            <span
+                              aria-hidden
+                              className={cn("size-2 rounded-sm border", {
+                                "border-parchment-dim": entry.kind === "client",
+                                "border-amber": entry.kind === "service",
+                                "border-blue-bright": entry.kind === "gate",
+                                "border-forest-bright": entry.kind === "data",
+                                "border-brown": entry.kind === "external",
+                              })}
+                            />
+                            {entry.label}
+                          </span>
+                        ))}
+                        <span className="font-mono text-[0.625rem] text-fg-ghost">dashed = on a timer</span>
+                      </figcaption>
+                    </figure>
+                  ) : null}
 
-        <NextProject slug={project.slug} />
-      </article>
-    </main>
+                  {step.key === "result" && project.notes.length > 0 ? (
+                    <dl className="mt-10 space-y-6">
+                      {project.notes.map((note) => (
+                        <div key={note.label} className="border-l-2 border-line/50 pl-5">
+                          <dt className="font-mono text-xs tracking-wide text-fg-strong">{note.label}</dt>
+                          <dd className="mt-2 text-sm leading-relaxed text-fg-muted measure">{note.body}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : null}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          <NextProject slug={project.slug} />
+        </article>
+      </main>
+    </>
   );
 }
 

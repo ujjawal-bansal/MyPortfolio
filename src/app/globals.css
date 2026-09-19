@@ -142,6 +142,7 @@
   --container-wide: var(--width-wide);
 
   --animate-drift: drift 24s ease-in-out infinite;
+  --animate-breathe: breathe 9s var(--ease-in-out-soft) infinite;
   --animate-turn-out: turn-out 12s var(--ease-in-out-soft) infinite;
   --animate-turn-in: turn-in 12s var(--ease-in-out-soft) infinite;
 
@@ -169,6 +170,17 @@
   75% {
     transform: translate3d(-13px, -9px, 0);
     opacity: 0.5;
+  }
+}
+
+/* The case-study constellation breathes: a slow swell in presence, never in shape. */
+@keyframes breathe {
+  0%,
+  100% {
+    filter: brightness(0.82);
+  }
+  50% {
+    filter: brightness(1.12);
   }
 }
 
