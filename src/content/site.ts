@@ -14,6 +14,20 @@ export interface Site {
     title: string;
     description: string;
   };
+  contact: {
+    /** Not "let's connect". */
+    headline: string;
+    body: string;
+  };
+  resumeCopy: {
+    headline: string;
+    note: string;
+  };
+  footer: {
+    /** The loop: the site ends where it began. */
+    loop: readonly string[];
+    line: string;
+  };
   hero: {
     /** Three beats, read one after another. Not a job title. */
     lines: readonly string[];
@@ -52,6 +66,21 @@ export const site: Site = {
     title: "Ujjawal Bansal",
     description:
       "Software developer and CS student. I build systems that run in the real world, and I read philosophy for the same reason I debug — to find the assumption underneath.",
+  },
+
+  contact: {
+    headline: "Let's turn a thought into something that exists.",
+    body: "That is the whole pipeline, and the only part I cannot do alone is the first bit. If you have one, I read everything.",
+  },
+
+  resumeCopy: {
+    headline: "For those who prefer the conventional version of me.",
+    note: "Two pages. Reverse chronological. No particles.",
+  },
+
+  footer: {
+    loop: ["Thought", "Action", "Experience", "Thought"],
+    line: "Still figuring it out. Building anyway.",
   },
 
   hero: {

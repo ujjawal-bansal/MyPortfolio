@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <main id={mainContentId} className="relative z-10 flex-1">
+      <main id={mainContentId} data-neti-layer="words" className="relative z-10 flex-1">
         <Self />
         <HowIThink />
         <PhilosophyEngineering />

@@ -134,6 +134,7 @@ export default function DotScene() {
       aria-hidden
       // font-serif is not decorative here: the sampler reads this element's computed
       // family to rasterise the word.
+      data-neti-layer="field"
       className="pointer-events-none fixed inset-0 z-0 font-serif"
     >
       <canvas ref={canvasRef} className="size-full" />

@@ -16,6 +16,9 @@ export function Hero() {
     <section
       id={meta.id}
       aria-labelledby="hero-heading"
+      // The hero sits outside <main>, so it needs its own Neti Neti marker — without
+      // one it survives the removal and "everything else" is a lie.
+      data-neti-layer="words"
       className="relative z-10 flex min-h-svh flex-col justify-center"
     >
       <Fragments />

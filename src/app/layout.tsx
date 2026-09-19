@@ -1,4 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { Ambient } from "@/components/easter-eggs/Ambient";
+import { NetiNeti } from "@/components/easter-eggs/NetiNeti";
+import { Terminal } from "@/components/easter-eggs/Terminal";
 import { DotSceneLazy } from "@/components/three/DotSceneLazy";
 import { DotNav } from "@/components/ui/DotNav";
 import { Observer } from "@/components/ui/Observer";
@@ -57,6 +60,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Observer />
           {children}
         </SmoothScroll>
+        <Terminal />
+        <NetiNeti />
+        <Ambient />
       </body>
     </html>
   );

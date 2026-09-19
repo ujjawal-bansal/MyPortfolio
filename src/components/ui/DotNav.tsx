@@ -59,7 +59,11 @@ export function DotNav() {
   return (
     <>
       {/* ---- Desktop: the dot rail ---- */}
-      <nav aria-label="Sections" className="fixed top-1/2 right-6 z-50 hidden -translate-y-1/2 md:block">
+      <nav
+        data-neti-layer="interface"
+        aria-label="Sections"
+        className="fixed top-1/2 right-6 z-50 hidden -translate-y-1/2 md:block"
+      >
         <ul className="flex flex-col items-end gap-5">
           {navSections.map((section) => {
             const active = activeSection === section.id;
@@ -99,7 +103,7 @@ export function DotNav() {
       </nav>
 
       {/* ---- Mobile: one dot that opens a real menu ---- */}
-      <div className="fixed top-4 right-4 z-50 md:hidden">
+      <div data-neti-layer="interface" className="fixed top-4 right-4 z-50 md:hidden">
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
