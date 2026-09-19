@@ -1,6 +1,6 @@
 import { Fragments } from "@/components/three/Fragments";
+import { ResumeLink } from "@/components/ui/ResumeLink";
 import { site } from "@/content/site";
-import { isPending } from "@/content/types";
 import { sectionById } from "@/content/sections";
 
 /**
@@ -25,6 +25,12 @@ export function Hero() {
       <Fragments />
 
       <div className="relative mx-auto w-full max-w-wide gutter">
+        {/*
+          Offered first, and quietly, so the conventional answer is out of the way and
+          the rest of the page is free to be itself.
+        */}
+        <ResumeLink className="mb-12 self-start" />
+
         <div className="space-y-2 measure">
           {site.hero.lines.map((line) => (
             <p key={line} className="font-serif text-xl font-light text-balance text-fg-muted md:text-2xl">
@@ -43,19 +49,6 @@ export function Hero() {
         <p className="mt-5 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase">
           {site.hero.disciplines.join("  ·  ")}
         </p>
-
-        {/* The conventional version, one click away, for whoever wants it first. */}
-        {isPending(site.resume.href) ? null : (
-          <a
-            href={site.resume.href}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-5 py-2.5 font-mono text-xs tracking-[0.15em] text-fg-muted uppercase transition-colors hover:border-accent/60 hover:text-accent"
-          >
-            <span aria-hidden className="size-1.5 rounded-full bg-accent-dim" />
-            Résumé
-          </a>
-        )}
 
         <p lang="sa" className="mt-14 text-2xl text-accent-dim md:text-3xl">
           {site.hero.whisper.devanagari}

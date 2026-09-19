@@ -22,6 +22,12 @@ export interface Site {
   resumeCopy: {
     headline: string;
     note: string;
+    /** The button. Verified in docs/SOURCES.md — do not add Sanskrit without that. */
+    label: string;
+    devanagari: string;
+    iast: string;
+    /** Revealed on hover. The reason the word is worth using. */
+    gloss: string;
   };
   footer: {
     /** The loop: the site ends where it began. */
@@ -78,6 +84,12 @@ export const site: Site = {
   resumeCopy: {
     headline: "For those who prefer the conventional version of me.",
     note: "Reverse chronological. No particles.",
+    label: "Résumé",
+    devanagari: "जीवनवृत्तम्",
+    iast: "jīvanavṛttam",
+    // vṛtta is the past participle of √vṛt, "to turn" — it means circle as readily as
+    // it means account. A résumé is what has turned in a life.
+    gloss: "the account of a life — from vṛtta, what has turned",
   },
 
   footer: {

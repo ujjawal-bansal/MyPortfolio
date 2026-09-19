@@ -1,3 +1,4 @@
+import { ResumeLink } from "@/components/ui/ResumeLink";
 import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { site } from "@/content/site";
@@ -78,25 +79,7 @@ function Resume() {
       <p className="mt-3 font-mono text-xs text-fg-faint">{site.resumeCopy.note}</p>
 
       {available ? (
-        <div className="mt-7 flex flex-wrap gap-3">
-          <a
-            href={href}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-full border border-line px-5 py-2 font-mono text-xs tracking-[0.15em] text-fg-strong uppercase transition-colors hover:border-accent/60 hover:text-accent"
-          >
-            View résumé
-          </a>
-          <a
-            // Drive's viewer URL will not download; its export URL will.
-            href={isPending(site.resume.downloadHref) ? href : site.resume.downloadHref}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-full border border-line px-5 py-2 font-mono text-xs tracking-[0.15em] text-fg-muted uppercase transition-colors hover:border-accent/60 hover:text-accent"
-          >
-            Download
-          </a>
-        </div>
+        <ResumeLink className="mt-7" />
       ) : (
         <p className="mt-7 inline-block rounded border border-line px-3 py-1.5 font-mono text-[0.625rem] tracking-[0.15em] text-fg-ghost uppercase">
           PDF not uploaded yet
