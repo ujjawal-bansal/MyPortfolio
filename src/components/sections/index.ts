@@ -1,0 +1,11 @@
+export { Hero } from "./Hero";
+export { Self } from "./Self";
+export { HowIThink } from "./HowIThink";
+export { PhilosophyEngineering } from "./PhilosophyEngineering";
+export { Projects } from "./Projects";
+export { Shlokas } from "./Shlokas";
+export { BeyondCode } from "./BeyondCode";
+export { Journey } from "./Journey";
+export { Stack } from "./Stack";
+export { Contact } from "./Contact";
+export { Footer } from "./Footer";

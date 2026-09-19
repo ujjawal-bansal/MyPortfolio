@@ -1,9 +1,4 @@
-import {
-  Instrument_Sans,
-  JetBrains_Mono,
-  Newsreader,
-  Tiro_Devanagari_Sanskrit,
-} from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono, Newsreader, Tiro_Devanagari_Sanskrit } from "next/font/google";
 
 /**
  * Serif — philosophy, quotes, major conceptual statements.
@@ -47,6 +42,4 @@ export const devanagari = Tiro_Devanagari_Sanskrit({
 
 // Raw next/font variables are named after the typeface; globals.css maps them
 // onto the semantic --font-serif / --font-sans / --font-mono / --font-devanagari.
-export const fontVariables = [serif.variable, sans.variable, mono.variable, devanagari.variable].join(
-  " ",
-);
+export const fontVariables = [serif.variable, sans.variable, mono.variable, devanagari.variable].join(" ");
