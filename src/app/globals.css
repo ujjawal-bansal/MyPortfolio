@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DESIGN TOKENS
+   Near-black base, parchment text, muted amber accent, forest green and
+   muted blue as occasional voices. The site is dark by design — there is no
+   light theme, so tokens live on :root rather than behind a media query.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* --- Base: near-black → charcoal ------------------------------------- */
+  --void: #07070a;
+  --ink: #0b0b0e;
+  --charcoal: #131317;
+  --charcoal-soft: #1b1b20;
+  --charcoal-raised: #24242b;
+
+  /* --- Parchment: warm ivory text scale -------------------------------- */
+  --ivory: #f5f1e6;
+  --parchment: #e6dfcd;
+  --parchment-dim: #b4ac9a;
+  --parchment-faint: #7d7668;
+  --parchment-ghost: #4b463e;
+
+  /* --- Accent: muted amber --------------------------------------------- */
+  --amber: #c98f43;
+  --amber-bright: #e3ac63;
+  --amber-deep: #8c5f28;
+  --amber-ash: #5a411f;
+
+  /* --- Secondary voices ------------------------------------------------- */
+  --forest: #4a6b55;
+  --forest-bright: #7ba488;
+  --blue: #4a6b8a;
+  --blue-bright: #85a8c6;
+  --brown: #6b5340;
+
+  /* --- Semantic surfaces ------------------------------------------------ */
+  --bg: var(--ink);
+  --bg-deep: var(--void);
+  --bg-raised: var(--charcoal);
+  --bg-inset: var(--charcoal-soft);
+  --bg-overlay: rgb(11 11 14 / 0.82);
+
+  /* --- Semantic text ---------------------------------------------------- */
+  --fg: var(--parchment);
+  --fg-strong: var(--ivory);
+  --fg-muted: var(--parchment-dim);
+  --fg-faint: var(--parchment-faint);
+
+  /* --- Semantic accent / lines ------------------------------------------ */
+  --accent: var(--amber);
+  --accent-strong: var(--amber-bright);
+  --accent-dim: var(--amber-deep);
+  --border: #26262d;
+  --border-strong: #35353e;
+  --selection-bg: var(--amber-ash);
+  --selection-fg: var(--ivory);
+
+  /* --- The Dot ----------------------------------------------------------- */
+  --dot: var(--amber-bright);
+  --dot-glow: rgb(227 172 99 / 0.35);
+
+  /* --- Layout ------------------------------------------------------------ */
+  --gutter: 1.25rem;
+  --measure: 68ch;
+  --width-content: 46rem;
+  --width-wide: 76rem;
+  --nav-height: 4rem;
+
+  /* --- Motion ------------------------------------------------------------ */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 620ms;
+  --dur-cinematic: 1200ms;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 2.5rem;
+    --nav-height: 4.5rem;
+  }
+}
+
+/* ==========================================================================
+   TAILWIND THEME MAPPING (v4 is configured in CSS, not tailwind.config.js)
+   `inline` keeps the utilities pointing at the live custom properties above.
+   ========================================================================== */
+
+@theme inline {
+  --color-void: var(--void);
+  --color-ink: var(--ink);
+  --color-charcoal: var(--charcoal);
+  --color-charcoal-soft: var(--charcoal-soft);
+  --color-charcoal-raised: var(--charcoal-raised);
+
+  --color-ivory: var(--ivory);
+  --color-parchment: var(--parchment);
+  --color-parchment-dim: var(--parchment-dim);
+  --color-parchment-faint: var(--parchment-faint);
+  --color-parchment-ghost: var(--parchment-ghost);
+
+  --color-amber: var(--amber);
+  --color-amber-bright: var(--amber-bright);
+  --color-amber-deep: var(--amber-deep);
+  --color-amber-ash: var(--amber-ash);
+
+  --color-forest: var(--forest);
+  --color-forest-bright: var(--forest-bright);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-brown: var(--brown);
+
+  --color-bg: var(--bg);
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-inset: var(--bg-inset);
+  --color-fg: var(--fg);
+  --color-fg-strong: var(--fg-strong);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-dim: var(--accent-dim);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-dot: var(--dot);
+
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-devanagari: var(--font-tiro-devanagari), "Noto Serif Devanagari", serif;
+
+  --container-content: var(--width-content);
+  --container-wide: var(--width-wide);
+
+  --ease-expo: var(--ease-out-expo);
+  --ease-quart: var(--ease-out-quart);
+  --ease-soft: var(--ease-in-out-soft);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Lenis drives scrolling; native smooth scroll would fight it. Keep the
+     native behaviour only as the reduced-motion / no-JS fallback. */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Sanskrit lines need extra leading — Devanagari stacks above and below. */
+  [lang="sa"],
+  [lang="hi"] {
+    font-family: var(--font-devanagari);
+    line-height: 1.9;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.lenis) {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   UTILITIES
+   ========================================================================== */
+
+@utility gutter {
+  padding-inline: var(--gutter);
+}
+
+@utility measure {
+  max-inline-size: var(--measure);
+}
