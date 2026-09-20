@@ -40,22 +40,6 @@ export const pursuits: readonly Pursuit[] = [
 ];
 
 /**
- * Fragments, set in the hand font and scattered like paper. Rotations are
- * hand-picked — a random tilt reads as a glitch, a chosen one reads as a person.
- */
-export interface NoteFragment {
-  text: string;
-  rotate: number;
-}
-
-export const notes: readonly NoteFragment[] = [
-  { text: "the bug was the assumption, again", rotate: -2.5 },
-  { text: "re-read ch. 6 — I don't think I understood it", rotate: 1.8 },
-  { text: "why does this melody work?", rotate: -1.2 },
-  { text: "ask: what would have to be true?", rotate: 2.2 },
-];
-
-/**
  * The waveform is **decorative**. facts.md records no recording, so there is nothing to
  * play and nothing is implied. If a real recording ever exists, put its URL here and the
  * component will say so instead of staying quiet.

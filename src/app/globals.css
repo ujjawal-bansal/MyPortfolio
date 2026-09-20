@@ -132,8 +132,7 @@
 
   /*
     Two raw tokens, not semantic ones, because things read them directly:
-    `--parchment-dim` is the architecture diagrams' client nodes and the handwritten
-    notes in Beyond code (4.07:1 at their 80% alpha, 6.48:1 in the diagrams), and
+    `--parchment-dim` is the architecture diagrams' client nodes (6.48:1 here), and
     `--parchment-faint` is what the canvas scene resolves its particle colour from.
     Left at their dark values both would sit near 1.3:1 on parchment and vanish.
   */
@@ -200,7 +199,6 @@
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-devanagari: var(--font-tiro-devanagari), "Noto Serif Devanagari", serif;
-  --font-hand: var(--font-caveat), ui-rounded, cursive;
 
   --container-content: var(--width-content);
   --container-wide: var(--width-wide);

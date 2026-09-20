@@ -1,5 +1,5 @@
 import { Section } from "@/components/ui/Section";
-import { notes, pursuits, recording, waveform } from "@/content/beyondCode";
+import { pursuits, recording, waveform } from "@/content/beyondCode";
 import { sectionById } from "@/content/sections";
 import { isPending } from "@/content/types";
 import { Library } from "./Library";
@@ -15,7 +15,12 @@ export function BeyondCode() {
 
   return (
     <Section meta={meta}>
-      <div className="mt-12 grid gap-16 md:mt-16 lg:grid-cols-[1fr_20rem] lg:gap-20">
+      {/*
+        One column now — the right-hand track existed only for the note fragments. Capped
+        at the width that track used to leave, so the rules still end near the text rather
+        than running the full 1136px over a 544px measure.
+      */}
+      <div className="mt-12 max-w-3xl md:mt-16">
         <div>
           <dl className="space-y-10">
             {pursuits.map((pursuit) => (
@@ -28,19 +33,6 @@ export function BeyondCode() {
 
           <Waveform />
         </div>
-
-        {/* Notes, pinned like paper. */}
-        <aside aria-label="Notes to myself" className="space-y-7 lg:pt-4">
-          {notes.map((note) => (
-            <p
-              key={note.text}
-              className="font-hand text-2xl leading-snug text-parchment-dim/80"
-              style={{ transform: `rotate(${note.rotate}deg)` }}
-            >
-              {note.text}
-            </p>
-          ))}
-        </aside>
       </div>
 
       <Library />
