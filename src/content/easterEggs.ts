@@ -16,12 +16,6 @@ export const netiNetiSteps: readonly string[] = [
   "Removing the interface.",
 ];
 
-/** Only for someone who reached the bottom and then came back up past the hero. */
-export const scrollBackNote = {
-  title: "You went back.",
-  body: "Most people do not. The dot you started on is the one you are looking at now — it has just been through a system since.",
-};
-
 /** Revealed from the third visit onward. */
 export const returningHint = "⌘K";
 

@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { useReducedMotion } from "@/hooks";
-import { useAppStore } from "@/lib/store";
 
 /**
  * Lenis smooth scroll, driven by GSAP's ticker so ScrollTrigger and Lenis share one
@@ -18,7 +17,6 @@ import { useAppStore } from "@/lib/store";
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const reducedMotion = useReducedMotion();
-  const noteScrollDirection = useAppStore((s) => s.noteScrollDirection);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -57,33 +55,6 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       lenis.destroy();
     };
   }, [reducedMotion]);
-
-  // Scroll direction is tracked natively so it works with or without Lenis.
-  useEffect(() => {
-    let last = window.scrollY;
-    let frame = 0;
-
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        const y = window.scrollY;
-        // Ignore sub-pixel jitter and rubber-banding at the top.
-        if (Math.abs(y - last) > 4 && y > 0) {
-          noteScrollDirection(y < last ? "up" : "down");
-          last = y;
-        } else if (y <= 0) {
-          last = y;
-        }
-      });
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [noteScrollDirection]);
 
   return <>{children}</>;
 }

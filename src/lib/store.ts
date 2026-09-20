@@ -31,9 +31,6 @@ export interface AppState {
   // ---- Scroll position ------------------------------------------------------
   activeSection: string;
   setActiveSection: (id: string) => void;
-  /** Powers "something that appears only after scrolling back upwards". */
-  hasScrolledUp: boolean;
-  noteScrollDirection: (direction: "up" | "down") => void;
 
   // ---- Visits ---------------------------------------------------------------
   /** 0 until the client has read localStorage, so SSR and hydration agree. */
@@ -96,10 +93,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (get().activeSection === id) return;
     set({ activeSection: id });
     emit("section:enter", { id });
-  },
-  hasScrolledUp: false,
-  noteScrollDirection: (direction) => {
-    if (direction === "up" && !get().hasScrolledUp) set({ hasScrolledUp: true });
   },
 
   visits: 0,
