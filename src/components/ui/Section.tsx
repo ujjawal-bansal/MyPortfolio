@@ -25,7 +25,7 @@ export function Section({
       // overflow-x-clip, not hidden: GSAP parks elements at an x-offset until their
       // ScrollTrigger fires, which would otherwise widen the page. `clip` contains that
       // without creating a scroll container, so `position: sticky` still works inside.
-      className={cn("relative scroll-mt-20 overflow-x-clip py-20 md:py-24", className)}
+      className={cn("relative scroll-mt-8 overflow-x-clip py-16 md:py-20", className)}
     >
       <div className={cn("mx-auto w-full max-w-wide gutter", contentClassName)}>
         {meta.kicker ? (

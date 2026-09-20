@@ -39,7 +39,17 @@ export function Ambient() {
 
     const onScroll = () => {
       const doc = document.documentElement;
-      const atBottom = window.scrollY + window.innerHeight >= doc.scrollHeight - 120;
+      /*
+        Both extra clauses guard against the same failure: before layout settles,
+        `scrollHeight` is short enough that scroll position 0 satisfies "at the bottom".
+        Scroll 0 is also "back up at the hero", so the reward fired on load — for
+        everyone, including anyone following an anchor link. Require a page genuinely
+        taller than two viewports, and a visitor who has actually gone down one.
+      */
+      const atBottom =
+        doc.scrollHeight > window.innerHeight * 2 &&
+        window.scrollY > window.innerHeight &&
+        window.scrollY + window.innerHeight >= doc.scrollHeight - 120;
       if (atBottom) reachedBottom.current = true;
 
       const hero = document.getElementById("hero");

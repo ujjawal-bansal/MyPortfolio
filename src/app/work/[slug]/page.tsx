@@ -90,7 +90,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
               <section
                 key={section.id}
                 id={section.id}
-                className="grid scroll-mt-16 grid-cols-1 gap-x-12 border-t border-line/60 py-12 md:grid-cols-[14rem_minmax(0,1fr)] md:py-16"
+                className="grid scroll-mt-8 grid-cols-1 gap-x-12 border-t border-line/60 py-12 md:grid-cols-[14rem_minmax(0,1fr)] md:py-16"
               >
                 <h2 className="mb-5 md:mb-0">
                   <span className="mr-3 font-mono text-xs text-fg-ghost tabular-nums">

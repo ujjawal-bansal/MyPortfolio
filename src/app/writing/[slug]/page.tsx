@@ -86,7 +86,7 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
             <section
               key={part.id}
               id={part.id}
-              className="scroll-mt-20 border-t border-line/60 pt-12 pb-4 md:pt-16"
+              className="scroll-mt-8 border-t border-line/60 pt-12 pb-4 md:pt-16"
             >
               <h2 className="flex items-baseline gap-4">
                 <span className="font-mono text-xs text-fg-ghost tabular-nums">
