@@ -22,21 +22,22 @@ npm run lint
 
 Content is data, components render it. Nothing user-facing is hard-coded in a component.
 
-| Path                       | What lives there                                                                                 |
-| -------------------------- | ------------------------------------------------------------------------------------------------ |
-| `src/content/*.ts`         | Every string on the site, typed                                                                  |
-| `src/components/sections/` | One component per section of the page                                                            |
-| `src/components/ui/`       | Shared pieces: `Section`, `DotNav`, `ThemeToggle`, links                                         |
-| `src/lib/dot-scene/`       | The Canvas 2D particle engine                                                                    |
-| `src/app/`                 | Routes, OG image generation, sitemap, robots                                                     |
-| `docs/`                    | `facts.md` (source of truth), `SOURCES.md` (every Sanskrit citation), `DEPLOY.md`, `PROGRESS.md` |
+| Path                       | What lives there                                         |
+| -------------------------- | -------------------------------------------------------- |
+| `src/content/*.ts`         | Every string on the site, typed                          |
+| `src/components/sections/` | One component per section of the page                    |
+| `src/components/ui/`       | Shared pieces: `Section`, `DotNav`, `ThemeToggle`, links |
+| `src/lib/dot-scene/`       | The Canvas 2D particle engine                            |
+| `src/app/`                 | Routes, OG image generation, sitemap, robots             |
 
 Two rules the content follows:
 
-- **`docs/facts.md` is authoritative.** Nothing about the projects, the timeline or the
-  stack is written from memory; where it disagrees with anything else, it wins.
-- **Sanskrit only from `docs/SOURCES.md`**, where each line carries its text, translation,
-  source and the readings that disagree with each other.
+- **Nothing is written from memory.** Every claim about the projects, the timeline and
+  the stack is checked against a fact sheet kept alongside the repo; where that sheet
+  disagrees with anything else, it wins.
+- **Every Sanskrit line is cited.** Each one is recorded with its text, transliteration,
+  translation, source, and the readings that disagree with each other, before it reaches
+  a component. Nothing on the site is decorative Sanskrit.
 
 ## Accessibility and motion
 
@@ -46,4 +47,7 @@ passes AA. Both themes ship: dark by default, light behind an explicit toggle.
 
 ## Deploying
 
-See [`docs/DEPLOY.md`](docs/DEPLOY.md).
+Vercel, with defaults. One optional environment variable, `NEXT_PUBLIC_SITE_URL`, sets
+the canonical origin for `sitemap.xml`, the canonical tag and the Open Graph images; it
+is baked at build time, so set it before the build you intend to serve. Without it the
+site falls back to Vercel's own origin and stays correct.
