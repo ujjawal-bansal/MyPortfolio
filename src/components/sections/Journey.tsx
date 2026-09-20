@@ -51,7 +51,7 @@ export function Journey() {
 
   return (
     <Section meta={meta}>
-      <div ref={scope} className="relative mt-12 md:mt-16">
+      <div ref={scope} className="relative mt-8 md:mt-10">
         {/* The spine, behind the points. */}
         <span
           aria-hidden
@@ -59,7 +59,7 @@ export function Journey() {
           className="absolute top-2 bottom-2 left-[5px] w-px bg-line-strong md:left-[calc(9rem+5px)]"
         />
 
-        <ol className="space-y-10 md:space-y-12">
+        <ol className="space-y-7 md:space-y-8">
           {journey.map((milestone) => (
             <li
               key={milestone.id}

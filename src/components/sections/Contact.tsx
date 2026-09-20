@@ -45,7 +45,7 @@ export function Contact() {
       </p>
       <p className="mt-5 text-lg text-fg-muted measure">{site.contact.body}</p>
 
-      <ul className="mt-14 flex flex-wrap items-center gap-5">
+      <ul className="mt-10 flex flex-wrap items-center gap-5">
         {CHANNELS.map(({ key, mark }) => {
           const link = site.links[key];
           const glyph = brandMarks[mark];

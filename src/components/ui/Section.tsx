@@ -32,7 +32,7 @@ export function Section({
       // overflow-x-clip, not hidden: GSAP parks elements at an x-offset until their
       // ScrollTrigger fires, which would otherwise widen the page. `clip` contains that
       // without creating a scroll container, so `position: sticky` still works inside.
-      className={cn("relative scroll-mt-8 overflow-x-clip py-16 md:py-20", className)}
+      className={cn("relative scroll-mt-8 overflow-x-clip pt-8 pb-16 md:pt-10 md:pb-20", className)}
     >
       {lead}
 

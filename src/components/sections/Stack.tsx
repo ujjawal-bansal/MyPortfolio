@@ -41,7 +41,7 @@ export function Stack() {
 
   return (
     <Section meta={meta}>
-      <div ref={scope} className="relative mt-12 md:mt-16">
+      <div ref={scope} className="relative mt-8 md:mt-10">
         <span
           aria-hidden
           className="absolute top-3 bottom-3 left-[5px] w-px bg-line-strong/70 md:left-[calc(11rem+5px)]"
@@ -52,7 +52,7 @@ export function Stack() {
             <li
               key={group.id}
               data-stage
-              className="relative grid grid-cols-1 gap-x-8 gap-y-3 pb-12 pl-8 last:pb-0 md:grid-cols-[11rem_1fr] md:pl-0"
+              className="relative grid grid-cols-1 gap-x-8 gap-y-3 pb-8 pl-8 last:pb-0 md:grid-cols-[11rem_1fr] md:pl-0"
             >
               {/* Stage name: what this layer does, not what it is. */}
               <div className="md:text-right">

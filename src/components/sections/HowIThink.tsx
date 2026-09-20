@@ -52,7 +52,7 @@ export function HowIThink() {
 
   return (
     <Section meta={meta}>
-      <div ref={scope} className="mt-12 md:mt-16">
+      <div ref={scope} className="mt-8 md:mt-10">
         {howIThink.map((habit, index) => {
           const isAccept = habit.id === control.habitId;
 
@@ -60,7 +60,7 @@ export function HowIThink() {
             <article
               key={habit.id}
               data-habit
-              className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-line/50 py-8 md:grid-cols-[13rem_1fr] md:py-10"
+              className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-line/50 py-6 md:grid-cols-[13rem_1fr] md:py-8"
             >
               <header data-verb className="flex items-baseline gap-4 md:block">
                 <span className="font-mono text-xs text-fg-ghost tabular-nums">

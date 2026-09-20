@@ -18,12 +18,12 @@ export function Projects() {
 
   return (
     <Section meta={meta}>
-      <ul data-neti-layer="work" className="mt-12 md:mt-16">
+      <ul data-neti-layer="work" className="mt-8 md:mt-10">
         {projects.map((project, index) => (
           <li key={project.slug}>
             <Link
               href={`/work/${project.slug}`}
-              className="group grid grid-cols-1 items-center gap-6 border-t border-line/60 py-10 md:grid-cols-[1fr_16rem] md:gap-14 md:py-14"
+              className="group grid grid-cols-1 items-center gap-6 border-t border-line/60 py-7 md:grid-cols-[1fr_16rem] md:gap-14 md:py-9"
             >
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">

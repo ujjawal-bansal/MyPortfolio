@@ -65,7 +65,7 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
     // section. The hero's space is the gap.
     <Section meta={meta} className="pt-0 md:pt-0" lead={lead}>
       <div ref={scope}>
-        <ol className="mt-12 md:mt-16">
+        <ol className="mt-8 md:mt-10">
           {identities.map((identity) => (
             <li
               key={identity.text}
