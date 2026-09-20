@@ -16,6 +16,11 @@ import { useMotionEffect } from "@/hooks";
  * same line, joined rather than merely adjacent — the claim being that they are one
  * habit, not two that happen to rhyme.
  *
+ * The pair is the whole argument, so the paragraph that used to sit under each verb is
+ * gone. Seven of them turned a list you could take in into an essay you had to read, and
+ * the verb plus its line already says it. `body` survives as optional and CREATE is the
+ * only one still using it.
+ *
  * Mobile is not the desktop grid stacked. On wide screens the pair sits either side of
  * a centre rule; on narrow ones it becomes a bracketed pair against a left spine, which
  * keeps the "these two are the same thing" reading without needing two columns.
@@ -55,7 +60,7 @@ export function HowIThink() {
             <article
               key={habit.id}
               data-habit
-              className="grid grid-cols-1 gap-x-10 gap-y-5 border-t border-line/50 py-10 md:grid-cols-[13rem_1fr] md:py-14"
+              className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-line/50 py-8 md:grid-cols-[13rem_1fr] md:py-10"
             >
               <header data-verb className="flex items-baseline gap-4 md:block">
                 <span className="font-mono text-xs text-fg-ghost tabular-nums">
@@ -73,7 +78,7 @@ export function HowIThink() {
                 <div
                   data-pair
                   className={cn(
-                    "mt-7 grid gap-x-8 gap-y-4",
+                    "mt-5 grid gap-x-8 gap-y-4",
                     "border-l border-line/60 pl-5",
                     "md:grid-cols-[1fr_auto_1fr] md:items-center md:border-l-0 md:pl-0",
                   )}
@@ -89,12 +94,8 @@ export function HowIThink() {
                   </p>
                 </div>
 
-                <p className="mt-7 leading-relaxed text-fg-muted measure">{habit.body}</p>
-
-                {habit.inPractice ? (
-                  <p className="mt-5 border-l-2 border-accent-dim/40 py-1 pl-4 text-sm text-fg-faint measure">
-                    {habit.inPractice}
-                  </p>
+                {habit.body ? (
+                  <p className="mt-7 leading-relaxed text-fg-muted measure">{habit.body}</p>
                 ) : null}
 
                 {/* The dichotomy of control lives inside ACCEPT, not in a box of its own. */}
