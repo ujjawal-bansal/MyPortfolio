@@ -14,24 +14,27 @@ export async function generateMetadata({ params }: PageProps<"/writing/[slug]">)
 
   return {
     title: post.title,
-    description: post.pivot,
+    description: post.standfirst,
     openGraph: {
       type: "article",
       title: post.title,
-      description: post.pivot,
+      description: post.standfirst,
       url: `/writing/${post.slug}`,
     },
-    twitter: { card: "summary_large_image", title: post.title, description: post.pivot },
+    twitter: { card: "summary_large_image", title: post.title, description: post.standfirst },
   };
 }
 
 /**
- * One post.
+ * One post, in parts.
  *
- * The mirror is the post: the same question in two vocabularies with a rule between them,
- * which was the best idea in the section these came from and is the right size for an
- * essay rather than for a whole page of them. The pivot sits under it because it is the
- * sentence the two columns are both reaching for.
+ * The mirror is the shape of each part: the same question in two vocabularies with a rule
+ * between them. That was the best idea in the section these came from, and it is the right
+ * size for a section of an essay rather than for a whole page of them. The pivot follows,
+ * because it is the sentence both columns are reaching for.
+ *
+ * Six parts is long enough that a reader deserves to see the shape before committing, so
+ * the contents list is real in-page anchors rather than decoration.
  */
 export default async function WritingPost({ params }: PageProps<"/writing/[slug]">) {
   const { slug } = await params;
@@ -43,7 +46,7 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
   return (
     <main id="main-content" className="relative z-10 flex-1">
       <article>
-        <header className="mx-auto w-full max-w-wide gutter pt-28 pb-8 md:pt-36 md:pb-10">
+        <header className="mx-auto w-full max-w-wide gutter pt-28 pb-8 md:pt-36 md:pb-12">
           <Link
             href="/#writing"
             className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
@@ -51,47 +54,80 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
             ← All writing
           </Link>
 
-          <h1 className="mt-8 font-serif text-5xl font-light tracking-tight text-fg-strong md:text-6xl">
+          <h1 className="mt-8 font-serif text-5xl font-light tracking-tight text-balance text-fg-strong measure md:text-6xl">
             {post.title}
           </h1>
+
+          <p className="mt-7 font-serif text-xl text-balance text-fg-muted italic measure md:text-2xl">
+            {post.standfirst}
+          </p>
+
+          {/* The shape of what follows, before committing to it. */}
+          {post.parts.length > 1 ? (
+            <nav aria-label="Contents" className="mt-12">
+              <ol className="flex flex-wrap gap-x-6 gap-y-2">
+                {post.parts.map((part, index) => (
+                  <li key={part.id}>
+                    <a
+                      href={`#${part.id}`}
+                      className="font-mono text-[0.6875rem] tracking-[0.15em] text-fg-ghost uppercase transition-colors hover:text-accent focus-visible:text-accent"
+                    >
+                      <span className="tabular-nums">{String(index + 1).padStart(2, "0")}</span> {part.title}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          ) : null}
         </header>
 
         <div className="mx-auto w-full max-w-wide gutter pb-24">
-          {/*
-            The two vocabularies, with the rule between them. It stacks on a phone, where
-            a vertical rule between two columns of four words each would be absurd.
-          */}
-          <div className="grid gap-8 border-t border-line/60 py-12 md:grid-cols-2 md:gap-0 md:py-16">
-            <div className="md:pr-12">
-              <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
-                Philosophy asks
-              </p>
-              <p className="mt-4 font-serif text-2xl text-balance text-fg-strong md:text-3xl">
-                {post.philosophy}
-              </p>
-            </div>
-            <div className="md:border-l md:border-line/60 md:pl-12">
-              <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
-                Engineering asks
-              </p>
-              <p className="mt-4 font-serif text-2xl text-balance text-fg-strong md:text-3xl">
-                {post.engineering}
-              </p>
-            </div>
-          </div>
+          {post.parts.map((part, index) => (
+            <section
+              key={part.id}
+              id={part.id}
+              className="scroll-mt-20 border-t border-line/60 pt-12 pb-4 md:pt-16"
+            >
+              <h2 className="flex items-baseline gap-4">
+                <span className="font-mono text-xs text-fg-ghost tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="font-serif text-3xl text-fg-strong md:text-4xl">{part.title}</span>
+              </h2>
 
-          {/* The sentence both columns are reaching for. */}
-          <p className="border-l-2 border-accent-dim/60 py-1 pl-6 font-serif text-2xl text-balance text-accent italic measure md:text-3xl">
-            {post.pivot}
-          </p>
+              {/*
+                The two vocabularies, with the rule between them. It stacks on a phone,
+                where a vertical rule between two columns of four words would be absurd.
+              */}
+              <div className="mt-10 grid gap-8 md:grid-cols-2 md:gap-0">
+                <div className="md:pr-12">
+                  <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
+                    Philosophy asks
+                  </p>
+                  <p className="mt-3 font-serif text-2xl text-balance text-fg-strong">{part.philosophy}</p>
+                </div>
+                <div className="md:border-l md:border-line/60 md:pl-12">
+                  <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
+                    Engineering asks
+                  </p>
+                  <p className="mt-3 font-serif text-2xl text-balance text-fg-strong">{part.engineering}</p>
+                </div>
+              </div>
 
-          <p className="mt-12 text-lg leading-relaxed text-balance text-fg measure">{post.body}</p>
+              {/* The sentence both columns are reaching for. */}
+              <p className="mt-10 border-l-2 border-accent-dim/60 py-1 pl-6 font-serif text-2xl text-balance text-accent italic measure">
+                {part.pivot}
+              </p>
 
-          {post.sourceId ? (
-            <p className="mt-10 font-mono text-[0.6875rem] text-fg-ghost">
-              Cited in docs/SOURCES.md as <span className="text-fg-faint">{post.sourceId}</span>.
-            </p>
-          ) : null}
+              <p className="mt-8 text-lg leading-relaxed text-balance text-fg measure">{part.body}</p>
+
+              {part.sourceId ? (
+                <p className="mt-6 font-mono text-[0.6875rem] text-fg-ghost">
+                  Cited in docs/SOURCES.md as <span className="text-fg-faint">{part.sourceId}</span>.
+                </p>
+              ) : null}
+            </section>
+          ))}
         </div>
 
         {next ? (

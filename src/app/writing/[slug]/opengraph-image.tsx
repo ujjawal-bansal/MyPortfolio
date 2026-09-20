@@ -13,8 +13,7 @@ export function generateStaticParams() {
 
 /**
  * One social card per post. Posts get shared more than anything else on the site, so the
- * card leads with the pivot — the line each piece was built around — rather than with a
- * truncated first paragraph.
+ * card leads with the standfirst, which is the line the post was written to answer.
  *
  * Satori resolves neither CSS custom properties nor the site stylesheet, so the palette
  * comes from lib/palette.ts, which is the single source these literals share with
@@ -44,11 +43,11 @@ export default async function WritingImage({ params }: { params: Promise<{ slug:
       </div>
 
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: 82, color: palette.ivory, letterSpacing: "-0.02em" }}>
+        <div style={{ fontSize: 64, color: palette.ivory, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
           {post?.title ?? "Writing"}
         </div>
-        <div style={{ marginTop: 24, fontSize: 32, color: palette.amber, fontStyle: "italic" }}>
-          {post?.pivot ?? ""}
+        <div style={{ marginTop: 26, fontSize: 26, color: palette.parchmentDim, lineHeight: 1.45 }}>
+          {post?.standfirst ?? ""}
         </div>
       </div>
 

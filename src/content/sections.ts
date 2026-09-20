@@ -51,9 +51,9 @@ export const sections: readonly SectionMeta[] = [
   },
   {
     id: "writing",
-    title: "Why does a developer read philosophy?",
+    title: "Things worth writing down",
     navLabel: "Writing",
-    kicker: "Philosophy × Engineering",
+    kicker: "Longer form",
   },
   {
     id: "journey",
