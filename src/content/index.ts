@@ -26,7 +26,8 @@ export {
   books,
   categories,
   booksByCategory,
-  libraryIsPlaceholder,
+  shelfIsEmpty,
+  shelfNote,
   type Book,
   type Category,
 } from "./library";

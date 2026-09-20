@@ -1,12 +1,16 @@
-import { PENDING, type Maybe } from "./types";
+import type { Maybe } from "./types";
 
 /**
- * Reading archive.
+ * The shelf.
  *
- * ⚠️ Every entry below is a PLACEHOLDER. docs/facts.md records the reading list as
- * unfilled, and the brief is explicit: do not fabricate books Ujjawal has read.
- * These exist so the UI can be built and laid out. They must be replaced before
- * this section ships — see `libraryIsPlaceholder`.
+ * It is empty, and that is the honest state: docs/facts.md records the reading list as
+ * unfilled, and the brief is explicit about not fabricating books Ujjawal has read. It
+ * used to hold fifteen dashed rectangles labelled "empty" so the layout could be tested,
+ * which made a finished section look broken.
+ *
+ * So the shelves are the content now. Each one says what it is for, which is true today
+ * and stays true after books land on it. Adding a `Book` here makes a spine stand up on
+ * its shelf — nothing else has to change.
  */
 
 export interface Book {
@@ -23,7 +27,7 @@ export interface Book {
 export interface Category {
   id: string;
   label: string;
-  /** One line about what this shelf is for. */
+  /** One line about what this shelf is for. True whether or not anything stands on it. */
   line: string;
 }
 
@@ -55,25 +59,22 @@ export const categories: readonly Category[] = [
   },
 ];
 
-/** Placeholder shelf. Three slots per category so the layout can be tested at realistic density. */
-export const books: readonly Book[] = categories.flatMap((category) =>
-  [1, 2, 3].map((n): Book => ({
-    id: `${category.id}-${n}`,
-    title: PENDING,
-    author: PENDING,
-    categoryId: category.id,
-    note: PENDING,
-    status: "unread",
-  })),
-);
+/**
+ * States the absence outright, the way the waveform's caption does, rather than leaving
+ * the section looking unfinished. Delete this line the day a book lands and it stops
+ * being true.
+ */
+export const shelfNote = "Nothing on it yet. A reading list is easy to write and hard to mean.";
 
 /**
- * Guard for the whole section. While true, the section must either stay unpublished
- * or render an explicit "not filled in yet" state — never placeholder rows dressed
- * up as a reading list.
+ * Empty on purpose. Real entries go here — one object per book — and the shelf renders
+ * them without any other change.
  */
-export const libraryIsPlaceholder = true;
+export const books: readonly Book[] = [];
 
 export function booksByCategory(categoryId: string): readonly Book[] {
   return books.filter((b) => b.categoryId === categoryId);
 }
+
+/** Derived, not a flag: a hand-maintained boolean goes stale the day books are added. */
+export const shelfIsEmpty = books.length === 0;

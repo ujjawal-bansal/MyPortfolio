@@ -1,45 +1,54 @@
-import { booksByCategory, categories, libraryIsPlaceholder } from "@/content/library";
+import { booksByCategory, categories, shelfIsEmpty, shelfNote } from "@/content/library";
 import { isPending } from "@/content/types";
 import { cn } from "@/lib/utils";
 
 /**
- * The reading archive: books as spines standing on a shelf, grouped by tradition.
+ * The reading archive (BRIEF §24), as a bookcase.
  *
- * **Every book here is a placeholder.** facts.md records the reading list as unfilled and
- * the brief is explicit about not fabricating books Ujjawal has read, so the spines are
- * drawn blank and labelled as empty slots. The architecture is real; the contents are
- * openly missing, which is the only honest way to ship this section early.
+ * It used to be fifteen dashed rectangles labelled "empty", which made a finished section
+ * look broken. Nothing is invented to replace them — facts.md records the reading list as
+ * unfilled and the brief forbids fabricating books — so the shelves themselves carry the
+ * meaning. What each one is for is true today and stays true once books land on it.
+ *
+ * The two side rails are the whole trick: five horizontal rules on their own read as a
+ * table, which is what this section is least. Bound at both ends they read as a case, and
+ * an empty case is a thing that looks deliberate rather than unfinished.
+ *
+ * Adding a `Book` to library.ts makes a spine stand up on its shelf. Nothing here needs
+ * to change for that, and `shelfNote` should be deleted the day it stops being true.
  */
 export function Library() {
   return (
     <section aria-labelledby="library-heading" className="mt-24 md:mt-32">
-      <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h3 id="library-heading" className="font-serif text-2xl text-fg-strong md:text-3xl">
-          The shelf
-        </h3>
-        {libraryIsPlaceholder ? (
-          <p className="rounded-full border border-line px-3 py-1 font-mono text-[0.625rem] tracking-[0.15em] text-fg-ghost uppercase">
-            Empty — Ujjawal has not filled this in
-          </p>
-        ) : null}
-      </div>
+      <h3 id="library-heading" className="font-serif text-2xl text-fg-strong md:text-3xl">
+        The shelf
+      </h3>
 
-      <div className="mt-12 space-y-14">
+      {/* States the absence outright, the way the waveform's caption does. */}
+      {shelfIsEmpty ? <p className="mt-4 text-fg-faint measure">{shelfNote}</p> : null}
+
+      <div className="mt-10 max-w-2xl divide-y divide-line-strong/40 rounded-sm border border-line-strong/40">
         {categories.map((category) => {
-          const books = booksByCategory(category.id);
+          const shelved = booksByCategory(category.id);
 
           return (
-            <div key={category.id}>
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <div key={category.id} className="px-5 pt-5 sm:px-6">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h4 className="font-mono text-xs tracking-[0.2em] text-accent uppercase">{category.label}</h4>
                 <p className="text-sm text-fg-faint">{category.line}</p>
               </div>
 
-              {/* The shelf: spines stand on a rule. */}
-              <div className="mt-5">
-                <ul className="flex flex-wrap items-end gap-2.5">
-                  {books.map((book, index) => {
-                    const empty = isPending(book.title);
+              {/*
+                Where the spines stand. Empty, it is open space above the shelf — the
+                emptiness made visible on purpose, rather than drawn as broken slots.
+                A spacer rather than an empty <ul>, which would announce "list, 0 items".
+              */}
+              {shelved.length === 0 ? (
+                <div aria-hidden className="h-12" />
+              ) : (
+                <ul className="mt-5 flex flex-wrap items-end gap-2.5">
+                  {shelved.map((book, index) => {
+                    const untitled = isPending(book.title);
                     // Varied heights so a shelf reads as a shelf and not as a chart.
                     const height = 96 + ((index * 37) % 4) * 14;
 
@@ -49,25 +58,24 @@ export function Library() {
                           style={{ height }}
                           className={cn(
                             "flex w-11 items-end justify-center rounded-t-sm border border-b-0 pb-3",
-                            empty ? "border-dashed border-line-strong/70" : "border-line bg-bg-raised",
+                            untitled ? "border-dashed border-line-strong/70" : "border-line bg-bg-raised",
                           )}
                         >
                           <span
                             className={cn(
                               "font-mono text-[0.625rem] tracking-wide",
-                              empty ? "text-fg-ghost" : "text-fg-muted",
+                              untitled ? "text-fg-ghost" : "text-fg-muted",
                             )}
                             style={{ writingMode: "vertical-rl", rotate: "180deg" }}
                           >
-                            {empty ? "empty" : book.title}
+                            {untitled ? "untitled" : book.title}
                           </span>
                         </div>
                       </li>
                     );
                   })}
                 </ul>
-                <div className="h-px w-full bg-line-strong/60" />
-              </div>
+              )}
             </div>
           );
         })}
