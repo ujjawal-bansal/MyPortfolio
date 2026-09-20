@@ -51,7 +51,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <header className="mx-auto w-full max-w-wide gutter pt-28 pb-14 md:pt-36 md:pb-20">
             <Link
               href="/#projects"
-              className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
+              className="-my-2 inline-block py-2 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
             >
               ← All work
             </Link>

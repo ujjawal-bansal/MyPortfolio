@@ -1,7 +1,6 @@
 export { Hero } from "./Hero";
 export { Self } from "./Self";
 export { HowIThink } from "./HowIThink";
-export { Writing } from "./Writing";
 export { Projects } from "./Projects";
 export { BeyondCode } from "./BeyondCode";
 export { Journey } from "./Journey";

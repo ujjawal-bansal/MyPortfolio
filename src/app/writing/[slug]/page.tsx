@@ -48,8 +48,8 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
       <article>
         <header className="mx-auto w-full max-w-wide gutter pt-28 pb-8 md:pt-36 md:pb-12">
           <Link
-            href="/#writing"
-            className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
+            href="/writing"
+            className="-my-2 inline-block py-2 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase transition-colors hover:text-accent"
           >
             ← All writing
           </Link>

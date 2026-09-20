@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { Section } from "@/components/ui/Section";
+import { WritingLink } from "@/components/ui/WritingLink";
 import { control, howIThink } from "@/content/howIThink";
 import { stoic } from "@/content/philosophy";
 import { sectionById } from "@/content/sections";
@@ -140,6 +141,9 @@ export function HowIThink() {
           );
         })}
       </div>
+
+      {/* The same thinking at length. This is the sentence the writing finishes. */}
+      <WritingLink className="mt-16 md:mt-20" />
     </Section>
   );
 }

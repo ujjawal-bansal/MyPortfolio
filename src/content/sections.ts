@@ -50,12 +50,6 @@ export const sections: readonly SectionMeta[] = [
     kicker: "Seven verbs",
   },
   {
-    id: "writing",
-    title: "Things worth writing down",
-    navLabel: "Writing",
-    kicker: "Longer form",
-  },
-  {
     id: "journey",
     title: "Journey",
     navLabel: "Journey",

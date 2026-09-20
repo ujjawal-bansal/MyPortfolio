@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
+    { url: `${siteUrl}/writing`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.7 },
     ...posts.map((post) => ({
       url: `${siteUrl}/writing/${post.slug}`,
       lastModified: now,

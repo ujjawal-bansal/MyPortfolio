@@ -8,7 +8,6 @@ import {
   Projects,
   Self,
   Stack,
-  Writing,
 } from "@/components/sections";
 import { DotSceneLazy } from "@/components/three/DotSceneLazy";
 import { mainContentId } from "@/content/sections";
@@ -28,7 +27,6 @@ export default function Home() {
         <Self />
         <Projects />
         <HowIThink />
-        <Writing />
         <Journey />
         <Stack />
         <BeyondCode />
