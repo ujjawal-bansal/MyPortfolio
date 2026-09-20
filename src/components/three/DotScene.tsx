@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useHasFinePointer, useIsMobile, useReducedMotion } from "@/hooks";
+import { useHasFinePointer, useIsMobile, useReducedMotion, useTheme } from "@/hooks";
 import { particleWord } from "@/content/fragments";
 import { createDotScene } from "@/lib/dot-scene/engine";
 import type { DotSceneHandle } from "@/lib/dot-scene/types";
@@ -23,6 +23,7 @@ export default function DotScene() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const reducedMotion = useReducedMotion();
+  const { theme } = useTheme();
   const isMobile = useIsMobile();
   const hasFinePointer = useHasFinePointer();
 
@@ -126,7 +127,9 @@ export default function DotScene() {
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
       scene.destroy();
     };
-  }, [reducedMotion, isMobile, hasFinePointer]);
+    // `theme` is in the deps because the scene resolves these tokens once into canvas
+    // fill styles; without it the particles keep the previous theme's colours.
+  }, [reducedMotion, isMobile, hasFinePointer, theme]);
 
   return (
     <div

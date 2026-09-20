@@ -3,8 +3,11 @@
 /* ==========================================================================
    DESIGN TOKENS
    Near-black base, parchment text, muted amber accent, forest green and
-   muted blue as occasional voices. The site is dark by design — there is no
-   light theme, so tokens live on :root rather than behind a media query.
+   muted blue as occasional voices. The site is dark by design and dark by
+   default; light is an explicit choice, kept on `:root[data-theme="light"]`
+   below. Only the semantic layer is overridden there — because `@theme
+   inline` points the Tailwind utilities at these live custom properties,
+   not a single component class has to know a theme exists.
    ========================================================================== */
 
 :root {
@@ -85,6 +88,67 @@
     --gutter: 2.5rem;
     --nav-height: 4.5rem;
   }
+}
+
+/* ==========================================================================
+   LIGHT THEME
+   Not an inversion. The dark site is near-black under parchment text, so the
+   light one is parchment under near-black — the same two materials, swapped,
+   which keeps the warmth instead of turning the page white.
+
+   Deliberately NOT behind `prefers-color-scheme`: dark is the design, and the
+   OS preference should not quietly override it. Only the toggle switches this.
+
+   Every text value here was measured against the background: the weakest is
+   `--parchment-ghost` at 4.66:1 and the rest run to 16.94:1. Borders stay
+   low-contrast on purpose — they are hairlines, not information.
+   ========================================================================== */
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Raised surfaces move *up* on a light page, not down. */
+  --bg: #f2eee2;
+  --bg-deep: #e9e4d5;
+  --bg-raised: #fbf9f2;
+  --bg-inset: #eae5d7;
+  --bg-overlay: rgb(242 238 226 / 0.85);
+
+  --fg: #26262d;
+  --fg-strong: #0b0b0e;
+  --fg-muted: #4d4840;
+  --fg-faint: #65604f;
+  /* `--color-fg-ghost` maps straight to this, so the raw token is the override. */
+  --parchment-ghost: #6f6a5a;
+
+  --accent: #8a5a1c;
+  --accent-strong: #6e4614;
+  --accent-dim: #a5762f;
+
+  --border: #ded7c4;
+  --border-strong: #bfb59c;
+  --selection-bg: #e6d5b4;
+  --selection-fg: #0b0b0e;
+
+  /*
+    Two raw tokens, not semantic ones, because things read them directly:
+    `--parchment-dim` is the architecture diagrams' client nodes and the handwritten
+    notes in Beyond code (4.07:1 at their 80% alpha, 6.48:1 in the diagrams), and
+    `--parchment-faint` is what the canvas scene resolves its particle colour from.
+    Left at their dark values both would sit near 1.3:1 on parchment and vanish.
+  */
+  --parchment-dim: #59544a;
+  --parchment-faint: #8a8271;
+
+  /* The secondary voices carry meaning — the live badge, the diagram legend —
+     so they are re-cut for a light background rather than left to wash out. */
+  --forest-bright: #2f6244;
+  --forest: #4a6b55;
+  --blue-bright: #2f5a7d;
+  --brown: #6b5236;
+
+  --dot: #a5762f;
+  --dot-glow: rgb(138 90 28 / 0.28);
 }
 
 /* ==========================================================================

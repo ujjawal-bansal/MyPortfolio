@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { DEFAULT_THEME, themeScript } from "@/lib/theme";
 import { EnhancementsLazy } from "@/components/easter-eggs/EnhancementsLazy";
 import { DotNav } from "@/components/ui/DotNav";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { site } from "@/content/site";
@@ -42,11 +44,22 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`}>
+    <html
+      lang="en"
+      // The inline script below writes data-theme before hydration, so the server's
+      // markup and the client's first render disagree by design.
+      suppressHydrationWarning
+      data-theme={DEFAULT_THEME}
+      className={`${fontVariables} h-full antialiased`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-full flex-col bg-bg text-fg">
         <SkipLink />
         <SmoothScroll>
           <DotNav />
+          <ThemeToggle />
           {children}
         </SmoothScroll>
         <EnhancementsLazy />
