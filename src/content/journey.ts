@@ -40,7 +40,9 @@ export const journey: readonly Milestone[] = [
     id: "gfg-chapter",
     when: "Dec 2024 – Sep 2025",
     sortKey: "2024-12",
-    title: "Content Coordinator, then Content Lead",
+    // facts.md records "Content Coordinator → Content Lead" across this span. The
+    // timeline names the role it ended on; the dates are the span at the chapter.
+    title: "Content Lead",
     where: "GeeksforGeeks ABES Student Chapter",
     body: "Ten months of writing for people who had not yet decided whether they liked programming.",
     kind: "role",
