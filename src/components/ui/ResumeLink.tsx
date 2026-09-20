@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
  * literal sense surfacing underneath.
  *
  * The word is not decoration: `vṛtta` is the past participle of √vṛt, "to turn", and
- * means *circle* as readily as it means *account of conduct*. A résumé is what has
- * turned in a life, which is the same loop the footer closes on. Verified and glossed
- * in docs/SOURCES.md.
+ * means *circle* as readily as it means *account of conduct*. That etymology stays in
+ * docs/SOURCES.md rather than on screen — a button that explains itself in a footnote
+ * is asking to be read rather than pressed.
  *
  * Accessibility: both labels are `aria-hidden` and the anchor carries a stable
  * `aria-label`, so a screen reader hears one name rather than a word that mutates.
@@ -23,7 +23,7 @@ export function ResumeLink({ className }: { className?: string }) {
   const { href } = site.resume;
   if (isPending(href)) return null;
 
-  const { label, devanagari, gloss } = site.resumeCopy;
+  const { label, devanagari } = site.resumeCopy;
 
   return (
     <a
@@ -58,19 +58,6 @@ export function ResumeLink({ className }: { className?: string }) {
             {devanagari}
           </span>
         </span>
-      </span>
-
-      {/*
-        The payoff, which only arrives if you stop. Absolutely positioned so its length
-        does not set the button's width — otherwise a compact chip sits at the width of a
-        sentence nobody has asked to read yet. Frosted like the button, so the drifting
-        fragments behind the hero are covered rather than read through, at any width.
-      */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute top-full left-[0.875rem] mt-2 w-max max-w-[min(20rem,70vw)] translate-y-1 rounded bg-bg/85 px-1.5 py-0.5 font-mono text-[0.625rem] text-fg-ghost opacity-0 backdrop-blur-sm transition-all duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
-      >
-        {gloss}
       </span>
     </a>
   );

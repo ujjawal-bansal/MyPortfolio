@@ -24,8 +24,6 @@ export interface Site {
     label: string;
     devanagari: string;
     iast: string;
-    /** Revealed on hover. The reason the word is worth using. */
-    gloss: string;
   };
   availability: {
     /**
@@ -88,12 +86,13 @@ export const site: Site = {
   },
 
   resumeCopy: {
-    label: "Résumé",
+    // Plain "Resume", not "Résumé": the CSS uppercases it to RESUME, and the accessible
+    // name stays a word a screen reader reads rather than spells.
+    label: "Resume",
     devanagari: "जीवनवृत्तम्",
+    // Not rendered — it documents the Devanagari above it. Verified in docs/SOURCES.md,
+    // where the etymology lives now that the button no longer carries a gloss.
     iast: "jīvanavṛttam",
-    // vṛtta is the past participle of √vṛt, "to turn" — it means circle as readily as
-    // it means account. A résumé is what has turned in a life.
-    gloss: "the account of a life — from vṛtta, what has turned",
   },
 
   hero: {
