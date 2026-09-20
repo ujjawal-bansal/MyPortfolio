@@ -18,7 +18,7 @@ export function Projects() {
 
   return (
     <Section meta={meta}>
-      <ul data-neti-layer="work" className="mt-14 md:mt-20">
+      <ul data-neti-layer="work" className="mt-12 md:mt-16">
         {projects.map((project, index) => (
           <li key={project.slug}>
             <Link

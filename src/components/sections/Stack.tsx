@@ -52,7 +52,7 @@ export function Stack() {
             <li
               key={group.id}
               data-stage
-              className="relative grid grid-cols-1 gap-x-8 gap-y-3 pb-12 pl-8 md:grid-cols-[11rem_1fr] md:pl-0"
+              className="relative grid grid-cols-1 gap-x-8 gap-y-3 pb-12 pl-8 last:pb-0 md:grid-cols-[11rem_1fr] md:pl-0"
             >
               {/* Stage name: what this layer does, not what it is. */}
               <div className="md:text-right">

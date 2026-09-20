@@ -15,7 +15,7 @@ export function BeyondCode() {
 
   return (
     <Section meta={meta}>
-      <div className="mt-12 grid gap-16 lg:mt-16 lg:grid-cols-[1fr_20rem] lg:gap-20">
+      <div className="mt-12 grid gap-16 md:mt-16 lg:grid-cols-[1fr_20rem] lg:gap-20">
         <div>
           <dl className="space-y-10">
             {pursuits.map((pursuit) => (

@@ -51,7 +51,7 @@ export function Journey() {
 
   return (
     <Section meta={meta}>
-      <div ref={scope} className="relative mt-14 md:mt-20">
+      <div ref={scope} className="relative mt-12 md:mt-16">
         {/* The spine, behind the points. */}
         <span
           aria-hidden

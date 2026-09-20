@@ -65,7 +65,7 @@ export function Self() {
     // section. The hero's space is the gap.
     <Section meta={meta} className="pt-0 md:pt-0">
       <div ref={scope}>
-        <ol className="mt-10 md:mt-14">
+        <ol className="mt-12 md:mt-16">
           {identities.map((identity) => (
             <li
               key={identity.text}
@@ -97,7 +97,7 @@ export function Self() {
           {turn}
         </p>
 
-        <div data-intro className="mt-14 space-y-6 measure md:mt-20">
+        <div data-intro className="mt-12 space-y-6 measure md:mt-16">
           {intro.map((paragraph) => (
             <p key={paragraph.slice(0, 24)} className="text-lg leading-relaxed text-fg">
               {paragraph}
