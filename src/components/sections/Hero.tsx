@@ -6,8 +6,10 @@ import { sectionById } from "@/content/sections";
 /**
  * The hero. Not "Hi, I'm Ujjawal, a full-stack developer" (BRIEF §17).
  *
- * The Sanskrit line is deliberately unexplained here — it resolves much later, in the
- * Shlokas section. Left as an invitation, per the brief.
+ * The Sanskrit line is deliberately unexplained. It used to resolve further down the
+ * page; that section is gone, so it now stands as atmosphere only. Its translation and
+ * source are still in docs/SOURCES.md and `philosophy.ts` if it should ever resolve
+ * somewhere again.
  */
 export function Hero() {
   const meta = sectionById("hero");

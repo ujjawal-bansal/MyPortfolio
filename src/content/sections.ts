@@ -68,12 +68,6 @@ export const sections: readonly SectionMeta[] = [
     kicker: "Philosophy × Engineering",
   },
   {
-    id: "shlokas",
-    title: "Words that refuse to be scrolled past",
-    navLabel: "Thoughts",
-    kicker: "Four sentences, one from each Veda",
-  },
-  {
     id: "beyond-code",
     title: "When I'm not writing code",
     navLabel: "Beyond code",
@@ -100,12 +94,6 @@ export function anchorFor(navId: string): string {
 /** Which nav item a section lights up. The hero lights Self. */
 export function navIdFor(sectionId: string): string {
   return sections.find((s) => s.id === sectionId)?.partOf ?? sectionId;
-}
-
-/** The section after this one, for links that mean "past this" rather than a place. */
-export function sectionAfter(id: string): SectionMeta | undefined {
-  const index = sections.findIndex((s) => s.id === id);
-  return index === -1 ? undefined : sections[index + 1];
 }
 
 export function sectionById(id: string): SectionMeta | undefined {

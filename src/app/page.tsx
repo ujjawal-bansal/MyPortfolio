@@ -8,7 +8,6 @@ import {
   PhilosophyEngineering,
   Projects,
   Self,
-  Shlokas,
   Stack,
 } from "@/components/sections";
 import { DotSceneLazy } from "@/components/three/DotSceneLazy";
@@ -32,7 +31,6 @@ export default function Home() {
         <Journey />
         <Stack />
         <PhilosophyEngineering />
-        <Shlokas />
         <BeyondCode />
         <Contact />
       </main>
