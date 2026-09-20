@@ -66,7 +66,7 @@ export function Journey() {
               data-milestone
               className={cn("relative grid grid-cols-1 gap-x-8 pl-8 md:grid-cols-[9rem_1fr] md:pl-0")}
             >
-              <p className="font-mono text-xs tracking-[0.15em] text-fg-faint uppercase md:text-right">
+              <p className="font-mono text-xs tracking-[0.15em] text-balance text-fg-faint uppercase md:text-right">
                 {/* A date facts.md does not give is left visibly blank, never guessed. */}
                 {isPending(milestone.when) ? <span className="text-fg-ghost">date tbc</span> : milestone.when}
               </p>

@@ -1,9 +1,14 @@
-import { PENDING, type Maybe } from "./types";
+import type { Maybe } from "./types";
 
 /**
  * Timeline. Every entry is from docs/facts.md — nothing is inferred, rounded, or
  * dressed up, and gaps stay gaps. A year that facts.md does not state is PENDING,
  * not a guess.
+ *
+ * Four entries by choice, not by omission. facts.md also records the AWS Academy Cloud
+ * Foundations certificate and the Zidio summer internship; both are true and both were
+ * deliberately dropped from the timeline, so do not "restore" them from facts.md. A
+ * timeline that lists everything is a CV, and the CV is already a button in the hero.
  */
 
 export interface Milestone {
@@ -39,22 +44,6 @@ export const journey: readonly Milestone[] = [
     where: "GeeksforGeeks ABES Student Chapter",
     body: "Ten months of writing for people who had not yet decided whether they liked programming.",
     kind: "role",
-  },
-  {
-    id: "aws-cloud-foundations",
-    when: "Jan 2025",
-    sortKey: "2025-01",
-    title: "AWS Academy Cloud Foundations",
-    kind: "certification",
-  },
-  {
-    id: "zidio",
-    when: PENDING,
-    sortKey: PENDING,
-    title: "Summer internship",
-    where: "Zidio Development",
-    body: "A blogging platform on the MERN stack.",
-    kind: "internship",
   },
   {
     id: "stellaris-2026",
