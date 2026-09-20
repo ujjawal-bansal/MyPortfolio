@@ -14,12 +14,7 @@ export {
   type AttributedVerse,
 } from "./philosophy";
 export { howIThink, type Habit } from "./howIThink";
-export {
-  pairings,
-  question as philosophyEngineeringQuestion,
-  answer as philosophyEngineeringAnswer,
-  type Pairing,
-} from "./philosophyEngineering";
+export { posts, postBySlug, postAfter, writingIntro, type Post } from "./writing";
 export { journey, journeyNote, type Milestone } from "./journey";
 export { stack, type StackGroup, type StackItem } from "./stack";
 export {

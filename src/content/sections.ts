@@ -50,6 +50,12 @@ export const sections: readonly SectionMeta[] = [
     kicker: "Seven verbs",
   },
   {
+    id: "writing",
+    title: "Why does a developer read philosophy?",
+    navLabel: "Writing",
+    kicker: "Philosophy × Engineering",
+  },
+  {
     id: "journey",
     title: "Journey",
     navLabel: "Journey",
@@ -60,12 +66,6 @@ export const sections: readonly SectionMeta[] = [
     title: "The instruments I use to turn thought into systems",
     navLabel: "Stack",
     kicker: "Tools, not trophies",
-  },
-  {
-    id: "philosophy-engineering",
-    title: "Why does a developer read philosophy?",
-    navLabel: "Philosophy × Engineering",
-    kicker: "Philosophy × Engineering",
   },
   {
     id: "beyond-code",

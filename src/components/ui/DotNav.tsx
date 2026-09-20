@@ -44,9 +44,13 @@ export function DotNav() {
   const rail = railFor(pathname);
   const activeSection = useAppStore((s) => s.activeSection);
   const setActiveSection = useAppStore((s) => s.setActiveSection);
-  // A case study belongs to Projects; keep that dot lit rather than whatever was
-  // last active on the home page.
-  const current = pathname.startsWith("/work/") ? "projects" : activeSection;
+  // A case study belongs to Projects and a post to Writing; keep that dot lit rather
+  // than whatever was last active on the home page.
+  const current = pathname.startsWith("/work/")
+    ? "projects"
+    : pathname.startsWith("/writing/")
+      ? "writing"
+      : activeSection;
   const [menuOpen, setMenuOpen] = useState(false);
   const menuId = useId();
 
