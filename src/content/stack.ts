@@ -8,8 +8,6 @@
 
 export interface StackItem {
   name: string;
-  /** Optional half-line. Used sparingly — a note on every item is noise. */
-  note?: string;
 }
 
 export interface StackGroup {
@@ -26,9 +24,6 @@ export interface StackGroup {
   items: readonly StackItem[];
 }
 
-export const stackIntro =
-  "Ordinary tools, nearly all of them. Arranged by where they sit on the path from a thought to something running, because a grid of logos tells you what I have installed and nothing about what I do with it.";
-
 export const stack: readonly StackGroup[] = [
   {
     id: "languages",
@@ -36,12 +31,12 @@ export const stack: readonly StackGroup[] = [
     label: "Languages",
     line: "Different grammars for the same few ideas.",
     items: [
-      { name: "TypeScript", note: "Most of what I write" },
+      { name: "TypeScript" },
       { name: "JavaScript" },
       { name: "Java" },
       { name: "Python" },
       { name: "C++" },
-      { name: "SQL", note: "Underrated as a way of thinking" },
+      { name: "SQL" },
     ],
   },
   {
@@ -63,22 +58,14 @@ export const stack: readonly StackGroup[] = [
     stage: "Remember",
     label: "Data",
     line: "The only part that remembers anything after the process exits.",
-    items: [
-      { name: "PostgreSQL", note: "Constraints as a design tool, not a formality" },
-      { name: "MongoDB" },
-      { name: "Supabase" },
-    ],
+    items: [{ name: "PostgreSQL" }, { name: "MongoDB" }, { name: "Supabase" }],
   },
   {
     id: "ai",
     stage: "Judge",
     label: "AI",
     line: "Useful for judgement. Kept away from logic.",
-    items: [
-      { name: "Groq" },
-      { name: "LLM pipelines", note: "Validated at every boundary" },
-      { name: "Zod", note: "The thing standing between a model and the database" },
-    ],
+    items: [{ name: "Groq" }, { name: "LLM pipelines" }, { name: "Zod" }],
   },
   {
     id: "tools",

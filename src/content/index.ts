@@ -21,7 +21,7 @@ export {
   type Pairing,
 } from "./philosophyEngineering";
 export { journey, journeyNote, type Milestone } from "./journey";
-export { stack, stackIntro, type StackGroup, type StackItem } from "./stack";
+export { stack, type StackGroup, type StackItem } from "./stack";
 export {
   books,
   categories,

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
-import { stack, stackIntro } from "@/content/stack";
+import { stack } from "@/content/stack";
 import { useMotionEffect } from "@/hooks";
 
 /**
@@ -41,9 +41,7 @@ export function Stack() {
 
   return (
     <Section meta={meta}>
-      <p className="mt-6 text-lg text-balance text-fg-muted measure">{stackIntro}</p>
-
-      <div ref={scope} className="relative mt-16 md:mt-20">
+      <div ref={scope} className="relative mt-12 md:mt-16">
         <span
           aria-hidden
           className="absolute top-3 bottom-3 left-[5px] w-px bg-line-strong/70 md:left-[calc(11rem+5px)]"
@@ -80,9 +78,6 @@ export function Stack() {
                       className="rounded-full border border-line/70 px-3 py-1 text-sm text-fg"
                     >
                       {item.name}
-                      {item.note ? (
-                        <span className="ml-2 font-mono text-[0.625rem] text-fg-ghost">{item.note}</span>
-                      ) : null}
                     </li>
                   ))}
                 </ul>
