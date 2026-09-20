@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Working notes: build log, brief, fact sheet, citations.
+# Kept local on purpose: this repository is public.
+docs/
