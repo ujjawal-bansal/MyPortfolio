@@ -21,10 +21,10 @@ export default function Home() {
         study would turn a premise into wallpaper.
       */}
       <DotSceneLazy />
-      <Hero />
       <main id={mainContentId} data-neti-layer="words" className="relative z-10 flex-1">
         {/* This order is mirrored in content/sections.ts — the nav reads from there. */}
-        <Self />
+        {/* The hero is the opening of Self, not a section of its own. */}
+        <Self lead={<Hero />} />
         <Projects />
         <HowIThink />
         <Journey />

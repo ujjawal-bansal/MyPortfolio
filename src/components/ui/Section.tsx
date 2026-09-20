@@ -10,11 +10,18 @@ export function Section({
   children,
   className,
   contentClassName,
+  lead,
 }: {
   meta: SectionMeta;
   children?: React.ReactNode;
   className?: string;
   contentClassName?: string;
+  /**
+   * Rendered inside the section but before the kicker, outside the measured column.
+   * Only the hero uses it: it is the opening of the Self section rather than a section
+   * of its own, and it needs the full width the gutter container would deny it.
+   */
+  lead?: React.ReactNode;
 }) {
   const headingId = `${meta.id}-heading`;
 
@@ -27,6 +34,8 @@ export function Section({
       // without creating a scroll container, so `position: sticky` still works inside.
       className={cn("relative scroll-mt-8 overflow-x-clip py-16 md:py-20", className)}
     >
+      {lead}
+
       <div className={cn("mx-auto w-full max-w-wide gutter", contentClassName)}>
         {meta.kicker ? (
           <p className="mb-3 font-mono text-[0.625rem] tracking-[0.2em] text-fg-faint uppercase">

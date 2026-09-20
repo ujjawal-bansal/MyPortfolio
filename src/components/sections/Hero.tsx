@@ -1,7 +1,6 @@
 import { Fragments } from "@/components/three/Fragments";
 import { ResumeLink } from "@/components/ui/ResumeLink";
 import { site } from "@/content/site";
-import { sectionById } from "@/content/sections";
 
 /**
  * The hero. Not "Hi, I'm Ujjawal, a full-stack developer" (BRIEF §17).
@@ -12,18 +11,11 @@ import { sectionById } from "@/content/sections";
  * somewhere again.
  */
 export function Hero() {
-  const meta = sectionById("hero");
-  if (!meta) return null;
-
   return (
-    <section
-      id={meta.id}
-      aria-labelledby="hero-heading"
-      // The hero sits outside <main>, so it needs its own Neti Neti marker — without
-      // one it survives the removal and "everything else" is a lie.
-      data-neti-layer="words"
-      className="relative z-10 flex min-h-svh flex-col justify-center overflow-x-clip"
-    >
+    // No id and no section element: the hero is the opening of #self, not a place of
+    // its own. It sits inside <main data-neti-layer="words"> now, so it inherits the
+    // Neti Neti marker it used to have to declare for itself.
+    <div className="relative flex min-h-svh flex-col justify-center overflow-x-clip">
       <Fragments />
 
       <div className="relative mx-auto w-full max-w-wide gutter">
@@ -88,6 +80,6 @@ export function Hero() {
           <ResumeLink />
         </div>
       </div>
-    </section>
+    </div>
   );
 }

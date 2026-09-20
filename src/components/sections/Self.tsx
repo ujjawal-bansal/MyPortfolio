@@ -18,7 +18,7 @@ import { useMotionEffect } from "@/hooks";
  * starts them un-struck and crosses them out, so no-JS and reduced motion both land on
  * the meaningful result.
  */
-export function Self() {
+export function Self({ lead }: { lead?: React.ReactNode }) {
   const meta = sectionById("self");
   const scope = useRef<HTMLDivElement>(null);
 
@@ -63,7 +63,7 @@ export function Self() {
     // deliberate space. Adding this section's usual top padding on top of that stacked
     // two gaps into one 417px void — far larger than the 256px between every other
     // section. The hero's space is the gap.
-    <Section meta={meta} className="pt-0 md:pt-0">
+    <Section meta={meta} className="pt-0 md:pt-0" lead={lead}>
       <div ref={scope}>
         <ol className="mt-12 md:mt-16">
           {identities.map((identity) => (

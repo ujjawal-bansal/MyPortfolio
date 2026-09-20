@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
-import { anchorFor, navIdFor, navSections, sections } from "@/content/sections";
+import { navSections, sections } from "@/content/sections";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -65,7 +65,7 @@ export function DotNav() {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveSection(navIdFor(visible.target.id));
+        if (visible) setActiveSection(visible.target.id);
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
@@ -98,7 +98,7 @@ export function DotNav() {
             return (
               <li key={section.id}>
                 <a
-                  href={rail.href(anchorFor(section.id))}
+                  href={rail.href(section.id)}
                   aria-current={active ? "true" : undefined}
                   className="group flex items-center justify-end gap-3 py-1 outline-offset-4"
                 >
@@ -159,7 +159,7 @@ export function DotNav() {
             {rail.items.map((section) => (
               <li key={section.id}>
                 <a
-                  href={rail.href(anchorFor(section.id))}
+                  href={rail.href(section.id)}
                   onClick={() => setMenuOpen(false)}
                   aria-current={current === section.id ? "true" : undefined}
                   className={cn(
