@@ -4,29 +4,26 @@ import { site } from "@/content/site";
 /**
  * The colophon, and nothing else.
  *
- * It used to carry the Thought → Action → Experience → Thought loop and two closing
- * lines. Those are gone, and with them the reason this was a client component — the only
- * animation in here staggered the loop's four words, so the footer is server-rendered now.
+ * The rule is full-bleed, on the `<footer>` itself rather than inside the gutter. That is
+ * the opposite of what mid-page rules do, and deliberately: a rule that divides content
+ * belongs in the content column, but this one is the page's bottom edge. Running it wall
+ * to wall makes it read as structure rather than as one more divider.
  *
- * One row: the name and year on the left axis the rest of the site uses, the availability
- * signal flush to the opposite edge and on the same baseline. No inner hairline, because
- * the footer's own top border is already the only separation a single row needs.
+ * Thin on purpose. It frames a single 12px line, so the padding is sized for a colophon
+ * bar — roughly 64px tall — not for a section.
+ *
+ * The name sits on the left axis the rest of the site uses; the availability signal is
+ * flush to the opposite edge and on the same baseline, so the two ends of the row are the
+ * two ends of the rule above it.
  */
 export function Footer() {
   return (
-    <footer data-neti-layer="interface" className="relative z-10">
-      {/*
-        The rule sits inside the gutter, not on the <footer>. On the element it ran the
-        full viewport — 1440px against the 1136px every other rule on this site spans —
-        so the page ended on the one line wider than everything above it.
-      */}
-      <div className="mx-auto w-full max-w-wide gutter">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-4 border-t border-line/60 py-10 md:py-12">
-          <p className="font-mono text-xs text-fg-ghost">
-            {site.name} · {new Date().getFullYear()}
-          </p>
-          <Availability />
-        </div>
+    <footer data-neti-layer="interface" className="relative z-10 border-t border-line/60">
+      <div className="mx-auto flex w-full max-w-wide flex-wrap items-baseline justify-between gap-x-8 gap-y-3 gutter py-5 md:py-6">
+        <p className="font-mono text-xs text-fg-ghost">
+          {site.name} · {new Date().getFullYear()}
+        </p>
+        <Availability />
       </div>
     </footer>
   );
