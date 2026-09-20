@@ -16,9 +16,6 @@ export const netiNetiSteps: readonly string[] = [
   "Removing the interface.",
 ];
 
-/** After ~60 seconds of stillness. Once per session, gone on any input. */
-export const idleQuestion = "Still there? So is the question you arrived with.";
-
 /** Only for someone who reached the bottom and then came back up past the hero. */
 export const scrollBackNote = {
   title: "You went back.",

@@ -31,6 +31,8 @@ export interface Site {
     /** The loop: the site ends where it began. */
     loop: readonly string[];
     line: string;
+    /** The last question, no longer an idle interruption. */
+    question: string;
   };
   availability: {
     /**
@@ -39,8 +41,6 @@ export interface Site {
      */
     open: boolean;
     label: string;
-    /** The quieter half. Availability as a disposition, not only a job status. */
-    aside: string;
   };
   hero: {
     /** Three beats, read one after another. Not a job title. */
@@ -87,9 +87,6 @@ export const site: Site = {
   availability: {
     open: true,
     label: "Available for engineering roles",
-    // Echoes the hero's own claim — "I build things. I question things." — so the line
-    // covers both halves rather than reading as a job board post.
-    aside: "and the questions underneath them",
   },
 
   contact: {
@@ -109,6 +106,7 @@ export const site: Site = {
   footer: {
     loop: ["Thought", "Action", "Experience", "Thought"],
     line: "Still figuring it out. Building anyway.",
+    question: "Still there? So is the question you arrived with.",
   },
 
   hero: {

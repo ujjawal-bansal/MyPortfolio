@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { consoleNote, idleQuestion, returningHint, scrollBackNote } from "@/content/easterEggs";
+import { consoleNote, returningHint, scrollBackNote } from "@/content/easterEggs";
 import { useReducedMotion } from "@/hooks";
 import { useAppStore } from "@/lib/store";
 
-const IDLE_MS = 60_000;
 const RETURNING_VISITOR_THRESHOLD = 3;
 
 /**
- * The quiet ones: the idle question, the scroll-back note, the returning-visitor hint,
- * and the console message.
+ * The quiet ones: the scroll-back note, the returning-visitor hint, and the console
+ * message.
  *
  * Grouped in one component because they share a shape — each watches for a condition,
  * fires once, and then never bothers the visitor again. None of them blocks anything,
@@ -21,9 +20,7 @@ export function Ambient() {
   const registerVisit = useAppStore((s) => s.registerVisit);
   const reducedMotion = useReducedMotion();
 
-  const [idleVisible, setIdleVisible] = useState(false);
   const [scrollBackVisible, setScrollBackVisible] = useState(false);
-  const idleFiredThisSession = useRef(false);
   const reachedBottom = useRef(false);
   const scrollBackFired = useRef(false);
 
@@ -35,34 +32,6 @@ export function Ambient() {
     const body = "color:#b4ac9a;font-family:ui-monospace,monospace;font-size:12px";
     console.log(`%c${consoleNote.heading}\n%c${consoleNote.lines.join("\n")}`, style, body);
   }, [registerVisit]);
-
-  /* ---- idle: one question, once, gone on any input ---- */
-  useEffect(() => {
-    if (idleFiredThisSession.current) return;
-    let timer = window.setTimeout(() => {
-      if (idleFiredThisSession.current) return;
-      idleFiredThisSession.current = true;
-      setIdleVisible(true);
-    }, IDLE_MS);
-
-    const reset = () => {
-      if (idleVisible) setIdleVisible(false);
-      if (idleFiredThisSession.current) return;
-      window.clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        idleFiredThisSession.current = true;
-        setIdleVisible(true);
-      }, IDLE_MS);
-    };
-
-    const events = ["pointerdown", "pointermove", "keydown", "scroll", "wheel", "touchstart"];
-    for (const event of events) window.addEventListener(event, reset, { passive: true });
-
-    return () => {
-      window.clearTimeout(timer);
-      for (const event of events) window.removeEventListener(event, reset);
-    };
-  }, [idleVisible]);
 
   /* ---- the way back up ---- */
   useEffect(() => {
@@ -91,19 +60,6 @@ export function Ambient() {
 
   return (
     <>
-      {/* Idle question — bottom centre, out of the way of everything. */}
-      <div
-        aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 bottom-10 z-40 flex justify-center px-6"
-        style={{ opacity: idleVisible ? 1 : 0, transition }}
-      >
-        {idleVisible ? (
-          <p className="max-w-md text-center font-serif text-base text-balance text-fg-faint italic">
-            {idleQuestion}
-          </p>
-        ) : null}
-      </div>
-
       {/* The scroll-back reward. */}
       <div
         aria-live="polite"
