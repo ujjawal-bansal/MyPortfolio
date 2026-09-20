@@ -62,7 +62,7 @@ export function ComingInPhase({ phase, note }: { phase: number; note?: string })
   return (
     <p className="mt-8 border-l-2 border-line py-1 pl-4 font-mono text-xs text-fg-faint">
       Phase {phase}
-      {note ? ` — ${note}` : null}
+      {note ? `: ${note}` : null}
     </p>
   );
 }

@@ -35,7 +35,7 @@ export const turn = "Or something beyond all of these?";
  */
 export const intro: readonly string[] = [
   "The boring answer is the useful one: a Computer Science student at ABES Engineering College in Ghaziabad, graduating in 2027, who writes software and cannot leave a question alone once it has been asked.",
-  "The less boring answer is that those are not two things. I build systems that run in the real world — a queue running in a working eye clinic, an auth flow that assumes it will be attacked, a grading pipeline that refuses to guess. And I read philosophy for the same reason I debug: to find the assumption underneath the thing everyone already agrees on.",
+  "The less boring answer is that those are not two things. I build systems that run in the real world: a queue running in a working eye clinic, an auth flow that assumes it will be attacked, a grading pipeline that refuses to guess. And I read philosophy for the same reason I debug: to find the assumption underneath the thing everyone already agrees on.",
   "I also sing, which has nothing to do with any of it, and everything to do with why I do not mind being bad at something for a while.",
 ];
 

@@ -72,7 +72,7 @@ export const site: Site = {
   meta: {
     title: "Ujjawal Bansal",
     description:
-      "Software developer and CS student. I build systems that run in the real world, and I read philosophy for the same reason I debug — to find the assumption underneath.",
+      "Software developer and CS student. I build systems that run in the real world, and I read philosophy for the same reason I debug, to find the assumption underneath.",
   },
 
   availability: {

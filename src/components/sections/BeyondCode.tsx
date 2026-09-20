@@ -38,9 +38,9 @@ export function BeyondCode() {
 /**
  * A drawing of a waveform, not a player.
  *
- * facts.md records no recording, so there is nothing to play — and a waveform that looks
- * playable but is not would be a small lie told in UI. The caption says so outright. If a
- * recording ever lands in `recording.href`, this becomes a link instead.
+ * facts.md records no recording, so there is nothing to play. The caption that used to
+ * say so is gone; nothing here is clickable, so the drawing claims nothing. If a recording
+ * ever lands in `recording.href`, this becomes a link instead.
  */
 function Waveform() {
   const hasRecording = !isPending(recording.href);
@@ -70,7 +70,7 @@ function Waveform() {
   );
 
   return (
-    <figure className="mt-16 border-t border-line/50 pt-8">
+    <div className="mt-16 border-t border-line/50 pt-8">
       {hasRecording && !isPending(recording.href) ? (
         <a href={recording.href} className="group block">
           {svg}
@@ -78,7 +78,6 @@ function Waveform() {
       ) : (
         svg
       )}
-      <figcaption className="mt-4 font-mono text-[0.6875rem] text-fg-ghost">{recording.label}</figcaption>
-    </figure>
+    </div>
   );
 }

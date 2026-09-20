@@ -20,7 +20,7 @@ export const pursuits: readonly Pursuit[] = [
   {
     id: "reading",
     label: "Reading",
-    body: "Mostly philosophy, and mostly slowly. I re-read more than I read — a book I have finished once I have usually only located.",
+    body: "Mostly philosophy, and mostly slowly. I re-read more than I read; a book I have finished once I have usually only located.",
   },
   {
     id: "philosophy",
@@ -44,9 +44,8 @@ export const pursuits: readonly Pursuit[] = [
  * play and nothing is implied. If a real recording ever exists, put its URL here and the
  * component will say so instead of staying quiet.
  */
-export const recording: { href: Maybe<string>; label: string } = {
+export const recording: { href: Maybe<string> } = {
   href: PENDING,
-  label: "No recording here — the waveform is a drawing, not a file.",
 };
 
 /** Heights, 0–1, of the decorative waveform bars. Hand-shaped, not random. */

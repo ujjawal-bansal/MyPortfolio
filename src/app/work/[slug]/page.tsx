@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   const project = projectBySlug(slug);
   if (!project) return {};
 
-  const title = `${project.name} — ${project.tagline}`;
+  const title = `${project.name}: ${project.tagline}`;
   return {
     title: project.name,
     description: project.summary,

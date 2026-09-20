@@ -83,7 +83,7 @@ export const commands: readonly Command[] = [
 
   {
     name: "open",
-    summary: "Open a case study — open <project>",
+    summary: "Open a case study: open <project>",
     completions: () => projects.map((p) => p.slug),
     run: (args) => {
       const slug = args[0];
@@ -188,7 +188,7 @@ export const commands: readonly Command[] = [
     name: "sudo",
     summary: "Elevate privileges",
     hidden: true,
-    run: () => lines("Nice try.", "", "Also — whose permission were you expecting to need?"),
+    run: () => lines("Nice try.", "", "Also, whose permission were you expecting to need?"),
   },
   {
     name: "sakshi",
@@ -200,7 +200,7 @@ export const commands: readonly Command[] = [
     name: "rm",
     summary: "Remove",
     hidden: true,
-    run: () => lines("Refusing.", "", "Try `neti-neti` — it removes things properly."),
+    run: () => lines("Refusing.", "", "Try `neti-neti`. It removes things properly."),
   },
   {
     name: "cogito",

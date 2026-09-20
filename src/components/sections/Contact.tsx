@@ -55,7 +55,7 @@ export function Contact() {
             return (
               <li key={link.label}>
                 <span className="grid size-14 place-items-center rounded-full border border-dashed border-line/60">
-                  <span className="sr-only">{link.label} — not added yet</span>
+                  <span className="sr-only">{link.label}: not added yet</span>
                   <Glyph glyph={glyph} className="size-5 text-fg-ghost/50" />
                 </span>
               </li>
@@ -69,7 +69,7 @@ export function Contact() {
                 {...(link.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
                 // The mark carries no text, so the handle rides in the accessible name —
                 // a screen reader gets "GitHub, ujjawal-bansal", not "link".
-                aria-label={shown ? `${link.label} — ${shown}` : link.label}
+                aria-label={shown ? `${link.label}: ${shown}` : link.label}
                 className="group grid size-14 place-items-center rounded-full border border-line/70 outline-offset-4 transition-colors duration-300 hover:border-accent/50 hover:bg-accent/5 focus-visible:border-accent/50"
               >
                 <Glyph

@@ -78,7 +78,7 @@ export const posts: readonly Post[] = [
         philosophy: "What makes a person the same person over time?",
         engineering: "What makes this the same record after every field has changed?",
         pivot: "Theseus's ship, with a foreign key constraint.",
-        body: "Software has state; people have memory; both are rewritten continuously and both insist on continuity anyway. A primary key is a decision about what would have to change before this stopped being the same thing — which is the oldest question in the subject, answered in DDL.",
+        body: "Software has state; people have memory; both are rewritten continuously and both insist on continuity anyway. A primary key is a decision about what would have to change before this stopped being the same thing, which is the oldest question in the subject, answered in DDL.",
       },
       {
         id: "control",
@@ -95,7 +95,7 @@ export const posts: readonly Post[] = [
         philosophy: "Can the observer be observed?",
         engineering: "What is watching the thing that watches?",
         pivot: "The alerting pipeline fails as silently as the service it watches.",
-        body: "Vedanta calls the witness sākṣin and points out that you can never get behind it — whatever you observe is, by that fact, not the observer. Monitoring inherits the same regress, minus the serenity, and something still has to notice.",
+        body: "Vedanta calls the witness sākṣin and points out that you can never get behind it: whatever you observe is, by that fact, not the observer. Monitoring inherits the same regress, minus the serenity, and something still has to notice.",
         sourceId: "sakshi",
       },
     ],
