@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { navSections, sections } from "@/content/sections";
 import { useAppStore } from "@/lib/store";
@@ -49,6 +49,8 @@ export function DotNav() {
   // there — the rail is for places on the home page, and that is a door out of it.
   const current = pathname.startsWith("/work/") ? "projects" : activeSection;
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
 
   // Scroll spy. IntersectionObserver rather than ScrollTrigger so it works identically
@@ -74,14 +76,33 @@ export function DotNav() {
     return () => observer.disconnect();
   }, [pathname, setActiveSection]);
 
-  // Close the mobile menu on Escape, and return focus sensibly.
+  // Ways out of the mobile menu: Escape, or a tap anywhere outside it.
   useEffect(() => {
     if (!menuOpen) return;
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      // Escape leaves focus nowhere otherwise, which strands a keyboard user at the
+      // top of the document.
+      toggleRef.current?.focus();
     };
+
+    const onPointerDown = (e: PointerEvent) => {
+      // `menuRef` wraps the toggle as well as the panel, and ignoring taps inside it
+      // is the whole trick: closing here on a tap of the toggle would let the button's
+      // own click re-open it in the same gesture, and the toggle would look dead.
+      if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    };
+
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    // `pointerdown` rather than `click`: it fires as the finger lands instead of on
+    // release, and it still fires over elements that swallow clicks.
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
   }, [menuOpen]);
 
   return (
@@ -131,8 +152,9 @@ export function DotNav() {
       </nav>
 
       {/* ---- Mobile: one dot that opens a real menu ---- */}
-      <div data-neti-layer="interface" className="fixed top-4 right-4 z-50 md:hidden">
+      <div ref={menuRef} data-neti-layer="interface" className="fixed top-4 right-4 z-50 md:hidden">
         <button
+          ref={toggleRef}
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
