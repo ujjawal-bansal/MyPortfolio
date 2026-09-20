@@ -27,13 +27,6 @@ export interface Site {
     /** Revealed on hover. The reason the word is worth using. */
     gloss: string;
   };
-  footer: {
-    /** The loop: the site ends where it began. */
-    loop: readonly string[];
-    line: string;
-    /** The last question, no longer an idle interruption. */
-    question: string;
-  };
   availability: {
     /**
      * Flip to false the day this stops being true and the whole line disappears —
@@ -101,12 +94,6 @@ export const site: Site = {
     // vṛtta is the past participle of √vṛt, "to turn" — it means circle as readily as
     // it means account. A résumé is what has turned in a life.
     gloss: "the account of a life — from vṛtta, what has turned",
-  },
-
-  footer: {
-    loop: ["Thought", "Action", "Experience", "Thought"],
-    line: "Still figuring it out. Building anyway.",
-    question: "Still there? So is the question you arrived with.",
   },
 
   hero: {
