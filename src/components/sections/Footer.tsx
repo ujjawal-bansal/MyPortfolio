@@ -14,12 +14,19 @@ import { site } from "@/content/site";
  */
 export function Footer() {
   return (
-    <footer data-neti-layer="interface" className="relative z-10 border-t border-line/60">
-      <div className="mx-auto flex w-full max-w-wide flex-wrap items-baseline justify-between gap-x-8 gap-y-4 gutter py-12 md:py-14">
-        <p className="font-mono text-xs text-fg-ghost">
-          {site.name} · {new Date().getFullYear()}
-        </p>
-        <Availability />
+    <footer data-neti-layer="interface" className="relative z-10">
+      {/*
+        The rule sits inside the gutter, not on the <footer>. On the element it ran the
+        full viewport — 1440px against the 1136px every other rule on this site spans —
+        so the page ended on the one line wider than everything above it.
+      */}
+      <div className="mx-auto w-full max-w-wide gutter">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-4 border-t border-line/60 py-10 md:py-12">
+          <p className="font-mono text-xs text-fg-ghost">
+            {site.name} · {new Date().getFullYear()}
+          </p>
+          <Availability />
+        </div>
       </div>
     </footer>
   );
