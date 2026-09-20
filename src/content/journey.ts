@@ -38,13 +38,11 @@ export const journey: readonly Milestone[] = [
   },
   {
     id: "gfg-chapter",
-    when: "Dec 2024 – Sep 2025",
-    sortKey: "2024-12",
-    // facts.md records "Content Coordinator → Content Lead" across this span. The
-    // timeline names the role it ended on; the dates are the span at the chapter.
+    when: "Sep 2025 – Present",
+    sortKey: "2025-09",
     title: "Content Lead",
     where: "GeeksforGeeks ABES Student Chapter",
-    body: "Ten months of writing for people who had not yet decided whether they liked programming.",
+    body: "Leading the writers now, after ten months of writing for people who had not yet decided whether they liked programming.",
     kind: "role",
   },
   {
@@ -53,7 +51,7 @@ export const journey: readonly Milestone[] = [
     sortKey: "2026-01",
     title: "Core organiser, Stellaris",
     where: "ABES Engineering College",
-    body: "Campus hackathon, with GitHub as a gold sponsor. Running one is a different skill from winning one, and considerably less glamorous.",
+    body: "Pan-India: 1,600+ registrations, a $19,000 prize pool, GitHub as a gold sponsor. Running one is a different skill from winning one, and considerably less glamorous.",
     kind: "event",
   },
   {
