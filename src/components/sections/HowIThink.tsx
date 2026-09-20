@@ -44,7 +44,7 @@ export function HowIThink() {
           { opacity: 0, y: 12, duration: 0.5, stagger: 0.08, ease: "power2.out" },
           "<0.1",
         )
-        .from(row.querySelectorAll("[data-rule]"), { scaleX: 0, duration: 0.5, ease: "power2.inOut" }, "<");
+        .from(row.querySelectorAll("[data-rule]"), { scaleY: 0, duration: 0.5, ease: "power2.inOut" }, "<");
     }
   });
 
@@ -70,24 +70,31 @@ export function HowIThink() {
               </header>
 
               <div>
-                <p className="font-serif text-xl text-balance text-fg-strong measure md:text-2xl">
-                  {habit.line}
-                </p>
+                <p className="font-serif text-xl text-balance text-fg-strong md:text-2xl">{habit.line}</p>
 
-                {/* The pair. Two halves of one sentence, facing each other. */}
+                {/*
+                  Two halves of one sentence, facing each other across a vertical rule.
+
+                  The rule used to be horizontal with the philosophy half right-aligned
+                  into it. That looked like a mirror and behaved like a bug: the half's
+                  left edge landed wherever its text happened to end, a different x on
+                  every row, and any half long enough to wrap left an orphan word ("it.",
+                  "answer.") stranded on its own line. Both halves now start on the same
+                  axis as the statement above them and wrap ragged-right like normal text.
+                */}
                 <div
                   data-pair
                   className={cn(
-                    "mt-5 grid gap-x-8 gap-y-4",
+                    "mt-5 grid gap-y-4",
                     "border-l border-line/60 pl-5",
-                    "md:grid-cols-[1fr_auto_1fr] md:items-center md:border-l-0 md:pl-0",
+                    "md:grid-cols-[1fr_auto_1fr] md:gap-x-8 md:border-l-0 md:pl-0",
                   )}
                 >
-                  <p className="font-serif text-lg text-fg-muted italic md:text-right">{habit.philosophy}</p>
+                  <p className="font-serif text-lg text-fg-muted italic">{habit.philosophy}</p>
                   <span
                     aria-hidden
                     data-rule
-                    className="hidden h-px w-10 origin-center bg-line-strong md:block"
+                    className="hidden w-px origin-top self-stretch bg-line-strong/70 md:block"
                   />
                   <p className="font-mono text-sm leading-relaxed tracking-tight text-fg">
                     {habit.engineering}

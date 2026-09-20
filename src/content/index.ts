@@ -18,15 +18,6 @@ export { posts, postBySlug, postAfter, type Post, type PostPart } from "./writin
 export { journey, journeyNote, type Milestone } from "./journey";
 export { stack, type StackGroup, type StackItem } from "./stack";
 export {
-  books,
-  categories,
-  booksByCategory,
-  shelfIsEmpty,
-  shelfNote,
-  type Book,
-  type Category,
-} from "./library";
-export {
   commands,
   resolveCommand,
   prompt as terminalPrompt,

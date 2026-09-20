@@ -2,12 +2,9 @@ import { Section } from "@/components/ui/Section";
 import { pursuits, recording, waveform } from "@/content/beyondCode";
 import { sectionById } from "@/content/sections";
 import { isPending } from "@/content/types";
-import { Library } from "./Library";
 
 /**
  * The section where the site stops making a case. Reading, thinking, singing, listening.
- * The reading archive (BRIEF §24) lives inside it, because a bookshelf is not a separate
- * argument — it is part of the same answer.
  */
 export function BeyondCode() {
   const meta = sectionById("beyond-code");
@@ -34,8 +31,6 @@ export function BeyondCode() {
           <Waveform />
         </div>
       </div>
-
-      <Library />
     </Section>
   );
 }
