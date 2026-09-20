@@ -38,34 +38,16 @@ export const sections: readonly SectionMeta[] = [
     kicker: "About, more or less",
   },
   {
-    id: "how-i-think",
-    title: "How I think",
-    navLabel: "How I think",
-    kicker: "Seven verbs",
-  },
-  {
-    id: "philosophy-engineering",
-    title: "Why does a developer read philosophy?",
-    navLabel: "Philosophy × Engineering",
-    kicker: "Philosophy × Engineering",
-  },
-  {
     id: "projects",
     title: "Things that exist",
     navLabel: "Projects",
     kicker: "Proof",
   },
   {
-    id: "shlokas",
-    title: "Words that refuse to be scrolled past",
-    navLabel: "Thoughts",
-    kicker: "Four sentences, one from each Veda",
-  },
-  {
-    id: "beyond-code",
-    title: "When I'm not writing code",
-    navLabel: "Beyond code",
-    kicker: "The rest of it",
+    id: "how-i-think",
+    title: "How I think",
+    navLabel: "How I think",
+    kicker: "Seven verbs",
   },
   {
     id: "journey",
@@ -78,6 +60,24 @@ export const sections: readonly SectionMeta[] = [
     title: "The instruments I use to turn thought into systems",
     navLabel: "Stack",
     kicker: "Tools, not trophies",
+  },
+  {
+    id: "philosophy-engineering",
+    title: "Why does a developer read philosophy?",
+    navLabel: "Philosophy × Engineering",
+    kicker: "Philosophy × Engineering",
+  },
+  {
+    id: "shlokas",
+    title: "Words that refuse to be scrolled past",
+    navLabel: "Thoughts",
+    kicker: "Four sentences, one from each Veda",
+  },
+  {
+    id: "beyond-code",
+    title: "When I'm not writing code",
+    navLabel: "Beyond code",
+    kicker: "The rest of it",
   },
   {
     id: "contact",
@@ -100,6 +100,12 @@ export function anchorFor(navId: string): string {
 /** Which nav item a section lights up. The hero lights Self. */
 export function navIdFor(sectionId: string): string {
   return sections.find((s) => s.id === sectionId)?.partOf ?? sectionId;
+}
+
+/** The section after this one, for links that mean "past this" rather than a place. */
+export function sectionAfter(id: string): SectionMeta | undefined {
+  const index = sections.findIndex((s) => s.id === id);
+  return index === -1 ? undefined : sections[index + 1];
 }
 
 export function sectionById(id: string): SectionMeta | undefined {

@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { mahavakyas } from "@/content/philosophy";
 import type { Verse } from "@/content/philosophy";
-import { sectionById } from "@/content/sections";
+import { mainContentId, sectionAfter, sectionById } from "@/content/sections";
 import { useMotionEffect } from "@/hooks";
 import { cn } from "@/lib/utils";
 
@@ -137,7 +137,7 @@ export function Shlokas() {
 
           {/* First focusable thing in the section: a way out of it. */}
           <a
-            href="#beyond-code"
+            href={`#${sectionAfter(meta.id)?.id ?? mainContentId}`}
             className="mt-6 inline-block font-mono text-[0.6875rem] tracking-wide text-fg-ghost hover:text-accent focus-visible:text-accent"
           >
             Skip these →

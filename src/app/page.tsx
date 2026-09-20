@@ -25,14 +25,15 @@ export default function Home() {
       <DotSceneLazy />
       <Hero />
       <main id={mainContentId} data-neti-layer="words" className="relative z-10 flex-1">
+        {/* This order is mirrored in content/sections.ts — the nav reads from there. */}
         <Self />
-        <HowIThink />
-        <PhilosophyEngineering />
         <Projects />
-        <Shlokas />
-        <BeyondCode />
+        <HowIThink />
         <Journey />
         <Stack />
+        <PhilosophyEngineering />
+        <Shlokas />
+        <BeyondCode />
         <Contact />
       </main>
       <Footer />
