@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectConstellation } from "@/components/three/ProjectConstellation";
 import { ArchitectureDiagram } from "@/components/ui/ArchitectureDiagram";
+import { Middots } from "@/components/ui/Middots";
 import { architectures, diagramLegend, type Architecture } from "@/content/architecture";
 import { caseStudySections } from "@/content/caseStudySections";
 import { projectBySlug, projects, type CaseStudy } from "@/content/projects";
@@ -76,7 +77,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                   <p className="font-mono text-[0.625rem] tracking-[0.2em] text-fg-ghost uppercase">
                     {group.group}
                   </p>
-                  <p className="mt-1.5 text-sm text-fg-muted">{group.items.join(" · ")}</p>
+                  <p className="mt-1.5 text-sm text-fg-muted">
+                    <Middots items={group.items} />
+                  </p>
                 </div>
               ))}
             </div>

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { soundtrack } from "@/content/soundtrack";
-import { useHasFinePointer, useIsWide, useReducedMotion } from "@/hooks";
+import { useHasFinePointer, useIsMobile, useIsWide, useReducedMotion } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { Scrubber } from "./Scrubber";
 import { useSpotifyPlayer } from "./useSpotifyPlayer";
@@ -93,6 +93,8 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
   const reduced = useReducedMotion();
   const finePointer = useHasFinePointer();
   const wide = useIsWide();
+  /** Below `md`: where the scrubber lives changes, not just how it looks. See the list. */
+  const phone = useIsMobile();
 
   /** Hovered or focused: a preview, which reverts. */
   const [attending, setAttending] = useState<number | null>(null);
@@ -139,6 +141,7 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
   /** The track the player holds, playing or paused. Stays lit after the cursor leaves. */
   const held = tracks.findIndex((track) => track.id === playback.current);
   const chosen = held >= 0 ? held : null;
+  const chosenTrack = chosen === null ? null : tracks[chosen];
   const active = attending ?? chosen;
   const sounding = (stretch: number) => chosen === stretch && playback.playing;
 
@@ -440,12 +443,34 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
         words on four lines each. All three are always present — the section is three
         tracks, and hiding two behind an interaction would make it one.
       */}
-      <ul className="mt-5 grid grid-cols-1 gap-px md:grid-cols-3">
+      {/*
+        On a phone the scrubber lives here, directly under the waveform, whichever track is
+        playing — the same place it sits on a laptop, where each column's top edge is the
+        waveform's lower edge. Putting it on the playing row sent it down the list, away
+        from the thing it scrubs. The slot is always reserved and invisible at rest, so
+        pressing play draws a line without pushing the list down under the thumb.
+      */}
+      <div className="relative mt-4 h-px md:hidden">
+        {phone && chosenTrack && playback.duration > 0 ? (
+          <Scrubber
+            title={chosenTrack.title}
+            position={playback.position}
+            duration={playback.duration}
+            reportedAt={playback.reportedAt}
+            running={playback.playing && !playback.waiting}
+            reduced={reduced}
+            onSeek={(ms) => seekPlayer(chosenTrack.id, ms)}
+          />
+        ) : null}
+      </div>
+
+      <ul className="mt-4 grid grid-cols-1 gap-px md:mt-5 md:grid-cols-3">
         {tracks.map((track, stretch) => {
           const lit = active === stretch;
-          // The rule above the track in the player becomes its scrubber, once Spotify has
-          // said how long the track is. Before that there is nothing to scrub through.
-          const scrubbable = chosen === stretch && playback.duration > 0;
+          // From `md`, the rule above the track in the player becomes its scrubber, once
+          // Spotify has said how long the track is. On a phone the scrubber is the slot
+          // above, and every row keeps its own rule.
+          const scrubbable = !phone && chosen === stretch && playback.duration > 0;
 
           return (
             <li key={track.id} className="relative">
@@ -466,7 +491,10 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
                 }}
                 onBlur={() => setAttending(null)}
                 className={cn(
-                  "group w-full border-t pt-3 text-left transition-colors duration-300 outline-none",
+                  // The rule sits under each song on a phone, where the list is a column and a line
+                  // reads as the end of an entry; above it from `md`, where the three columns
+                  // hang from the waveform and the line is the edge they hang from.
+                  "group w-full border-b py-3 text-left transition-colors duration-300 outline-none md:border-t md:border-b-0 md:pb-0",
                   "focus-visible:border-accent",
                   // The scrubber draws this line itself when it is there.
                   scrubbable ? "border-transparent" : lit ? "border-accent/70" : "border-line/50",

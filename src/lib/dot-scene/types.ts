@@ -57,6 +57,15 @@ export interface DotSceneOptions {
   /** Sampled to produce the "idea" stage targets. */
   word: string;
   /**
+   * A phone. The scene's loud moments — the glowing point at the hero, the cluster it
+   * gathers into at the end — are placed at the centre of the viewport, which on a laptop
+   * is open space beside the text and on a phone is always the text itself. Compact runs
+   * the whole scene at about half presence with a smaller glow, and does not try to spell
+   * the word: 240 particles across 390px make dust, not letters, sitting behind a list.
+   * Simplified, not removed — the scene is still there, just no longer on the words.
+   */
+  compact?: boolean;
+  /**
    * A fully resolved font stack, e.g. `'Newsreader', Georgia, serif`.
    * `ctx.font` cannot parse `var(--font-serif)`, so resolution happens in the caller.
    */

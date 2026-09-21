@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Middots } from "@/components/ui/Middots";
 import type { Post } from "@/content/writing";
 
 /**
@@ -22,7 +23,7 @@ export function PostCard({ post }: { post: Post }) {
 
       {post.parts.length > 1 ? (
         <p className="mt-6 font-mono text-[0.6875rem] leading-relaxed text-fg-faint">
-          {post.parts.map((part) => part.title).join(" · ")}
+          <Middots items={post.parts.map((part) => part.title)} />
         </p>
       ) : null}
 

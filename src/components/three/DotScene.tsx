@@ -51,6 +51,7 @@ export default function DotScene() {
       pointerInfluence: hasFinePointer && !reducedMotion,
       lowPower,
       word: particleWord,
+      compact: isMobile,
       // Resolved here: ctx.font cannot read a CSS custom property.
       fontFamily: getComputedStyle(wrapper).fontFamily || "Georgia, serif",
       colors: {

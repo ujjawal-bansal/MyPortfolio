@@ -315,6 +315,32 @@
   }
 }
 
+/* The floating controls on a phone: out of the way while reading down the page, back
+   on the way up. See ScrollChrome. Translate and opacity only, so it never lays out. */
+@media (max-width: 767.98px) {
+  [data-chrome-float] {
+    /* Colours too: this replaces the controls' own transition-colors on a phone. */
+    transition:
+      translate var(--dur-base) var(--ease-out-quart),
+      opacity var(--dur-base) var(--ease-out-quart),
+      color 300ms,
+      border-color 300ms,
+      background-color 300ms;
+  }
+
+  :root[data-chrome="hidden"] [data-chrome-float] {
+    translate: 0 calc(-100% - 1.5rem);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+  [data-chrome-float] {
+    transition: none;
+  }
+}
+
 /* Decorative loops pause while off-screen, and resume from where they stopped.
    `PauseOffscreen` sets the attribute; this is all it takes on the CSS side. */
 [data-offscreen],

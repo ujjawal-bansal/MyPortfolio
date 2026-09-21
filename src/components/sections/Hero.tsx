@@ -1,4 +1,5 @@
 import { Fragments } from "@/components/three/Fragments";
+import { Middots } from "@/components/ui/Middots";
 import { ResumeLink } from "@/components/ui/ResumeLink";
 import { site } from "@/content/site";
 
@@ -58,7 +59,7 @@ export function Hero() {
         </h1>
 
         <p className="mt-5 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-faint uppercase">
-          {site.hero.disciplines.join("  ·  ")}
+          <Middots items={site.hero.disciplines} />
         </p>
 
         {/*

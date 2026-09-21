@@ -133,7 +133,8 @@ export function Scrubber({
       }}
       // Twenty-four pixels of target for a one-pixel line; `touch-pan-y` so a thumb can
       // still scroll the page past it.
-      className="group/line absolute inset-x-0 top-0 z-10 h-6 -translate-y-1/2 cursor-pointer touch-pan-y outline-none"
+      // Centred on its line: the phone's slot under the waveform, or a column's top edge from `md`.
+      className="group/line absolute inset-x-0 bottom-0 z-10 h-6 translate-y-1/2 cursor-pointer touch-pan-y outline-none md:top-0 md:bottom-auto md:-translate-y-1/2"
     >
       <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-accent/25" />
       <span

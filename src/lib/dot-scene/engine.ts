@@ -35,6 +35,9 @@ interface Node {
 
 export function createDotScene(options: DotSceneOptions): DotSceneHandle {
   const { canvas, reducedMotion, pointerInfluence, word, colors, fontFamily, lowPower } = options;
+  const compact = options.compact === true;
+  /** How present the scene is overall. See `compact` in DotSceneOptions. */
+  const presence = compact ? 0.55 : 1;
   const ctx = canvas.getContext("2d", { alpha: true });
   if (!ctx) throw new Error("2D canvas context unavailable");
 
@@ -44,7 +47,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
 
   let stage: Stage = "point";
   /** Drives the opacity curve; the spring itself handles easing between stages. */
-  let alpha = 1;
+  let alpha = presence;
 
   let pointerX: number | null = null;
   let pointerY: number | null = null;
@@ -66,7 +69,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
   let glowSprite: HTMLCanvasElement | null = null;
 
   function buildGlowSprite() {
-    const radius = lowPower ? 18 : 28;
+    const radius = compact ? 14 : lowPower ? 18 : 28;
     const sprite = document.createElement("canvas");
     sprite.width = radius * 2;
     sprite.height = radius * 2;
@@ -229,7 +232,8 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
           break;
         }
         case "text": {
-          if (textPoints.length === 0) {
+          // A phone gets the field instead of a word it has too few particles to write.
+          if (compact || textPoints.length === 0) {
             p.tx = p.fx;
             p.ty = p.fy;
           } else {
@@ -425,7 +429,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
      * override for Phase 7, which needs to force `converge` regardless of scroll.
      */
     setProgress(progress) {
-      alpha = opacityForProgress(progress);
+      alpha = opacityForProgress(progress) * presence;
       handle.setStage(stageForProgress(progress));
     },
 

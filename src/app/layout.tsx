@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { VisitorCount } from "@/components/ui/VisitorCount";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { PauseOffscreen } from "@/components/ui/PauseOffscreen";
+import { ScrollChrome } from "@/components/ui/ScrollChrome";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site-url";
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </SmoothScroll>
         <EnhancementsLazy />
         <PauseOffscreen />
+        <ScrollChrome />
       </body>
     </html>
   );

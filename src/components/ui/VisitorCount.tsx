@@ -74,6 +74,7 @@ export function VisitorCount() {
     <div
       role="img"
       aria-label={meaning}
+      data-chrome-float
       className="group fixed top-4 right-32 z-50 flex size-11 items-center justify-center rounded-full border border-line bg-bg-raised/80 backdrop-blur-sm md:top-6 md:right-20"
     >
       {/* Both states share the cell, so neither reflows the other as they cross-fade. */}

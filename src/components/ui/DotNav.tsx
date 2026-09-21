@@ -152,7 +152,12 @@ export function DotNav() {
       </nav>
 
       {/* ---- Mobile: one dot that opens a real menu ---- */}
-      <div ref={menuRef} data-neti-layer="interface" className="fixed top-4 right-4 z-50 md:hidden">
+      <div
+        ref={menuRef}
+        data-neti-layer="interface"
+        data-chrome-float
+        className="fixed top-4 right-4 z-50 md:hidden"
+      >
         <button
           ref={toggleRef}
           type="button"

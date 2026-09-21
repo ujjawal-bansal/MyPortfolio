@@ -24,6 +24,7 @@ export function ThemeToggle() {
       aria-pressed={isDark}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       // Left of the mobile menu button below `md`, and where the menu button is not, above it.
+      data-chrome-float
       className="group fixed top-4 right-[4.5rem] z-50 flex size-11 items-center justify-center rounded-full border border-line bg-bg-raised/80 backdrop-blur-sm transition-colors duration-300 hover:border-accent/50 focus-visible:border-accent/50 md:top-6 md:right-6"
     >
       <svg
