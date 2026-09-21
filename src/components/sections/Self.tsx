@@ -92,7 +92,7 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
 
         <p
           data-turn
-          className="mt-12 font-serif text-2xl text-balance text-accent italic measure md:mt-16 md:text-3xl"
+          className="mt-12 font-serif-italic text-2xl text-balance text-accent italic measure md:mt-16 md:text-3xl"
         >
           {turn}
         </p>

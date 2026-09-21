@@ -58,7 +58,7 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
             {post.title}
           </h1>
 
-          <p className="mt-7 font-serif text-xl text-balance text-fg-muted italic measure md:text-2xl">
+          <p className="mt-7 font-serif-italic text-xl text-balance text-fg-muted italic measure md:text-2xl">
             {post.standfirst}
           </p>
 
@@ -115,7 +115,7 @@ export default async function WritingPost({ params }: PageProps<"/writing/[slug]
               </div>
 
               {/* The sentence both columns are reaching for. */}
-              <p className="mt-10 border-l-2 border-accent-dim/60 py-1 pl-6 font-serif text-2xl text-balance text-accent italic measure">
+              <p className="mt-10 border-l-2 border-accent-dim/60 py-1 pl-6 font-serif-italic text-2xl text-balance text-accent italic measure">
                 {part.pivot}
               </p>
 

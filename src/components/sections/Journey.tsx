@@ -84,10 +84,12 @@ export function Journey() {
               <div data-body className="mt-2 md:mt-0 md:pl-8">
                 <h3
                   className={cn(
-                    "font-serif text-lg md:text-xl",
+                    "text-lg md:text-xl",
                     // Demote a future entry with colour, not opacity. Fading the whole
-                    // row took its text to 2.66:1 — comfortably below WCAG AA.
-                    milestone.future ? "text-fg-muted italic" : "text-fg-strong",
+                    // row took its text to 2.66:1, comfortably below WCAG AA.
+                    // The family lives in each branch, not above: two font-family
+                    // utilities on one element would leave the winner to CSS order.
+                    milestone.future ? "font-serif-italic text-fg-muted italic" : "font-serif text-fg-strong",
                   )}
                 >
                   {milestone.title}

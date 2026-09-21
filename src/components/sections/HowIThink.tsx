@@ -90,7 +90,7 @@ export function HowIThink() {
                     "md:grid-cols-[1fr_auto_1fr] md:gap-x-8 md:border-l-0 md:pl-0",
                   )}
                 >
-                  <p className="font-serif text-lg text-fg-muted italic">{habit.philosophy}</p>
+                  <p className="font-serif-italic text-lg text-fg-muted italic">{habit.philosophy}</p>
                   <span
                     aria-hidden
                     data-rule
@@ -135,7 +135,7 @@ export function HowIThink() {
                     ))}
 
                     <figure className="sm:col-span-2">
-                      <blockquote className="font-serif text-base text-balance text-fg-muted italic measure">
+                      <blockquote className="font-serif-italic text-base text-balance text-fg-muted italic measure">
                         &ldquo;{stoic.translation}&rdquo;
                       </blockquote>
                       <figcaption className="mt-2 font-mono text-[0.625rem] tracking-wide text-fg-ghost">

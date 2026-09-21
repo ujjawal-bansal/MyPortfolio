@@ -106,7 +106,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                     <>
                       <p className={prose}>{story.problem}</p>
                       {/* The problem at its sharpest. It gets to be loud. */}
-                      <p className="mt-8 font-serif text-2xl text-balance text-fg-strong italic measure md:text-3xl">
+                      <p className="mt-8 font-serif-italic text-2xl text-balance text-fg-strong italic measure md:text-3xl">
                         {story.question}
                       </p>
                     </>
@@ -157,7 +157,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                       */}
                       <blockquote
                         id="takeaway"
-                        className="mt-14 border-l-2 border-accent-dim/60 pl-6 font-serif text-xl text-balance text-fg-strong italic measure md:text-2xl"
+                        className="mt-14 border-l-2 border-accent-dim/60 pl-6 font-serif-italic text-xl text-balance text-fg-strong italic measure md:text-2xl"
                       >
                         {story.takeaway}
                       </blockquote>

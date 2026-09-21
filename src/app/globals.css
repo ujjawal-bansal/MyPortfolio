@@ -196,6 +196,9 @@
   --color-dot: var(--dot);
 
   --font-serif: var(--font-newsreader), ui-serif, Georgia, "Times New Roman", serif;
+  /* Pair with `italic`. Its own family so the real italic face is used rather than
+     an oblique synthesised from the roman. Not preloaded: see lib/fonts.ts. */
+  --font-serif-italic: var(--font-newsreader-italic), ui-serif, Georgia, "Times New Roman", serif;
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-devanagari: var(--font-tiro-devanagari), "Noto Serif Devanagari", serif;
