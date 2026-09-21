@@ -1,5 +1,5 @@
 /**
- * Builds the hero portrait from the source photograph.
+ * Builds the portrait print from its source image.
  *
  *   node scripts/portrait/build.mjs
  *
@@ -14,12 +14,15 @@
  * printed, kept in a notebook, scanned. So the treatment is a sequence of the things that
  * happen to a photograph, in the order they happen, each one light:
  *
- *   1. Cropped square on the face, for a print that is cut into a circle.
+ *   1. Cropped square on the head, for a print that is cut into a circle.
  *   2. Printed and re-scanned — halved and restored, which softens the way optics do
  *      rather than the way a blur filter does.
- *   3. Rendered on orthochromatic-leaning stock: red weighs more, so skin lifts and the
- *      navy suit sinks toward the ink.
- *   4. Faded — blacks lifted, whites held below paper-white, a gentle S in between.
+ *   3. Rendered on orthochromatic-leaning stock: red weighs more, so warm tones — marble,
+ *      the light falling on it — lift, and cool shadow sinks toward the ink.
+ *   4. Exposed for the print, the way a darkroom sets exposure per negative: the source's
+ *      tones are stretched so its brightest part reaches paper and its darkest the ink.
+ *      Without this a low-key source (a statue against black) prints as mud, and a
+ *      bright one blows out. Then faded — blacks lifted, whites held below paper-white.
  *   5. Grain, clumped and strongest in the midtones, as it is in film.
  *   6. Handled — the edges burn darker first; the paper mottles; one faint band where a
  *      scanner lamp ran unevenly.
@@ -102,16 +105,18 @@ function valueNoise(width, height, cell, random) {
 
 /* ---------------------------------------------------------------- 1–2 --------------- */
 
-const source = await sharp(SOURCE).metadata();
-// Square, centred on the face. The source is 1269×1240 with the head at the top; a 900px
-// square from the top keeps all of the hair and puts the eyes a little above centre, where
-// a circle wants them, with the collar and lapels closing the bottom of the round.
-const cropWidth = 900;
-const cropHeight = 900;
-const cropLeft = Math.round((source.width - cropWidth) / 2);
+// The source is a marble head, 1024×1536, lit from the upper right against black. An
+// 820px square from the left edge, 120px down, sets the face left of centre with its gaze
+// going up toward the light, lets the shafts cross the top of the round, and closes the
+// bottom on the drape at the shoulder. Centring the face flattened that: the look needs
+// room to go somewhere.
+const cropWidth = 820;
+const cropHeight = 820;
+const cropLeft = 0;
+const cropTop = 120;
 
 const scanned = await sharp(SOURCE)
-  .extract({ left: cropLeft, top: 0, width: cropWidth, height: cropHeight })
+  .extract({ left: cropLeft, top: cropTop, width: cropWidth, height: cropHeight })
   .resize(Math.round(WIDTH * 0.55), Math.round(HEIGHT * 0.55), { kernel: "lanczos3" })
   .resize(WIDTH, HEIGHT, { kernel: "cubic" })
   .blur(0.7)
@@ -133,6 +138,17 @@ for (let i = 0; i < N; i++) {
   const g = data[i * channels + 1];
   const b = data[i * channels + 2];
   luminance[i] = (0.52 * r + 0.38 * g + 0.1 * b) / 255;
+}
+
+// Exposure: map the 1st–99.6th percentile of the source's tones onto the full range. The
+// percentiles, not the extremes, so one specular glint or one dead pixel cannot set the
+// exposure for the whole print.
+{
+  const sorted = Float32Array.from(luminance).sort();
+  const low = sorted[Math.floor(N * 0.01)];
+  const high = sorted[Math.floor(N * 0.996)];
+  const span = Math.max(1e-3, high - low);
+  for (let i = 0; i < N; i++) luminance[i] = clamp01((luminance[i] - low) / span);
 }
 
 const fade = (v) => lerp(0.1, 0.93, lerp(v, smooth(v), 0.35));
