@@ -16,9 +16,6 @@ export const netiNetiSteps: readonly string[] = [
   "Removing the interface.",
 ];
 
-/** Revealed from the third visit onward. */
-export const returningHint = "⌘K";
-
 /**
  * For anyone who opens DevTools. Plain `%c` styling only — no ASCII art, and nothing
  * that pretends to be an error.

@@ -31,37 +31,6 @@ export interface AppState {
   // ---- Scroll position ------------------------------------------------------
   activeSection: string;
   setActiveSection: (id: string) => void;
-
-  // ---- Visits ---------------------------------------------------------------
-  /** 0 until the client has read localStorage, so SSR and hydration agree. */
-  visits: number;
-  registerVisit: () => void;
-
-  // ---- Idle -----------------------------------------------------------------
-  /** Powers "a question that appears after prolonged inactivity". */
-  lastInteractionAt: number;
-  noteInteraction: () => void;
-}
-
-const VISITS_KEY = "ub:visits";
-
-function readVisits(): number {
-  try {
-    const raw = window.localStorage.getItem(VISITS_KEY);
-    const n = raw ? Number.parseInt(raw, 10) : 0;
-    return Number.isFinite(n) && n >= 0 ? n : 0;
-  } catch {
-    // Private windows and blocked site data both throw. Not worth caring about.
-    return 0;
-  }
-}
-
-function writeVisits(n: number): void {
-  try {
-    window.localStorage.setItem(VISITS_KEY, String(n));
-  } catch {
-    /* no-op */
-  }
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -94,17 +63,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ activeSection: id });
     emit("section:enter", { id });
   },
-
-  visits: 0,
-  registerVisit: () => {
-    const next = readVisits() + 1;
-    writeVisits(next);
-    set({ visits: next });
-    emit("visit", { count: next });
-  },
-
-  lastInteractionAt: 0,
-  noteInteraction: () => set({ lastInteractionAt: Date.now() }),
 }));
 
 /* -------------------------------------------------------------------------- */
@@ -121,7 +79,6 @@ export interface AppEvents {
   "netiNeti:start": undefined;
   "netiNeti:end": undefined;
   "section:enter": { id: string };
-  visit: { count: number };
   idle: { ms: number };
   konami: undefined;
 }
