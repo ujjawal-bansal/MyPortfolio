@@ -66,6 +66,9 @@
   --dot: var(--amber-bright);
   --dot-glow: rgb(227 172 99 / 0.35);
 
+  /* --- The portrait's print, resting on the page ------------------------ */
+  --print-shadow: rgb(0 0 0 / 0.7);
+
   /* --- Layout ------------------------------------------------------------ */
   --gutter: 1.25rem;
   --measure: 68ch;
@@ -148,6 +151,9 @@
 
   --dot: #a5762f;
   --dot-glow: rgb(138 90 28 / 0.28);
+
+  /* A print on parchment casts a warm, faint shadow; black at 70% read as a smudge. */
+  --print-shadow: rgb(74 56 32 / 0.32);
 }
 
 /* ==========================================================================
@@ -214,6 +220,7 @@
   --animate-trace: trace-breathe 11s var(--ease-in-out-soft) infinite;
   --animate-sound: trace-sound 1s var(--ease-in-out-soft) infinite;
   --animate-tune: trace-tune 0.9s var(--ease-out-quart) infinite;
+  --animate-orbit: orbit 90s linear infinite;
 
   --ease-expo: var(--ease-out-expo);
   --ease-quart: var(--ease-out-quart);
@@ -324,6 +331,13 @@
   }
   50% {
     transform: scaleY(1.05);
+  }
+}
+
+/* The rim of the portrait's lens. One slow turn; nothing else about it moves. */
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
   }
 }
 

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { gsap } from "gsap";
+import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { coda, identities, intro, turn } from "@/content/self";
@@ -39,15 +40,47 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
     }
 
     gsap.from(selector("[data-turn]"), {
-      scrollTrigger: { trigger: selector("[data-turn]")[0], start: "top 85%", once: true },
+      scrollTrigger: {
+        trigger: selector("[data-turn]")[0],
+        start: "top 85%",
+        once: true,
+      },
       opacity: 0,
       y: 18,
       duration: 0.8,
       ease: "power3.out",
     });
 
+    // The portrait develops as it scrolls in: the print rises a little, then comes up out
+    // of a pale veil the way an image comes up in a tray. The markup rests in the finished
+    // state — veil at zero — so this only ever animates *from* somewhere else.
+    const [portrait] = selector("[data-portrait]");
+    if (portrait) {
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: portrait, start: "top 82%", once: true },
+        })
+        .from(portrait, {
+          opacity: 0,
+          y: 24,
+          scale: 0.97,
+          duration: 1.1,
+          ease: "power3.out",
+        })
+        .fromTo(
+          portrait.querySelector("[data-portrait-veil]"),
+          { opacity: 0.94 },
+          { opacity: 0, duration: 2.4, ease: "power2.out" },
+          "<0.2",
+        );
+    }
+
     gsap.from(selector("[data-intro] > *"), {
-      scrollTrigger: { trigger: selector("[data-intro]")[0], start: "top 85%", once: true },
+      scrollTrigger: {
+        trigger: selector("[data-intro]")[0],
+        start: "top 85%",
+        once: true,
+      },
       opacity: 0,
       y: 16,
       duration: 0.7,
@@ -90,20 +123,33 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
           ))}
         </ol>
 
-        <p
-          data-turn
-          className="mt-12 font-serif-italic text-2xl text-balance text-accent italic measure md:mt-16 md:text-3xl"
-        >
-          {turn}
-        </p>
+        {/*
+          The question, the answer, and beside them the portrait. On a laptop the photograph
+          takes the column the prose leaves empty, level with the answer it sits beside. On
+          a phone it goes between the two — the question, then a picture of the body that
+          was just struck out of the list, then "the boring answer". Same element either
+          way: the grid only moves it.
+        */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-16">
+          <p
+            data-turn
+            className="mt-12 font-serif-italic text-2xl text-balance text-accent italic measure md:mt-16 md:text-3xl lg:col-start-1 lg:row-start-1"
+          >
+            {turn}
+          </p>
 
-        <div data-intro className="mt-12 space-y-6 measure md:mt-16">
-          {intro.map((paragraph) => (
-            <p key={paragraph.slice(0, 24)} className="text-lg leading-relaxed text-fg">
-              {paragraph}
-            </p>
-          ))}
-          <p className="pt-2 font-mono text-xs tracking-wide text-fg-faint">{coda}</p>
+          <div className="mt-12 md:mt-14 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-10 lg:self-center">
+            <Portrait />
+          </div>
+
+          <div data-intro className="mt-12 space-y-6 measure md:mt-16 lg:col-start-1 lg:row-start-2">
+            {intro.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)} className="text-lg leading-relaxed text-fg">
+                {paragraph}
+              </p>
+            ))}
+            <p className="pt-2 font-mono text-xs tracking-wide text-fg-faint">{coda}</p>
+          </div>
         </div>
       </div>
     </Section>
