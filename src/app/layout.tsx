@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { DEFAULT_THEME, themeScript } from "@/lib/theme";
 import { EnhancementsLazy } from "@/components/easter-eggs/EnhancementsLazy";
+import { Enter } from "@/components/loader/Enter";
 import { DotNav } from "@/components/ui/DotNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { SkipLink } from "@/components/ui/SkipLink";
@@ -54,10 +55,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/*
+          No JavaScript, no entrance. The overlay is server-rendered so it paints
+          immediately, which means without this it would sit there forever.
+        */}
+        <noscript>
+          <style>{`#enter{display:none!important}`}</style>
+        </noscript>
       </head>
       <body className="flex min-h-full flex-col bg-bg text-fg">
         <SkipLink />
         <SmoothScroll>
+          <Enter />
           <DotNav />
           <ThemeToggle />
           {children}
