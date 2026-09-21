@@ -4,6 +4,7 @@ import { EnhancementsLazy } from "@/components/easter-eggs/EnhancementsLazy";
 import { Enter } from "@/components/loader/Enter";
 import { DotNav } from "@/components/ui/DotNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { VisitorCount } from "@/components/ui/VisitorCount";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { site } from "@/content/site";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Enter />
           <DotNav />
           <ThemeToggle />
+          <VisitorCount />
           {children}
         </SmoothScroll>
         <EnhancementsLazy />
