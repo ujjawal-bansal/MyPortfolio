@@ -211,6 +211,7 @@
   --animate-signal: signal 3.2s var(--ease-out-quart) infinite;
   --animate-turn-out: turn-out 12s var(--ease-in-out-soft) infinite;
   --animate-turn-in: turn-in 12s var(--ease-in-out-soft) infinite;
+  --animate-trace: trace-breathe 11s var(--ease-in-out-soft) infinite;
 
   --ease-expo: var(--ease-out-expo);
   --ease-quart: var(--ease-out-quart);
@@ -302,6 +303,25 @@
   100% {
     transform: scale(3.2);
     opacity: 0;
+  }
+}
+
+/* The listening trace, at rest.
+
+   A waveform holding perfectly still reads as a diagram of a sound rather than a sound,
+   and the section needs it to look alive before anyone touches it. This is close to the
+   least movement that achieves that: a slow swell in height and nothing else. Never
+   horizontal — the x axis is the only thing in the strip carrying meaning, since it is
+   the order the three tracks were heard in, and a landscape that slides sideways would
+   be quietly lying about that. The period is deliberately long and prime-ish against the
+   other loops on the page so the bottom of the site never falls into step with itself. */
+@keyframes trace-breathe {
+  0%,
+  100% {
+    transform: scaleY(0.96);
+  }
+  50% {
+    transform: scaleY(1.05);
   }
 }
 

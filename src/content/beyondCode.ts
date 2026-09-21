@@ -1,5 +1,3 @@
-import { PENDING, type Maybe } from "./types";
-
 /**
  * "When I'm not writing code" (BRIEF §23). Intended to feel intimate rather than
  * impressive — the section where the site stops making a case.
@@ -40,15 +38,14 @@ export const pursuits: readonly Pursuit[] = [
 ];
 
 /**
- * The waveform is **decorative**. facts.md records no recording, so there is nothing to
- * play and nothing is implied. If a real recording ever exists, put its URL here and the
- * component will say so instead of staying quiet.
+ * Heights, 0–1, of the drawn waveform. Hand-shaped, not random.
+ *
+ * This used to be the whole of the waveform at the foot of the section, standing in for
+ * music in general. The strip is now built from real listening (see `content/soundtrack.ts`),
+ * and these forty-two numbers are what renders when there is none to show — Spotify
+ * unconfigured, unreachable, or a quiet week. It claims nothing, so it cannot be wrong,
+ * which is what makes it the right thing to fall back to.
  */
-export const recording: { href: Maybe<string> } = {
-  href: PENDING,
-};
-
-/** Heights, 0–1, of the decorative waveform bars. Hand-shaped, not random. */
 export const waveform: readonly number[] = [
   0.12, 0.2, 0.34, 0.28, 0.46, 0.62, 0.5, 0.72, 0.9, 0.68, 0.84, 0.55, 0.64, 0.42, 0.56, 0.38, 0.48, 0.3, 0.4,
   0.24, 0.34, 0.18, 0.26, 0.14, 0.22, 0.3, 0.44, 0.36, 0.52, 0.66, 0.58, 0.74, 0.62, 0.46, 0.54, 0.32, 0.4,
