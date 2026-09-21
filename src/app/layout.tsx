@@ -63,7 +63,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{`#enter{display:none!important}`}</style>
         </noscript>
       </head>
-      <body className="flex min-h-full flex-col bg-bg text-fg">
+      <body
+        // Extensions (Grammarly writes data-gr-ext-installed, among others) add
+        // attributes to <body> before React hydrates, and the mismatch is reported
+        // as ours. This covers this element's own attributes, not its children.
+        suppressHydrationWarning
+        className="flex min-h-full flex-col bg-bg text-fg"
+      >
         <SkipLink />
         <SmoothScroll>
           <Enter />
