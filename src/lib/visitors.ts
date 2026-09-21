@@ -46,10 +46,61 @@ export interface VisitorResult {
   skipped: boolean;
 }
 
+/**
+ * Server-side only. Vercel collects a function's `console.error` into the runtime log for
+ * that deployment; none of this reaches the browser, the response body or the bundle.
+ *
+ * Every failure below returns the same `count: null`, which is right for the UI — an empty
+ * corner beats a wrong number — and useless for working out why. These lines cost nothing
+ * on the happy path and name the cause on the unhappy one.
+ */
+function note(stage: string, detail: string): void {
+  console.error(`[visitors] ${stage}: ${detail}`);
+}
+
+/**
+ * Describes a configured value without printing it.
+ *
+ * The token is a credential and never goes to a log, but its *shape* is exactly what tends
+ * to be wrong. A value pasted out of a `.env` file carries its quotes, a copy that clipped
+ * short is the wrong length, and a paste that caught a newline is padded. Length and
+ * quoting give all of that away while revealing nothing usable.
+ */
+function shapeOf(raw: string | undefined): string {
+  if (raw === undefined) return "unset";
+  if (raw === "") return "empty";
+  const parts = [`${raw.length} chars`];
+  if (/^["']|["']$/.test(raw.trim())) parts.push("WRAPPED IN QUOTES");
+  if (raw !== raw.trim()) parts.push("padded with whitespace");
+  return parts.join(", ");
+}
+
 function credentials(): { url: string; token: string } | null {
-  const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
-  if (!url || !token) return null;
+  const rawUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const rawToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const url = rawUrl?.trim();
+  const token = rawToken?.trim();
+
+  if (!url || !token) {
+    note("config", `url is ${shapeOf(rawUrl)}, token is ${shapeOf(rawToken)}`);
+    return null;
+  }
+
+  // A malformed URL surfaces inside `fetch` as a bare TypeError several frames from
+  // anything that names the cause. Parsing it here says which variable is at fault.
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    note("config", `UPSTASH_REDIS_REST_URL does not parse — ${shapeOf(rawUrl)}`);
+    return null;
+  }
+  if (parsed.protocol !== "https:") {
+    note("config", `UPSTASH_REDIS_REST_URL has protocol ${parsed.protocol}, expected https:`);
+    return null;
+  }
+  note("config", `ok — host ${parsed.hostname}, token ${token.length} chars`);
+
   return { url: url.replace(/\/$/, ""), token };
 }
 
@@ -131,12 +182,21 @@ export async function recordVisit(headers: Headers): Promise<VisitorResult> {
       cache: "no-store",
       signal: AbortSignal.timeout(2500),
     });
-    if (!res.ok) return { count: null, skipped: false };
+    if (!res.ok) {
+      note("pipeline", `upstash answered ${res.status} ${res.statusText}`);
+      return { count: null, skipped: false };
+    }
     const json = (await res.json()) as Array<{ result?: unknown; error?: string }>;
+    const rejected = Array.isArray(json) ? json.find((entry) => entry?.error) : undefined;
+    if (rejected) note("pipeline", `upstash rejected a command: ${rejected.error}`);
     const count = Number(json?.[1]?.result);
+    if (!Number.isFinite(count)) {
+      note("pipeline", `no count in the reply: ${JSON.stringify(json).slice(0, 200)}`);
+    }
     return { count: Number.isFinite(count) ? count : null, skipped: false };
-  } catch {
+  } catch (error) {
     // A counter is never worth failing a page over.
+    note("pipeline", error instanceof Error ? `${error.name}: ${error.message}` : String(error));
     return { count: null, skipped: false };
   }
 }
@@ -148,11 +208,17 @@ async function readCount(creds: { url: string; token: string }): Promise<number 
       cache: "no-store",
       signal: AbortSignal.timeout(2500),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      note("pfcount", `upstash answered ${res.status} ${res.statusText}`);
+      return null;
+    }
     const json = (await res.json()) as { result?: unknown };
     const count = Number(json?.result);
+    if (!Number.isFinite(count))
+      note("pfcount", `no count in the reply: ${JSON.stringify(json).slice(0, 200)}`);
     return Number.isFinite(count) ? count : null;
-  } catch {
+  } catch (error) {
+    note("pfcount", error instanceof Error ? `${error.name}: ${error.message}` : String(error));
     return null;
   }
 }
