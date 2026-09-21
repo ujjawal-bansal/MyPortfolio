@@ -28,11 +28,23 @@ export const soundtrack = {
   waveLabel: "A waveform in three stretches, one for each recent track",
   /** The original hand-drawn waveform, which is still what renders when there is no history. */
   drawnLabel: "A drawn waveform",
-  /** On the control that opens a track. The artist is appended by the component. */
-  selectHint: "Listen to",
+  /** Accessible name on each track's control; its pressed state says whether it is playing. */
+  play: "Play",
+  /** Beside the number of the track the player holds. Lowercase: a state, not a heading. */
+  playing: "playing",
+  waiting: "starting",
+  paused: "paused",
+  /**
+   * Above Spotify's own player, when a track would not start from the waveform — the
+   * browser wanted the press made there, or Spotify will not stream this one signed out.
+   * Says what to do, not whose fault it is.
+   */
+  stalled: "This one would not start from the waveform. Spotify's own player:",
+  /** Accessible name of the line above the track being played, which is also its scrubber. */
+  seek: "Position in",
+  /** What a screen reader hears as the playhead moves. Never drawn: the line has no numbers. */
+  seekValue: (at: string, total: string) => `${at} of ${total}`,
   open: "Open in Spotify",
   /** Attribution. Spotify's terms require the source to be named where its data appears. */
   source: "Recently played · Spotify",
-  /** Title on the embedded player iframe, which needs a name for screen readers. */
-  playerTitle: "Spotify player",
 } as const;

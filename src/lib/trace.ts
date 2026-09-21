@@ -20,6 +20,15 @@
 /** Bars per track. Three stretches of twenty read as one strip, not three charts. */
 export const BARS_PER_TRACK = 20;
 
+/**
+ * Bars per track once the strip spans a laptop's row. The strip is stretched to its box,
+ * so a fixed count gets coarser as the box widens: sixty bars across 1136px are 8px slabs
+ * with wide gaps, a bar chart rather than a waveform. Ninety-six puts the spacing back
+ * where the original 768px drawing had it. Same seed, so the same song keeps the same
+ * character at either density; only the fine grain differs.
+ */
+export const BARS_PER_TRACK_WIDE = 32;
+
 /** The band the hand-drawn original occupies. Staying inside it keeps the family look. */
 const MIN_HEIGHT = 0.14;
 const MAX_HEIGHT = 0.92;

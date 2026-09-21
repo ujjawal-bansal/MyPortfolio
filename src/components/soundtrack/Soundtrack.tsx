@@ -1,7 +1,7 @@
 import { waveform } from "@/content/beyondCode";
 import { MAX_TRACKS, soundtrack } from "@/content/soundtrack";
 import { recentTracks } from "@/lib/spotify";
-import { traceFor } from "@/lib/trace";
+import { BARS_PER_TRACK_WIDE, traceFor } from "@/lib/trace";
 import { Trace, type TraceTrack } from "./Trace";
 
 /**
@@ -54,7 +54,7 @@ function toTraceTrack(track: {
   art: string | null;
   url: string;
 }): TraceTrack {
-  return { ...track, shape: traceFor(track.id) };
+  return { ...track, shape: traceFor(track.id), wideShape: traceFor(track.id, BARS_PER_TRACK_WIDE) };
 }
 
 /**
@@ -70,26 +70,39 @@ function Quiet() {
   return (
     <>
       <p className="mt-3 leading-relaxed text-fg measure">{soundtrack.quiet}</p>
-      <svg
-        viewBox={`0 0 ${waveform.length * 6} 60`}
-        className="mt-8 h-16 w-full md:h-20"
-        role="img"
-        aria-label={soundtrack.drawnLabel}
-        preserveAspectRatio="none"
-      >
-        {waveform.map((height, index) => (
-          <rect
-            key={index}
-            x={index * 6}
-            y={30 - (height * 56) / 2}
-            width={2.5}
-            height={height * 56}
-            rx={1.25}
-            className="fill-accent-dim"
-            style={{ opacity: 0.35 + height * 0.5 }}
-          />
-        ))}
-      </svg>
+      <Drawing bars={waveform} className="lg:hidden" />
+      {/*
+        On a laptop's row, the drawing and then its reflection. Its forty-two heights are
+        hand-set, so there is nothing to generate more of — and forty-two bars stretched
+        across 1136px are 11px slabs. Mirrored, it keeps the original spacing across the
+        full width and still says nothing it cannot stand behind.
+      */}
+      <Drawing bars={[...waveform, ...[...waveform].reverse()]} className="hidden lg:block" />
     </>
+  );
+}
+
+function Drawing({ bars, className }: { bars: readonly number[]; className: string }) {
+  return (
+    <svg
+      viewBox={`0 0 ${bars.length * 6} 60`}
+      className={`mt-8 h-16 w-full md:h-20 ${className}`}
+      role="img"
+      aria-label={soundtrack.drawnLabel}
+      preserveAspectRatio="none"
+    >
+      {bars.map((height, index) => (
+        <rect
+          key={index}
+          x={index * 6}
+          y={30 - (height * 56) / 2}
+          width={2.5}
+          height={height * 56}
+          rx={1.25}
+          className="fill-accent-dim"
+          style={{ opacity: 0.35 + height * 0.5 }}
+        />
+      ))}
+    </svg>
   );
 }

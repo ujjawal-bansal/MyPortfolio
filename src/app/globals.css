@@ -212,6 +212,8 @@
   --animate-turn-out: turn-out 12s var(--ease-in-out-soft) infinite;
   --animate-turn-in: turn-in 12s var(--ease-in-out-soft) infinite;
   --animate-trace: trace-breathe 11s var(--ease-in-out-soft) infinite;
+  --animate-sound: trace-sound 1s var(--ease-in-out-soft) infinite;
+  --animate-tune: trace-tune 0.9s var(--ease-out-quart) infinite;
 
   --ease-expo: var(--ease-out-expo);
   --ease-quart: var(--ease-out-quart);
@@ -322,6 +324,39 @@
   }
   50% {
     transform: scaleY(1.05);
+  }
+}
+
+/* A stretch of the trace between a click and the first sound. A single swell that each
+   bar takes in turn, so it travels: something on its way, not something playing. Most of
+   the cycle is rest, which is what keeps it from reading as the music itself. */
+@keyframes trace-tune {
+  0%,
+  45%,
+  100% {
+    transform: scaleY(1);
+  }
+  18% {
+    transform: scaleY(1.16);
+  }
+}
+
+/* A stretch of the trace while its track is playing. Irregular on purpose — four stops
+   at uneven heights, and each bar is given its own period and phase inline — so the
+   stretch moves like sound and never like a meter. Height only, like the rest of it. */
+@keyframes trace-sound {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  30% {
+    transform: scaleY(1.26);
+  }
+  55% {
+    transform: scaleY(0.84);
+  }
+  80% {
+    transform: scaleY(1.12);
   }
 }
 
