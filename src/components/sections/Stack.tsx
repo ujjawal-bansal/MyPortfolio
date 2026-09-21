@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { stack } from "@/content/stack";
 import { useMotionEffect } from "@/hooks";
+import { MARK, REVEAL, TRIGGER } from "@/lib/motion";
 
 /**
  * The instruments, arranged along the thought → system path rather than by category.
@@ -22,16 +23,13 @@ export function Stack() {
   useMotionEffect(scope, ({ selector }) => {
     for (const row of selector("[data-stage]")) {
       gsap
-        .timeline({ scrollTrigger: { trigger: row, start: "top 85%", once: true } })
-        .from(row.querySelector("[data-marker]"), {
-          scale: 0,
-          opacity: 0,
-          duration: 0.4,
-          ease: "back.out(2)",
-        })
+        .timeline({ scrollTrigger: { trigger: row, start: TRIGGER, once: true } })
+        .from(row.querySelector("[data-marker]"), { scale: 0, opacity: 0, ...MARK })
+        // A row of pills is one gesture, not six: a short stagger, so it reads as a
+        // single arrival sweeping across rather than items being dealt out.
         .from(
           row.querySelectorAll("[data-instrument]"),
-          { opacity: 0, y: 10, duration: 0.4, stagger: 0.03, ease: "power2.out" },
+          { opacity: 0, y: 10, ...REVEAL, stagger: 0.04 },
           "<0.1",
         );
     }

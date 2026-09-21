@@ -126,7 +126,7 @@ export function DotNav() {
                   <span
                     className={cn(
                       "font-mono text-[0.625rem] tracking-widest uppercase",
-                      "translate-x-1 opacity-0 transition-all duration-300 ease-[var(--ease-out-quart)]",
+                      "translate-x-1 opacity-0 transition-[translate,opacity] duration-300 ease-[var(--ease-out-quart)]",
                       "group-hover:translate-x-0 group-hover:opacity-100",
                       "group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                       active ? "text-accent" : "text-fg-faint",
@@ -137,7 +137,7 @@ export function DotNav() {
                   <span
                     aria-hidden
                     className={cn(
-                      "size-1.5 shrink-0 rounded-full transition-all duration-300 ease-[var(--ease-out-quart)]",
+                      "size-1.5 shrink-0 rounded-full transition-[scale,background-color] duration-300 ease-[var(--ease-out-quart)]",
                       active
                         ? "scale-125 bg-accent"
                         : "bg-fg-faint/40 group-hover:bg-fg-muted group-focus-visible:bg-fg-muted",
@@ -165,8 +165,10 @@ export function DotNav() {
           <span
             aria-hidden
             className={cn(
-              "rounded-full transition-all duration-300 ease-[var(--ease-out-quart)]",
-              menuOpen ? "size-3 bg-accent" : "size-1.5 bg-fg-muted",
+              // Always 12px, scaled to half when closed: growing it by width and height
+              // re-laid the page out on every frame of the transition; scale does not.
+              "size-3 rounded-full transition-[scale,background-color] duration-300 ease-[var(--ease-out-quart)]",
+              menuOpen ? "scale-100 bg-accent" : "scale-50 bg-fg-muted",
             )}
             style={menuOpen ? { boxShadow: "0 0 12px var(--dot-glow)" } : undefined}
           />

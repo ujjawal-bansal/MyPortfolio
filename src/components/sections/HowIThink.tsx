@@ -10,6 +10,7 @@ import { sectionById } from "@/content/sections";
 import { cn } from "@/lib/utils";
 
 import { useMotionEffect } from "@/hooks";
+import { DRAW, REVEAL, RISE, STAGGER, TRIGGER } from "@/lib/motion";
 
 /**
  * Seven verbs. Each one holds a philosophical idea and an engineering practice on the
@@ -32,19 +33,14 @@ export function HowIThink() {
   useMotionEffect(scope, ({ selector }) => {
     for (const row of selector("[data-habit]")) {
       gsap
-        .timeline({ scrollTrigger: { trigger: row, start: "top 80%", once: true } })
-        .from(row.querySelector("[data-verb]"), {
-          opacity: 0,
-          x: -18,
-          duration: 0.55,
-          ease: "power3.out",
-        })
+        .timeline({ scrollTrigger: { trigger: row, start: TRIGGER, once: true } })
+        .from(row.querySelector("[data-verb]"), { opacity: 0, x: -RISE, ...REVEAL })
         .from(
           row.querySelectorAll("[data-pair] > *"),
-          { opacity: 0, y: 12, duration: 0.5, stagger: 0.08, ease: "power2.out" },
+          { opacity: 0, y: 12, ...REVEAL, stagger: STAGGER },
           "<0.1",
         )
-        .from(row.querySelectorAll("[data-rule]"), { scaleY: 0, duration: 0.5, ease: "power2.inOut" }, "<");
+        .from(row.querySelectorAll("[data-rule]"), { scaleY: 0, ...DRAW }, "<");
     }
   });
 

@@ -6,6 +6,7 @@ import { DotNav } from "@/components/ui/DotNav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { VisitorCount } from "@/components/ui/VisitorCount";
 import { SkipLink } from "@/components/ui/SkipLink";
+import { PauseOffscreen } from "@/components/ui/PauseOffscreen";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site-url";
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </SmoothScroll>
         <EnhancementsLazy />
+        <PauseOffscreen />
       </body>
     </html>
   );

@@ -31,7 +31,7 @@ export function WritingLink({ className }: { className?: string }) {
       </span>
       <span
         aria-hidden
-        className="font-mono text-xs text-fg-faint transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent group-focus-visible:translate-x-1"
+        className="font-mono text-xs text-fg-faint transition-[translate,color] duration-300 group-hover:translate-x-1 group-hover:text-accent group-focus-visible:translate-x-1"
       >
         →
       </span>

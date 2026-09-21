@@ -43,7 +43,7 @@ export function Hero() {
 
           <span
             aria-hidden
-            className="font-serif text-5xl leading-[1.15] font-light tracking-tight text-balance text-fg-strong transition-all duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:-translate-y-[0.06em] group-hover/name:opacity-0 group-hover/name:blur-[3px] md:text-7xl"
+            className="font-serif text-5xl leading-[1.15] font-light tracking-tight text-balance text-fg-strong transition-[translate,opacity,filter] duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:-translate-y-[0.06em] group-hover/name:opacity-0 group-hover/name:blur-[3px] md:text-7xl"
           >
             {site.hero.name}
           </span>
@@ -51,7 +51,7 @@ export function Hero() {
           <span
             aria-hidden
             lang="hi"
-            className="translate-y-[0.06em] text-5xl leading-[1.15] text-fg-strong opacity-0 blur-[3px] transition-all duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:translate-y-0 group-hover/name:opacity-100 group-hover/name:blur-[0px] md:text-7xl"
+            className="translate-y-[0.06em] text-5xl leading-[1.15] text-fg-strong opacity-0 blur-[3px] transition-[translate,opacity,filter] duration-500 ease-[var(--ease-out-quart)] [grid-area:1/1] group-hover/name:translate-y-0 group-hover/name:opacity-100 group-hover/name:blur-[0px] md:text-7xl"
           >
             {site.hero.devanagariName}
           </span>

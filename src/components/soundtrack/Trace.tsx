@@ -282,82 +282,86 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
           the list below it, and a screen reader gains nothing from being told the shape of
           a waveform twice.
         */}
-        <svg
-          aria-hidden
-          viewBox={`0 0 ${width} ${H}`}
-          preserveAspectRatio="none"
-          // Visible, because a sounding bar under the cursor can briefly exceed the box,
-          // and a hard clip across its top reads as a rendering fault.
-          className="h-28 w-full touch-pan-y overflow-visible select-none md:h-40"
-        >
-          <defs>
-            {seen
-              ? tracks.map((track, stretch) =>
-                  track.art ? (
-                    <pattern
-                      key={track.id}
-                      id={patternId(track.id)}
-                      patternUnits="userSpaceOnUse"
-                      x={stretch * stretchWidth}
-                      y={0}
-                      width={stretchWidth}
-                      height={H}
-                    >
-                      <image
-                        href={track.art}
-                        x={0}
+        {/*
+          The idle breathing lives on this box, not inside the SVG. Scaling an SVG group
+          repaints all ninety-six bars every frame; scaling a box is done by the GPU on the
+          finished image. The bars are centred vertically, so scaling the box about its
+          centre is the same motion to the eye.
+        */}
+        <div className={inView ? "motion-safe:animate-trace" : undefined}>
+          <svg
+            aria-hidden
+            viewBox={`0 0 ${width} ${H}`}
+            preserveAspectRatio="none"
+            // Visible, because a sounding bar under the cursor can briefly exceed the box,
+            // and a hard clip across its top reads as a rendering fault.
+            className="h-28 w-full touch-pan-y overflow-visible select-none md:h-40"
+          >
+            <defs>
+              {seen
+                ? tracks.map((track, stretch) =>
+                    track.art ? (
+                      <pattern
+                        key={track.id}
+                        id={patternId(track.id)}
+                        patternUnits="userSpaceOnUse"
+                        x={stretch * stretchWidth}
                         y={0}
                         width={stretchWidth}
                         height={H}
-                        preserveAspectRatio="xMidYMid slice"
-                      />
-                    </pattern>
-                  ) : null,
-                )
-              : null}
-          </defs>
-
-          <g
-            className={inView ? "motion-safe:animate-trace" : undefined}
-            style={{ transformOrigin: `${width / 2}px ${CENTER}px` }}
-          >
-            {tracks.map((track, stretch) => {
-              const lit = active === stretch;
-              const playingHere = sounding(stretch);
-              // Clicked, not yet sounding. Hovering had already lit this stretch, so without
-              // its own motion a click would change nothing on screen until the audio came.
-              const startingHere = chosen === stretch && playback.waiting && !playback.playing;
-              const cx = stretch * stretchWidth + stretchWidth / 2;
-
-              return (
-                <g
-                  key={track.id}
-                  style={{
-                    opacity: active === null ? REST : lit ? LIT : RECEDED,
-                    transform: lit
-                      ? `translate(${cx}px, ${CENTER}px) scale(1, ${STRETCH_SWELL}) translate(${-cx}px, ${-CENTER}px)`
-                      : undefined,
-                  }}
-                  className={cn(
-                    "transition-[opacity,transform]",
-                    reduced ? "duration-150" : "duration-[var(--dur-slow)] ease-[var(--ease-out-expo)]",
-                  )}
-                >
-                  {shapeOf(track).map((height, index) => {
-                    const bar = stretch * perTrack + index;
-                    const barHeight = round(height * MAX_BAR_H);
-                    const x = round(bar * PITCH + (PITCH - BAR_W) / 2);
-                    const y = round(CENTER - barHeight / 2);
-                    const weight = round(0.4 + height * 0.5);
-
-                    return (
-                      <g
-                        key={index}
-                        ref={(node) => {
-                          barRefs.current[bar] = node;
-                        }}
                       >
-                        {/*
+                        <image
+                          href={track.art}
+                          x={0}
+                          y={0}
+                          width={stretchWidth}
+                          height={H}
+                          preserveAspectRatio="xMidYMid slice"
+                        />
+                      </pattern>
+                    ) : null,
+                  )
+                : null}
+            </defs>
+
+            <g>
+              {tracks.map((track, stretch) => {
+                const lit = active === stretch;
+                const playingHere = sounding(stretch);
+                // Clicked, not yet sounding. Hovering had already lit this stretch, so without
+                // its own motion a click would change nothing on screen until the audio came.
+                const startingHere = chosen === stretch && playback.waiting && !playback.playing;
+                const cx = stretch * stretchWidth + stretchWidth / 2;
+
+                return (
+                  <g
+                    key={track.id}
+                    style={{
+                      opacity: active === null ? REST : lit ? LIT : RECEDED,
+                      transform: lit
+                        ? `translate(${cx}px, ${CENTER}px) scale(1, ${STRETCH_SWELL}) translate(${-cx}px, ${-CENTER}px)`
+                        : undefined,
+                    }}
+                    className={cn(
+                      "transition-[opacity,transform]",
+                      reduced ? "duration-150" : "duration-[var(--dur-slow)] ease-[var(--ease-out-expo)]",
+                    )}
+                  >
+                    {shapeOf(track).map((height, index) => {
+                      const bar = stretch * perTrack + index;
+                      const barHeight = round(height * MAX_BAR_H);
+                      const x = round(bar * PITCH + (PITCH - BAR_W) / 2);
+                      const y = round(CENTER - barHeight / 2);
+                      const weight = round(0.4 + height * 0.5);
+
+                      return (
+                        <g
+                          key={index}
+                          ref={(node) => {
+                            barRefs.current[bar] = node;
+                          }}
+                        >
+                          {/*
                           Its own group, because the cursor writes transforms to the outer
                           one and an animation on the same element would override them.
                           Playing: the period and phase differ per bar, deterministically,
@@ -370,63 +374,64 @@ export function Trace({ tracks }: { tracks: TraceTrack[] }) {
                           is plainly not the music yet, so the wait reads as arrival rather
                           than as nothing happening.
                         */}
-                        <g
-                          className={
-                            playingHere
-                              ? "motion-safe:animate-sound"
-                              : startingHere
-                                ? "motion-safe:animate-tune"
-                                : undefined
-                          }
-                          style={
-                            playingHere
-                              ? {
-                                  transformOrigin: `${round(x + BAR_W / 2)}px ${CENTER}px`,
-                                  animationDuration: `${SOUND_BASE_MS + ((bar * 53) % 520)}ms`,
-                                  animationDelay: `-${(bar * 137) % 900}ms`,
-                                }
-                              : startingHere
+                          <g
+                            className={
+                              playingHere
+                                ? "motion-safe:animate-sound"
+                                : startingHere
+                                  ? "motion-safe:animate-tune"
+                                  : undefined
+                            }
+                            style={
+                              playingHere
                                 ? {
                                     transformOrigin: `${round(x + BAR_W / 2)}px ${CENTER}px`,
-                                    animationDuration: `${TUNE_MS}ms`,
-                                    animationDelay: `${Math.round(index * tuneStep)}ms`,
+                                    animationDuration: `${SOUND_BASE_MS + ((bar * 53) % 520)}ms`,
+                                    animationDelay: `-${(bar * 137) % 900}ms`,
                                   }
-                                : undefined
-                          }
-                        >
-                          <rect
-                            x={x}
-                            y={y}
-                            width={BAR_W}
-                            height={barHeight}
-                            rx={BAR_W / 2}
-                            className="fill-accent-dim"
-                            style={{ opacity: weight }}
-                          />
-                          {seen && track.art ? (
+                                : startingHere
+                                  ? {
+                                      transformOrigin: `${round(x + BAR_W / 2)}px ${CENTER}px`,
+                                      animationDuration: `${TUNE_MS}ms`,
+                                      animationDelay: `${Math.round(index * tuneStep)}ms`,
+                                    }
+                                  : undefined
+                            }
+                          >
                             <rect
                               x={x}
                               y={y}
                               width={BAR_W}
                               height={barHeight}
                               rx={BAR_W / 2}
-                              fill={`url(#${patternId(track.id)})`}
-                              style={{ opacity: lit ? 1 : 0 }}
-                              className={cn(
-                                "transition-opacity",
-                                reduced ? "duration-150" : "duration-[var(--dur-slow)]",
-                              )}
+                              className="fill-accent-dim"
+                              style={{ opacity: weight }}
                             />
-                          ) : null}
+                            {seen && track.art ? (
+                              <rect
+                                x={x}
+                                y={y}
+                                width={BAR_W}
+                                height={barHeight}
+                                rx={BAR_W / 2}
+                                fill={`url(#${patternId(track.id)})`}
+                                style={{ opacity: lit ? 1 : 0 }}
+                                className={cn(
+                                  "transition-opacity",
+                                  reduced ? "duration-150" : "duration-[var(--dur-slow)]",
+                                )}
+                              />
+                            ) : null}
+                          </g>
                         </g>
-                      </g>
-                    );
-                  })}
-                </g>
-              );
-            })}
-          </g>
-        </svg>
+                      );
+                    })}
+                  </g>
+                );
+              })}
+            </g>
+          </svg>
+        </div>
       </div>
 
       {/*

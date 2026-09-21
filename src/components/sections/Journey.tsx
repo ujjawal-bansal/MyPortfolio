@@ -7,6 +7,7 @@ import { journey, journeyNote } from "@/content/journey";
 import { sectionById } from "@/content/sections";
 import { isPending } from "@/content/types";
 import { useMotionEffect } from "@/hooks";
+import { MARK, REVEAL, TRIGGER } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,18 +33,10 @@ export function Journey() {
 
     for (const row of selector("[data-milestone]")) {
       gsap
-        .timeline({ scrollTrigger: { trigger: row, start: "top 85%", once: true } })
-        .from(row.querySelector("[data-point]"), {
-          scale: 0,
-          opacity: 0,
-          duration: 0.45,
-          ease: "back.out(2)",
-        })
-        .from(
-          row.querySelector("[data-body]"),
-          { opacity: 0, x: 14, duration: 0.5, ease: "power2.out" },
-          "<0.1",
-        );
+        .timeline({ scrollTrigger: { trigger: row, start: TRIGGER, once: true } })
+        // Settles, never bounces: an overshoot on a point this small reads as a flicker.
+        .from(row.querySelector("[data-point]"), { scale: 0, opacity: 0, ...MARK })
+        .from(row.querySelector("[data-body]"), { opacity: 0, x: 14, ...REVEAL }, "<0.1");
     }
   });
 

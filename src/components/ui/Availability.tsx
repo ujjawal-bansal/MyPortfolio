@@ -22,7 +22,7 @@ export function Availability({ className }: { className?: string }) {
     <p className={className}>
       <span className="inline-flex items-center gap-2.5">
         {/* The dot, and the ring it sends out. */}
-        <span aria-hidden className="relative inline-flex size-1.5 shrink-0">
+        <span aria-hidden data-loops className="relative inline-flex size-1.5 shrink-0">
           <span className="absolute inset-0 rounded-full bg-forest-bright opacity-0 motion-safe:animate-signal" />
           <span className="relative inline-flex size-1.5 rounded-full bg-forest-bright" />
         </span>

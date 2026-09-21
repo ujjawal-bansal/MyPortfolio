@@ -43,6 +43,7 @@ export function Portrait() {
   return (
     <figure
       data-portrait
+      data-loops
       // The print is 76% of the box; the box is sized so the print is 200px on a phone and
       // 280px on a laptop, with the rings in the margin around it.
       className="group/portrait relative mx-auto aspect-square w-[16.5rem] lg:w-[23rem]"
@@ -90,34 +91,43 @@ export function Portrait() {
         />
       </svg>
 
-      {/* The engraved rim. Turns; stills on hover; does not turn at all without motion. */}
-      <svg
+      {/*
+        The engraved rim. Turns; stills on hover; does not turn at all without motion.
+
+        The turning is on this wrapper, never on the SVG. Rotating the SVG itself made the
+        browser lay out its curved text again on every frame — measured at 60 layouts a
+        second and a fifth of the main thread, running even while the portrait was far
+        off-screen. Rotating a plain box lets the text be drawn once and the GPU turn the
+        result, which costs nothing per frame.
+      */}
+      <div
         aria-hidden
-        viewBox="0 0 100 100"
-        className="pointer-events-none absolute inset-0 size-full overflow-visible group-hover/portrait:[animation-play-state:paused] motion-safe:animate-orbit"
+        className="pointer-events-none absolute inset-0 group-hover/portrait:[animation-play-state:paused] motion-safe:animate-orbit"
       >
-        <defs>
-          <path id="portrait-rim" d={ringPath} />
-        </defs>
-        {/*
+        <svg viewBox="0 0 100 100" className="size-full overflow-visible">
+          <defs>
+            <path id="portrait-rim" d={ringPath} />
+          </defs>
+          {/*
           Four engravings at exact quarters, each its own run of text, rather than one run
           stretched to close the circle. Stretching (`textLength`) adds space between every
           glyph, which is harmless in Latin and tears Devanagari apart: the conjunct and
           the vowel sign in साक्षी separate. Equal offsets keep the spacing even, the seam
           invisible, and every script shaped as it should be.
         */}
-        {Array.from({ length: REPEATS }, (_, i) => (
-          <text key={i} className="font-mono text-[3.1px] uppercase">
-            <textPath href="#portrait-rim" startOffset={(circumference / REPEATS) * i}>
-              {/* Letter-spacing stays at zero here: any tracking disables Devanagari shaping. */}
-              <tspan className="fill-accent-dim font-devanagari text-[4.2px] tracking-normal normal-case">
-                {portrait.ring.witness}
-              </tspan>
-              <tspan className="fill-fg-ghost tracking-[0.32em]"> · {portrait.ring.observed} ·</tspan>
-            </textPath>
-          </text>
-        ))}
-      </svg>
+          {Array.from({ length: REPEATS }, (_, i) => (
+            <text key={i} className="font-mono text-[3.1px] uppercase">
+              <textPath href="#portrait-rim" startOffset={(circumference / REPEATS) * i}>
+                {/* Letter-spacing stays at zero here: any tracking disables Devanagari shaping. */}
+                <tspan className="fill-accent-dim font-devanagari text-[4.2px] tracking-normal normal-case">
+                  {portrait.ring.witness}
+                </tspan>
+                <tspan className="fill-fg-ghost tracking-[0.32em]"> · {portrait.ring.observed} ·</tspan>
+              </textPath>
+            </text>
+          ))}
+        </svg>
+      </div>
     </figure>
   );
 }

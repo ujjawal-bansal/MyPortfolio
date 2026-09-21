@@ -315,6 +315,13 @@
   }
 }
 
+/* Decorative loops pause while off-screen, and resume from where they stopped.
+   `PauseOffscreen` sets the attribute; this is all it takes on the CSS side. */
+[data-offscreen],
+[data-offscreen] * {
+  animation-play-state: paused !important;
+}
+
 /* The listening trace, at rest.
 
    A waveform holding perfectly still reads as a diagram of a sound rather than a sound,

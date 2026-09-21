@@ -7,6 +7,7 @@ import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { coda, identities, intro, turn } from "@/content/self";
 import { useMotionEffect } from "@/hooks";
+import { DRAW, REVEAL, RISE, TRIGGER } from "@/lib/motion";
 
 /**
  * Who am I? — a list of true answers, each struck through, then the real one.
@@ -32,23 +33,20 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
 
       gsap
         .timeline({
-          scrollTrigger: { trigger: row, start: "top 82%", once: true },
+          scrollTrigger: { trigger: row, start: TRIGGER, once: true },
         })
-        .from(row, { opacity: 0, y: 14, duration: 0.5, ease: "power2.out" })
-        .fromTo(strike, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, "+=0.35")
+        .from(row, { opacity: 0, y: RISE, ...REVEAL })
+        // A beat after the line lands, so it can be read before it is crossed out — the
+        // original 0.85s, kept: this pause is the section's whole rhythm.
+        .fromTo(strike, { scaleX: 0 }, { scaleX: 1, ...DRAW }, "+=0.1")
         .fromTo(label, { opacity: 1 }, { opacity: 0.4, duration: 0.4 }, "<0.1");
     }
 
     gsap.from(selector("[data-turn]"), {
-      scrollTrigger: {
-        trigger: selector("[data-turn]")[0],
-        start: "top 85%",
-        once: true,
-      },
+      scrollTrigger: { trigger: selector("[data-turn]")[0], start: TRIGGER, once: true },
       opacity: 0,
-      y: 18,
-      duration: 0.8,
-      ease: "power3.out",
+      y: RISE,
+      ...REVEAL,
     });
 
     // The portrait develops as it scrolls in: the print rises a little, then comes up out
@@ -57,16 +55,8 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
     const [portrait] = selector("[data-portrait]");
     if (portrait) {
       gsap
-        .timeline({
-          scrollTrigger: { trigger: portrait, start: "top 82%", once: true },
-        })
-        .from(portrait, {
-          opacity: 0,
-          y: 24,
-          scale: 0.97,
-          duration: 1.1,
-          ease: "power3.out",
-        })
+        .timeline({ scrollTrigger: { trigger: portrait, start: "top 82%", once: true } })
+        .from(portrait, { opacity: 0, y: 24, scale: 0.97, duration: 1.1, ease: "power3.out" })
         .fromTo(
           portrait.querySelector("[data-portrait-veil]"),
           { opacity: 0.94 },
@@ -76,16 +66,12 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
     }
 
     gsap.from(selector("[data-intro] > *"), {
-      scrollTrigger: {
-        trigger: selector("[data-intro]")[0],
-        start: "top 85%",
-        once: true,
-      },
+      scrollTrigger: { trigger: selector("[data-intro]")[0], start: TRIGGER, once: true },
       opacity: 0,
-      y: 16,
-      duration: 0.7,
+      y: RISE,
+      ...REVEAL,
+      // Paragraphs, not list items: a longer beat between them, the pace of reading.
       stagger: 0.12,
-      ease: "power2.out",
     });
   });
 

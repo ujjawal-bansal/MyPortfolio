@@ -19,7 +19,7 @@ import { wordPairs } from "@/content/fragments";
  */
 export function Fragments() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div aria-hidden data-loops className="pointer-events-none absolute inset-0 overflow-hidden">
       {wordPairs.map((pair) => (
         <span
           key={pair.code}
