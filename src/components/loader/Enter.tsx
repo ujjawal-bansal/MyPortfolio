@@ -27,11 +27,11 @@ import { cn } from "@/lib/utils";
  * is how long the gesture takes to say its one word. Leaving before it finishes is a
  * flicker, which is worse than no loader. Nothing here ever waits on a network.
  *
- * Three things guarantee it always leaves: this component, a CSS failsafe at 2.6s, and a
+ * Three things guarantee it always leaves: this component, a CSS failsafe at 3.6s, and a
  * `<noscript>` rule in the layout.
  */
-const FLOOR = 520;
-const EXIT = 700;
+const FLOOR = 1300;
+const EXIT = 950;
 
 export function Enter() {
   const [phase, setPhase] = useState<"holding" | "leaving" | "gone">("holding");
@@ -81,7 +81,7 @@ export function Enter() {
       style={{
         transitionDuration: `${EXIT}ms`,
         // Only ever matters if this component stops working.
-        animation: leaving ? undefined : "enter-failsafe 600ms ease-out 2.6s forwards",
+        animation: leaving ? undefined : "enter-failsafe 600ms ease-out 3.6s forwards",
       }}
     >
       {/* Dead centre, which is where the site's own converged point sits. */}
@@ -106,7 +106,7 @@ export function Enter() {
       */}
       <p
         lang="sa"
-        className="absolute top-1/2 left-1/2 mt-12 -translate-x-1/2 font-devanagari text-2xl text-fg-faint motion-safe:animate-[enter-word_700ms_var(--ease-out-quart)_140ms_both]"
+        className="absolute top-1/2 left-1/2 mt-12 -translate-x-1/2 font-devanagari text-2xl whitespace-nowrap text-fg-faint motion-safe:animate-[enter-word_950ms_var(--ease-out-quart)_180ms_both]"
       >
         {enterWord.devanagari}
       </p>

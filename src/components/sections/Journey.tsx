@@ -7,7 +7,7 @@ import { journey, journeyNote } from "@/content/journey";
 import { sectionById } from "@/content/sections";
 import { isPending } from "@/content/types";
 import { useMotionEffect } from "@/hooks";
-import { MARK, REVEAL, TRIGGER } from "@/lib/motion";
+import { FOLLOW, MARK, REVEAL, TRIGGER } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -36,7 +36,7 @@ export function Journey() {
         .timeline({ scrollTrigger: { trigger: row, start: TRIGGER, once: true } })
         // Settles, never bounces: an overshoot on a point this small reads as a flicker.
         .from(row.querySelector("[data-point]"), { scale: 0, opacity: 0, ...MARK })
-        .from(row.querySelector("[data-body]"), { opacity: 0, x: 14, ...REVEAL }, "<0.1");
+        .from(row.querySelector("[data-body]"), { opacity: 0, x: 14, ...REVEAL }, FOLLOW);
     }
   });
 

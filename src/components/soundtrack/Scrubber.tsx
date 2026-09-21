@@ -144,7 +144,7 @@ export function Scrubber({
       />
       <span
         aria-hidden
-        className="absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_10px_var(--dot-glow)] transition-[scale] duration-200 group-hover/line:scale-150 group-focus-visible/line:scale-150 group-focus-visible/line:ring-2 group-focus-visible/line:ring-accent/40 group-focus-visible/line:ring-offset-2 group-focus-visible/line:ring-offset-bg"
+        className="absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_10px_var(--dot-glow)] transition-[scale] duration-300 group-hover/line:scale-150 group-focus-visible/line:scale-150 group-focus-visible/line:ring-2 group-focus-visible/line:ring-accent/40 group-focus-visible/line:ring-offset-2 group-focus-visible/line:ring-offset-bg"
         style={{ left: "calc(var(--played, 0) * 100%)", scale: scrub !== null ? "1.5" : undefined }}
       />
     </div>

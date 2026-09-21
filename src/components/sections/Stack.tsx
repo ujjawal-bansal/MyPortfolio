@@ -6,7 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { sectionById } from "@/content/sections";
 import { stack } from "@/content/stack";
 import { useMotionEffect } from "@/hooks";
-import { MARK, REVEAL, TRIGGER } from "@/lib/motion";
+import { FOLLOW, MARK, REVEAL, TRIGGER } from "@/lib/motion";
 
 /**
  * The instruments, arranged along the thought → system path rather than by category.
@@ -29,8 +29,8 @@ export function Stack() {
         // single arrival sweeping across rather than items being dealt out.
         .from(
           row.querySelectorAll("[data-instrument]"),
-          { opacity: 0, y: 10, ...REVEAL, stagger: 0.04 },
-          "<0.1",
+          { opacity: 0, y: 10, ...REVEAL, stagger: 0.07 },
+          FOLLOW,
         );
     }
   });

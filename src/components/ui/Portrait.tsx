@@ -64,7 +64,7 @@ export function Portrait() {
         */}
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_22%_20%,transparent_28%,rgb(0_0_0/0.18)_58%,rgb(0_0_0/0.52)_100%)] mix-blend-multiply transition-opacity duration-700 ease-[var(--ease-out-quart)] group-hover/portrait:opacity-25"
+          className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_22%_20%,transparent_28%,rgb(0_0_0/0.18)_58%,rgb(0_0_0/0.52)_100%)] mix-blend-multiply transition-opacity duration-1000 ease-[var(--ease-out-quart)] group-hover/portrait:opacity-25"
         />
 
         {/* The veil it develops out of, driven by the Self timeline. At rest: gone. */}

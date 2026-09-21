@@ -10,7 +10,7 @@ import { sectionById } from "@/content/sections";
 import { cn } from "@/lib/utils";
 
 import { useMotionEffect } from "@/hooks";
-import { DRAW, REVEAL, RISE, STAGGER, TRIGGER } from "@/lib/motion";
+import { DRAW, FOLLOW, REVEAL, RISE, STAGGER, TRIGGER } from "@/lib/motion";
 
 /**
  * Seven verbs. Each one holds a philosophical idea and an engineering practice on the
@@ -38,7 +38,7 @@ export function HowIThink() {
         .from(
           row.querySelectorAll("[data-pair] > *"),
           { opacity: 0, y: 12, ...REVEAL, stagger: STAGGER },
-          "<0.1",
+          FOLLOW,
         )
         .from(row.querySelectorAll("[data-rule]"), { scaleY: 0, ...DRAW }, "<");
     }

@@ -29,7 +29,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     const lenis = new Lenis({
       // Slightly longer than default: the site wants to feel unhurried, not slow.
-      lerp: 0.1,
+      // Settles a little more softly than Lenis's default: calm, not floaty.
+      lerp: 0.085,
       wheelMultiplier: 1,
       // Lenis handles in-page anchors itself, so the nav needs no click interception.
       anchors: true,

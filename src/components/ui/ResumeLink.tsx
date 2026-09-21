@@ -48,12 +48,12 @@ export function ResumeLink({ className }: { className?: string }) {
           the Devanagari, so nothing reflows when the word changes underneath.
         */}
         <span aria-hidden className="relative block h-[2.1em] min-w-[6.5rem] overflow-hidden text-left">
-          <span className="absolute inset-0 flex items-center font-mono text-xs tracking-[0.18em] text-fg-muted uppercase transition-[translate,color,opacity] duration-500 ease-[var(--ease-out-quart)] group-hover:-translate-y-full group-hover:text-accent group-hover:opacity-0 group-focus-visible:-translate-y-full group-focus-visible:opacity-0">
+          <span className="absolute inset-0 flex items-center font-mono text-xs tracking-[0.18em] text-fg-muted uppercase transition-[translate,color,opacity] duration-700 ease-[var(--ease-out-quart)] group-hover:-translate-y-full group-hover:text-accent group-hover:opacity-0 group-focus-visible:-translate-y-full group-focus-visible:opacity-0">
             {label}
           </span>
           <span
             lang="sa"
-            className="absolute inset-0 flex translate-y-full items-center text-lg text-accent opacity-0 transition-[translate,opacity] duration-500 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+            className="absolute inset-0 flex translate-y-full items-center text-lg text-accent opacity-0 transition-[translate,opacity] duration-700 ease-[var(--ease-out-quart)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
           >
             {devanagari}
           </span>

@@ -74,7 +74,7 @@ export function Contact() {
               >
                 <Glyph
                   glyph={glyph}
-                  className="size-5 text-fg-muted transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent"
+                  className="size-5 text-fg-muted transition-colors duration-300 group-hover:text-accent group-focus-visible:text-accent"
                 />
               </a>
             </li>
@@ -90,7 +90,7 @@ export function Contact() {
       {isPending(email.href) ? null : (
         <a
           href={email.href}
-          className="mt-8 inline-block font-serif text-xl break-words text-fg-strong underline decoration-fg-faint decoration-1 underline-offset-[6px] outline-offset-4 transition-colors duration-200 hover:text-accent hover:decoration-accent focus-visible:text-accent focus-visible:decoration-accent md:text-2xl"
+          className="mt-8 inline-block font-serif text-xl break-words text-fg-strong underline decoration-fg-faint decoration-1 underline-offset-[6px] outline-offset-4 transition-colors duration-300 hover:text-accent hover:decoration-accent focus-visible:text-accent focus-visible:decoration-accent md:text-2xl"
         >
           {address}
         </a>

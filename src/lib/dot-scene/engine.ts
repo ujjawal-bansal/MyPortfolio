@@ -279,8 +279,10 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
 
   function step(dt: number) {
     // Stages differ in how eagerly particles snap to their targets. `text` is tight so
-    // the word is legible; `field` is loose so it breathes.
-    const stiffness = stage === "text" ? 0.14 : stage === "system" ? 0.1 : 0.06;
+    // the word is legible; `field` is loose so it breathes. All about a third softer than
+    // they were, so one stage flows into the next instead of snapping to it — with the
+    // damping unchanged, softer also means less overshoot, not more.
+    const stiffness = stage === "text" ? 0.1 : stage === "system" ? 0.07 : 0.045;
     const damping = stage === "text" ? 0.78 : 0.86;
     const drift = stage === "field" || stage === "network" ? 1 : 0.25;
 

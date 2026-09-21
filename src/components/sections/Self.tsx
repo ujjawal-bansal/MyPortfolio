@@ -36,8 +36,8 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
           scrollTrigger: { trigger: row, start: TRIGGER, once: true },
         })
         .from(row, { opacity: 0, y: RISE, ...REVEAL })
-        // A beat after the line lands, so it can be read before it is crossed out — the
-        // original 0.85s, kept: this pause is the section's whole rhythm.
+        // A beat after the line lands, so it can be read before it is crossed out. This
+        // pause is the section's whole rhythm: never strike what has not been read.
         .fromTo(strike, { scaleX: 0 }, { scaleX: 1, ...DRAW }, "+=0.1")
         .fromTo(label, { opacity: 1 }, { opacity: 0.4, duration: 0.4 }, "<0.1");
     }
@@ -56,11 +56,11 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
     if (portrait) {
       gsap
         .timeline({ scrollTrigger: { trigger: portrait, start: "top 82%", once: true } })
-        .from(portrait, { opacity: 0, y: 24, scale: 0.97, duration: 1.1, ease: "power3.out" })
+        .from(portrait, { opacity: 0, y: 24, scale: 0.97, duration: 1.5, ease: "power2.out" })
         .fromTo(
           portrait.querySelector("[data-portrait-veil]"),
           { opacity: 0.94 },
-          { opacity: 0, duration: 2.4, ease: "power2.out" },
+          { opacity: 0, duration: 3.2, ease: "power2.out" },
           "<0.2",
         );
     }
@@ -71,7 +71,7 @@ export function Self({ lead }: { lead?: React.ReactNode }) {
       y: RISE,
       ...REVEAL,
       // Paragraphs, not list items: a longer beat between them, the pace of reading.
-      stagger: 0.12,
+      stagger: 0.2,
     });
   });
 
