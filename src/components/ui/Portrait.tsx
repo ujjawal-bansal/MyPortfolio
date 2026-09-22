@@ -38,6 +38,17 @@ const REPEATS = 4;
 
 const ringPath = `M ${50 - TEXT_R},50 a ${TEXT_R},${TEXT_R} 0 1,1 ${TEXT_R * 2},0 a ${TEXT_R},${TEXT_R} 0 1,1 ${-TEXT_R * 2},0`;
 const circumference = 2 * Math.PI * TEXT_R;
+/**
+ * Room left on the rim for साक्षी before "· the observed" begins, in viewBox units. The word
+ * measures 8.1 in the site's Devanagari face; the rest is the gap before the middot.
+ */
+const WITNESS_ROOM = 9;
+
+/** Where the witness word sits: rotated about the centre so it lies tangent to the rim. */
+function witnessAngle(offset: number): number {
+  // Arc length to angle, measured from the top of the circle, where the text is upright.
+  return ((offset / TEXT_R - Math.PI / 2) * 180) / Math.PI;
+}
 
 export function Portrait() {
   return (
@@ -110,22 +121,37 @@ export function Portrait() {
           </defs>
           {/*
           Four engravings at exact quarters, each its own run of text, rather than one run
-          stretched to close the circle. Stretching (`textLength`) adds space between every
-          glyph, which is harmless in Latin and tears Devanagari apart: the conjunct and
-          the vowel sign in साक्षी separate. Equal offsets keep the spacing even, the seam
-          invisible, and every script shaped as it should be.
+          stretched to close the circle (stretching tore Devanagari apart in every browser).
+
+          Only the Latin follows the curve. साक्षी is set as an ordinary line of text, turned
+          about the centre so it lies tangent to the rim at its place. On a textPath, WebKit —
+          every browser on an iPhone — positions each character separately along the curve
+          and never shapes the word, so the conjunct क्ष and the vowel sign ी came apart and
+          drew dotted placeholder circles. Seen in WebKit itself, not guessed. A word this
+          short spans nine degrees of the circle, so straight reads as curved to the eye.
         */}
-          {Array.from({ length: REPEATS }, (_, i) => (
-            <text key={i} className="font-mono text-[3.1px] uppercase">
-              <textPath href="#portrait-rim" startOffset={(circumference / REPEATS) * i}>
-                {/* Letter-spacing stays at zero here: any tracking disables Devanagari shaping. */}
-                <tspan className="fill-accent-dim font-devanagari text-[4.2px] tracking-normal normal-case">
+          {Array.from({ length: REPEATS }, (_, i) => {
+            const start = (circumference / REPEATS) * i;
+            return (
+              <g key={i}>
+                {/* Letter-spacing stays at zero: any tracking disables Devanagari shaping. */}
+                <text
+                  x={50}
+                  y={50 - TEXT_R}
+                  textAnchor="middle"
+                  transform={`rotate(${witnessAngle(start + WITNESS_ROOM / 2).toFixed(3)} 50 50)`}
+                  className="fill-accent-dim font-devanagari text-[4.2px] tracking-normal"
+                >
                   {portrait.ring.witness}
-                </tspan>
-                <tspan className="fill-fg-ghost tracking-[0.32em]"> · {portrait.ring.observed} ·</tspan>
-              </textPath>
-            </text>
-          ))}
+                </text>
+                <text className="font-mono text-[3.1px] uppercase">
+                  <textPath href="#portrait-rim" startOffset={start + WITNESS_ROOM}>
+                    <tspan className="fill-fg-ghost tracking-[0.32em]"> · {portrait.ring.observed} ·</tspan>
+                  </textPath>
+                </text>
+              </g>
+            );
+          })}
         </svg>
       </div>
     </figure>

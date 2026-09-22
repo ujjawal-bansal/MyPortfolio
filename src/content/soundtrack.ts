@@ -15,13 +15,17 @@
 export const MAX_TRACKS = 3;
 
 export const soundtrack = {
-  label: "Lately",
   /**
-   * One line, not a paragraph. It has to do two jobs: say what the strip is, and admit
-   * that a waveform is not a song. "What is left of them here is a shape" is the whole
-   * philosophical argument of the section, and it gets one clause.
+   * The section's title, over the strip. Names the habit, not the data: the tracks are
+   * recently played, never live — the site cannot read what is playing now.
    */
-  line: "Three things that recently passed through the headphones. What is left of them here is a shape.",
+  label: "What's playing while the build runs",
+  /**
+   * Answers the title: the songs belong to the work, not to a date. "Building, breaking,
+   * and beginning again" is the rhythm of the hours they played through — which dates
+   * nothing, so the section stays timeless.
+   */
+  line: "Last few songs from the hours spent building, breaking, and beginning again.",
   /** Shown when Spotify has nothing to say, or cannot be reached. The drawing stays. */
   quiet: "The headphones have been quiet.",
   /** Accessible name for the strip. The visual is one image; this describes it as one. */
