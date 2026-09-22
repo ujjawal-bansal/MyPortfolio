@@ -1,3 +1,4 @@
+import { Reading } from "@/components/reading/Reading";
 import { Soundtrack } from "@/components/soundtrack/Soundtrack";
 import { Section } from "@/components/ui/Section";
 import { pursuits } from "@/content/beyondCode";
@@ -30,6 +31,9 @@ export function BeyondCode() {
           </div>
         ))}
       </dl>
+
+      {/* What is being read, then what is playing: Reading comes first in the list above, too. */}
+      <Reading />
 
       <Soundtrack />
     </Section>

@@ -26,6 +26,15 @@ function resumeRedirects() {
 }
 
 const nextConfig: NextConfig = {
+  images: {
+    // Book covers in "Current reads": Open Library for the list in content/reading.ts,
+    // Goodreads' image host when the shelf comes from Goodreads.
+    remotePatterns: [
+      { protocol: "https", hostname: "covers.openlibrary.org", pathname: "/b/id/**" },
+      { protocol: "https", hostname: "i.gr-assets.com" },
+    ],
+  },
+
   async redirects() {
     return resumeRedirects();
   },
