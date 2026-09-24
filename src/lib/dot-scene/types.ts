@@ -25,7 +25,10 @@ export interface DotSceneHandle {
   pause: () => void;
   resume: () => void;
   destroy: () => void;
-  /** Frames per second over the last second. Development instrumentation. */
+  /**
+   * Frames per second over the last second the loop ran. It parks when the scene is at
+   * rest, so a settled scene reports its last moving second. Development instrumentation.
+   */
   getFps: () => number;
   getStage: () => Stage;
 }

@@ -10,6 +10,15 @@ import {
 /** devicePixelRatio above 2 costs real fill rate and buys almost nothing here. */
 const MAX_DPR = 2;
 
+/**
+ * Below both of these, per 60fps step, a particle has arrived. Simulated against every
+ * stage that rests, what the loop stops drawing from that point is under a pixel of
+ * drift over the next thirty seconds — and in `point` and `converge` that pixel is under
+ * the glow.
+ */
+const REST_SPEED = 0.02;
+const REST_FORCE = 0.004;
+
 interface Particle {
   x: number;
   y: number;
@@ -52,6 +61,12 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
   let pointerX: number | null = null;
   let pointerY: number | null = null;
 
+  /**
+   * `running` is whether the scene may animate at all: it is on screen and the tab is
+   * visible. Within that, the loop parks itself whenever the next frame would look the
+   * same as the last, and `wake` restarts it when something changes. `frame` is the
+   * pending request, or 0 while parked.
+   */
   let running = false;
   let frame = 0;
   let lastTime = 0;
@@ -277,7 +292,8 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
   /*  Simulation                                                             */
   /* ---------------------------------------------------------------------- */
 
-  function step(dt: number) {
+  /** Advances the simulation one step and reports whether every particle has arrived. */
+  function step(dt: number): boolean {
     // Stages differ in how eagerly particles snap to their targets. `text` is tight so
     // the word is legible; `field` is loose so it breathes. All about a third softer than
     // they were, so one stage flows into the next instead of snapping to it — with the
@@ -288,6 +304,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
 
     const pointerActive = pointerInfluence && pointerX !== null && pointerY !== null;
     const pointerRadius = Math.min(width, height) * 0.22;
+    let settled = true;
 
     for (const p of particles) {
       // Spring toward the target.
@@ -318,7 +335,21 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
       p.vy = (p.vy + ay) * damping;
       p.x += p.vx * dt;
       p.y += p.vy * dt;
+
+      // Speed alone is not enough: a spring passes through zero speed at every turn.
+      // Arrived means slow *and* no longer being pulled anywhere.
+      if (
+        settled &&
+        (Math.abs(p.vx) > REST_SPEED ||
+          Math.abs(p.vy) > REST_SPEED ||
+          Math.abs(ax) > REST_FORCE ||
+          Math.abs(ay) > REST_FORCE)
+      ) {
+        settled = false;
+      }
     }
+
+    return settled;
   }
 
   /* ---------------------------------------------------------------------- */
@@ -391,8 +422,8 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
   /* ---------------------------------------------------------------------- */
 
   function tick(time: number) {
+    frame = 0;
     if (!running) return;
-    frame = window.requestAnimationFrame(tick);
 
     // Normalise to 60fps steps, and clamp so a backgrounded tab does not explode on return.
     const delta = lastTime === 0 ? 16.67 : Math.min(time - lastTime, 50);
@@ -400,7 +431,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
     elapsed += delta;
     const dt = delta / 16.67;
 
-    step(dt);
+    const settled = step(dt);
     draw(alpha);
 
     fpsFrames += 1;
@@ -409,6 +440,26 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
       fpsFrames = 0;
       fpsSince = time;
     }
+
+    /*
+      Park once the picture has stopped changing. The field and the network are never
+      still — their drift is the point of them, and it is a visible pixel — but every
+      other stage comes to rest, and redrawing a full-screen canvas sixty times a second
+      to show the same frame was the largest cost on the page. That includes the first
+      view of it: the single point the site opens on.
+    */
+    if (settled && stage !== "field" && stage !== "network") return;
+    frame = window.requestAnimationFrame(tick);
+  }
+
+  /** Restarts a parked loop. Anything that changes what the next frame shows calls it. */
+  function wake() {
+    if (!running || frame) return;
+    // A fresh clock, so time spent parked is not replayed as one long step.
+    lastTime = 0;
+    fpsSince = performance.now();
+    fpsFrames = 0;
+    frame = window.requestAnimationFrame(tick);
   }
 
   /* ---------------------------------------------------------------------- */
@@ -423,6 +474,7 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
       stage = next;
       assignTargets();
       if (reducedMotion) settleStatic();
+      else wake();
     },
 
     /**
@@ -431,20 +483,27 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
      * override for Phase 7, which needs to force `converge` regardless of scroll.
      */
     setProgress(progress) {
-      alpha = opacityForProgress(progress) * presence;
+      const next = opacityForProgress(progress) * presence;
+      if (next !== alpha) {
+        alpha = next;
+        wake();
+      }
       handle.setStage(stageForProgress(progress));
     },
 
     setPointer(x, y) {
       pointerX = x;
       pointerY = y;
+      wake();
     },
 
     resize() {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
+        // Resizing the canvas clears it, so a parked scene has to draw again.
         layout();
         if (reducedMotion) settleStatic();
+        else wake();
       }, 120);
     },
 
@@ -452,21 +511,19 @@ export function createDotScene(options: DotSceneOptions): DotSceneHandle {
       if (!running) return;
       running = false;
       window.cancelAnimationFrame(frame);
-      lastTime = 0;
+      frame = 0;
     },
 
     resume() {
       if (running || reducedMotion) return;
       running = true;
-      lastTime = 0;
-      fpsSince = performance.now();
-      fpsFrames = 0;
-      frame = window.requestAnimationFrame(tick);
+      wake();
     },
 
     destroy() {
       running = false;
       window.cancelAnimationFrame(frame);
+      frame = 0;
       window.clearTimeout(resizeTimer);
       particles.length = 0;
     },
